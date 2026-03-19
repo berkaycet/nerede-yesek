@@ -532,7 +532,7 @@ export default function FoodSwipeApp() {
   // ── RENDER ─────────────────────────────────────────────────
   return (
     <div style={{ minHeight:"100vh", background:"#f8fdf4", fontFamily:"'DM Sans',sans-serif",
-      display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", overflow:"hidden" }}>
+      display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"flex-start", overflow:"hidden", paddingTop:"80px"}}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
