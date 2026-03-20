@@ -171,6 +171,7 @@ export default function FoodSwipeApp() {
   const [doneMembers, setDoneMembers] = useState(new Set());
   const channelRef = useRef(null);
   const membersRef = useRef([]); // stale closure önleme
+  const myFinishedRef = useRef(false); // ben bitirdim mi?
   useEffect(() => { return () => { if (channelRef.current) sb.removeChannel(channelRef.current); }; }, []);
   const [cards, setCards] = useState([]); const [stack, setStack] = useState([]);
   const [likedCount, setLikedCount] = useState(0); const [likedCards, setLikedCards] = useState([]);
@@ -194,6 +195,7 @@ export default function FoodSwipeApp() {
     setIsDemo(demo); setCards(cardList); setStack([...cardList].reverse());
     setLikedCount(0); setLikedCards([]); setMatchedCards([]);
     setDoneMembers(new Set());
+    myFinishedRef.current = false;
     simSwipes.current = {}; swipedCards.current = new Set(); setRemoteLikes({});
     setPhase("swiping");
   };
@@ -233,8 +235,8 @@ export default function FoodSwipeApp() {
       if (direction === "done" && card_id === "DONE") {
         setDoneMembers(prev => {
           const updated = new Set([...prev, member_name]);
-          const totalCount = membersRef.current.length;
-          if (updated.size >= totalCount && totalCount > 0) {
+          const othersCount = membersRef.current.length - 1; // ben hariç
+          if (updated.size >= othersCount && othersCount > 0 && myFinishedRef.current) {
             setTimeout(() => setPhase("matchList"), 600);
           }
           return updated;
@@ -312,14 +314,13 @@ export default function FoodSwipeApp() {
           if (isFriend) {
             // Bittiğimi Supabase'e yaz
             try { await sb.from("swipes").insert({ room_id: roomCode, member_name: myName, card_id: "DONE", direction: "done" }); } catch(e) {}
+            myFinishedRef.current = true;
             setDoneMembers(prev => {
-              const updated = new Set([...prev, myName]);
-              const totalCount = membersRef.current.length;
-              if (updated.size >= totalCount && totalCount > 0) {
+              const othersCount = membersRef.current.length - 1;
+              if (prev.size >= othersCount && othersCount > 0) {
                 setTimeout(() => setPhase("matchList"), 600);
-                return updated;
               }
-              return updated;
+              return prev;
             });
             setPhase("waiting");
           } else {
