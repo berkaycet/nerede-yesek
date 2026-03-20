@@ -110,7 +110,7 @@ function WaitingScreen({ members, myName, doneMembers }) {
 }
 
 // ─── Match List Screen ────────────────────────────────────────
-function MatchListScreen({ matchedCards, members, onRestart, onHome }) {
+function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
   return (
     <div style={{ width:"100%",maxWidth:420,padding:"20px 20px 40px",zIndex:10 }}>
       <div style={{ textAlign:"center",marginBottom:24 }}>
@@ -143,7 +143,10 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome }) {
         <div style={{ textAlign:"center",padding:"32px 0",marginBottom:24 }}><div style={{ fontSize:48,marginBottom:12 }}>🤷</div><p style={{ color:"#9ca3af",fontSize:14 }}>Farklı zevkler! Tekrar deneyin.</p></div>
       )}
       <div style={{ display:"flex",gap:10 }}>
-        <button className="cta" style={{ flex:1 }} onClick={onRestart}>🔄 Tekrar Oyna</button>
+        {isHost
+          ? <button className="cta" style={{ flex:1 }} onClick={onRestart}>🔄 Tekrar Oyna</button>
+          : <div style={{ flex:1,textAlign:"center",padding:14,background:"#f9fafb",border:"1px solid #e5e7eb",borderRadius:14,color:"#9ca3af",fontSize:14 }}>⏳ Host yeni oyun başlatmayı bekliyor...</div>
+        }
         <button className="ghost" onClick={onHome}>Ana Sayfa</button>
       </div>
     </div>
@@ -254,6 +257,7 @@ export default function FoodSwipeApp() {
     });
 
     channel.on("broadcast", { event:"game_start" }, () => { setIsFriend(true); launchGame(DEMO_CARDS, true); });
+    channel.on("broadcast", { event:"game_restart" }, () => { setMatchedCards([]); setRemoteLikes({}); setDoneMembers(new Set()); launchGame(DEMO_CARDS, true); });
     channel.subscribe(); channelRef.current = channel;
   }, []);
 
@@ -337,7 +341,10 @@ export default function FoodSwipeApp() {
 
   const forceSwipe = (dir) => { const top = stack[stack.length-1]; if (!top) return; const el = document.getElementById("tc-"+top.id); if (el) el.dispatchEvent(new CustomEvent("forceswipe",{detail:{dir}})); };
   const progress = cards.length>0 ? ((cards.length-stack.length)/cards.length)*100 : 0;
-  const handleRestart = () => { setMatchedCards([]); setRemoteLikes({}); setDoneMembers(new Set()); launchGame(DEMO_CARDS, true); };
+  const handleRestart = async () => {
+    await sb.channel(`room:${roomCode}`).send({ type:"broadcast", event:"game_restart", payload:{} });
+    setMatchedCards([]); setRemoteLikes({}); setDoneMembers(new Set()); launchGame(DEMO_CARDS, true);
+  };
   const handleHome = () => { setIsFriend(false); setMembers([]); setMatchedCards([]); setDoneMembers(new Set()); if (channelRef.current) sb.removeChannel(channelRef.current); setPhase("intro"); };
 
   return (
@@ -527,7 +534,7 @@ export default function FoodSwipeApp() {
       )}
 
       {phase==="matchList"&&(
-        <MatchListScreen matchedCards={matchedCards} members={members} onRestart={handleRestart} onHome={handleHome}/>
+        <MatchListScreen matchedCards={matchedCards} members={members} onRestart={handleRestart} onHome={handleHome} isHost={isHost}/>
       )}
 
       {phase==="result"&&result&&(
