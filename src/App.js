@@ -169,6 +169,7 @@ export default function FoodSwipeApp() {
   const simSwipes = useRef({});
   const swipedCards = useRef(new Set()); // çift swipe önleme
   const [remoteLikes, setRemoteLikes] = useState({});
+  const remoteLikesRef = useRef({});
   const [matchedCards, setMatchedCards] = useState([]);
   // ── YENİ: kim bitirdi takibi ──
   const [doneMembers, setDoneMembers] = useState(new Set());
@@ -199,7 +200,7 @@ export default function FoodSwipeApp() {
     setLikedCount(0); setLikedCards([]); setMatchedCards([]);
     setDoneMembers(new Set());
     myFinishedRef.current = false;
-    simSwipes.current = {}; swipedCards.current = new Set(); setRemoteLikes({});
+    simSwipes.current = {}; swipedCards.current = new Set(); remoteLikesRef.current = {}; setRemoteLikes({});
     setPhase("swiping");
   };
 
@@ -250,6 +251,7 @@ export default function FoodSwipeApp() {
       if (direction === "right") {
         setRemoteLikes(prev => {
           const updated = { ...prev }; if (!updated[card_id]) updated[card_id] = new Set(); updated[card_id] = new Set([...updated[card_id], member_name]);
+          remoteLikesRef.current = updated;
           setMembers(currentMembers => { setLikedCards(currentLiked => { const likedCard = currentLiked.find(c => c.id === card_id); if (likedCard) { const allLiked = currentMembers.every(m => updated[card_id]?.has(m.name)); if (allLiked) { setMatchedCards(prev => { if (prev.find(c => c.id === card_id)) return prev; return [...prev, likedCard]; }); } } return currentLiked; }); return currentMembers; });
           return updated;
         });
@@ -257,7 +259,7 @@ export default function FoodSwipeApp() {
     });
 
     channel.on("broadcast", { event:"game_start" }, () => { setIsFriend(true); launchGame(DEMO_CARDS, true); });
-    channel.on("broadcast", { event:"game_restart" }, () => { setMatchedCards([]); setRemoteLikes({}); setDoneMembers(new Set()); launchGame(DEMO_CARDS, true); });
+    channel.on("broadcast", { event:"game_restart" }, () => { setMatchedCards([]); remoteLikesRef.current = {}; setRemoteLikes({}); setDoneMembers(new Set()); launchGame(DEMO_CARDS, true); });
     channel.subscribe(); channelRef.current = channel;
   }, []);
 
@@ -302,11 +304,12 @@ export default function FoodSwipeApp() {
     if (isFriend) {
       try { await sb.from("swipes").insert({ room_id: roomCode, member_name: myName, card_id: card.id, direction: dir }); } catch(e) { console.error("Swipe yazılamadı:", e); }
       if (dir === "right") {
-        const myLikes = { ...remoteLikes };
+        const myLikes = { ...remoteLikesRef.current };
         if (!myLikes[card.id]) myLikes[card.id] = new Set();
         myLikes[card.id] = new Set([...myLikes[card.id], myName]);
         const allLiked = members.every(m => myLikes[card.id]?.has(m.name));
         if (allLiked) { setMatchedCards(prev => { if (prev.find(c => c.id === card.id)) return prev; return [...prev, card]; }); }
+        remoteLikesRef.current = myLikes;
         setRemoteLikes(myLikes);
       }
     }
@@ -337,13 +340,13 @@ export default function FoodSwipeApp() {
       }
       return next;
     });
-  }, [likedCards, isFriend, members, myName, cards, roomCode, remoteLikes]);
+  }, [likedCards, isFriend, members, myName, cards, roomCode]);
 
   const forceSwipe = (dir) => { const top = stack[stack.length-1]; if (!top) return; const el = document.getElementById("tc-"+top.id); if (el) el.dispatchEvent(new CustomEvent("forceswipe",{detail:{dir}})); };
   const progress = cards.length>0 ? ((cards.length-stack.length)/cards.length)*100 : 0;
   const handleRestart = async () => {
     await sb.channel(`room:${roomCode}`).send({ type:"broadcast", event:"game_restart", payload:{} });
-    setMatchedCards([]); setRemoteLikes({}); setDoneMembers(new Set()); launchGame(DEMO_CARDS, true);
+    setMatchedCards([]); remoteLikesRef.current = {}; setRemoteLikes({}); setDoneMembers(new Set()); launchGame(DEMO_CARDS, true);
   };
   const handleHome = () => { setIsFriend(false); setMembers([]); setMatchedCards([]); setDoneMembers(new Set()); if (channelRef.current) sb.removeChannel(channelRef.current); setPhase("intro"); };
 
