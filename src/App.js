@@ -83,9 +83,36 @@ function TopCard({ card, gradIndex, onSwipe }) {
   );
 }
 
+// ─── Waiting Screen ───────────────────────────────────────────
+function WaitingScreen({ members, myName, doneMembers }) {
+  const waiting = members.filter(m => !doneMembers.has(m.name) && m.name !== myName);
+  return (
+    <div style={{ textAlign:"center",padding:"40px 24px",maxWidth:400,zIndex:10 }}>
+      <div style={{ fontSize:52,marginBottom:16 }}>⏳</div>
+      <h2 style={{ fontFamily:"'Playfair Display',serif",fontSize:28,color:"#111827",marginBottom:8 }}>Bitti!</h2>
+      <p style={{ color:"#9ca3af",fontSize:14,marginBottom:32 }}>
+        {waiting.length > 0 ? `${waiting.map(m=>m.name).join(", ")} henüz bitirmedi...` : "Herkes bitti, yükleniyor..."}
+      </p>
+      <div style={{ display:"flex",justifyContent:"center",gap:16,flexWrap:"wrap" }}>
+        {members.map(m => (
+          <div key={m.id} style={{ display:"flex",flexDirection:"column",alignItems:"center",gap:8 }}>
+            <div style={{ width:48,height:48,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,fontWeight:700,color:"white",border:`3px solid ${doneMembers.has(m.name)||m.name===myName?"#16a34a":"#e5e7eb"}`,transition:"border-color .3s" }}>
+              {avatarLetter(m.name)}
+            </div>
+            <span style={{ fontSize:11,fontWeight:600,color:doneMembers.has(m.name)||m.name===myName?"#16a34a":"#9ca3af" }}>
+              {doneMembers.has(m.name)||m.name===myName?"✓ Bitti":"Devam..."}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Match List Screen ────────────────────────────────────────
 function MatchListScreen({ matchedCards, members, onRestart, onHome }) {
   return (
-    <div style={{ width:"100%",maxWidth:420,padding:"80px 20px 24px",zIndex:10 }}>
+    <div style={{ width:"100%",maxWidth:420,padding:"20px 20px 40px",zIndex:10 }}>
       <div style={{ textAlign:"center",marginBottom:24 }}>
         <div style={{ fontSize:52,marginBottom:8 }}>🎉</div>
         <div style={{ fontFamily:"'Playfair Display',serif",fontSize:32,color:"#111827",fontWeight:700,letterSpacing:-1,marginBottom:6 }}>{matchedCards.length > 0 ? "Eşleşmeler!" : "Ortak seçim yok"}</div>
@@ -126,12 +153,21 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome }) {
 export default function FoodSwipeApp() {
   const [phase, setPhase] = useState("intro");
   const [myName, setMyName] = useState(""); const [nameInput, setNameInput] = useState(""); const [nameTarget, setNameTarget] = useState("");
-  const [isFriend, setIsFriend] = useState(false); const [isHost, setIsHost] = useState(false); const [roomCode, setRoomCode] = useState(""); const [joinInput, setJoinInput] = useState(""); const [members, setMembers] = useState([]);
-  const simSwipes = useRef({}); const [remoteLikes, setRemoteLikes] = useState({}); const [matchedCards, setMatchedCards] = useState([]);
+  const [isFriend, setIsFriend] = useState(false); const [isHost, setIsHost] = useState(false);
+  const [roomCode, setRoomCode] = useState(""); const [joinInput, setJoinInput] = useState("");
+  const [members, setMembers] = useState([]);
+  const simSwipes = useRef({});
+  const [remoteLikes, setRemoteLikes] = useState({});
+  const [matchedCards, setMatchedCards] = useState([]);
+  // ── YENİ: kim bitirdi takibi ──
+  const [doneMembers, setDoneMembers] = useState(new Set());
   const channelRef = useRef(null);
   useEffect(() => { return () => { if (channelRef.current) sb.removeChannel(channelRef.current); }; }, []);
-  const [cards, setCards] = useState([]); const [stack, setStack] = useState([]); const [likedCount, setLikedCount] = useState(0); const [likedCards, setLikedCards] = useState([]); const [result, setResult] = useState(null);
-  const [flashDir, setFlashDir] = useState(null); const [isDemo, setIsDemo] = useState(false); const [loadingStep, setLoadingStep] = useState(0); const [errorMsg, setErrorMsg] = useState("");
+  const [cards, setCards] = useState([]); const [stack, setStack] = useState([]);
+  const [likedCount, setLikedCount] = useState(0); const [likedCards, setLikedCards] = useState([]);
+  const [result, setResult] = useState(null);
+  const [flashDir, setFlashDir] = useState(null); const [isDemo, setIsDemo] = useState(false);
+  const [loadingStep, setLoadingStep] = useState(0); const [errorMsg, setErrorMsg] = useState("");
   const STEPS = [{ icon:"📍", text:"GPS konumun alınıyor..." },{ icon:"🗺️", text:"Google Maps yükleniyor..." },{ icon:"🔍", text:"Restoranlar taranıyor..." },{ icon:"✨", text:"Kartlar hazırlanıyor..." }];
 
   const loadSDK = useCallback(() => new Promise((res,rej) => {
@@ -145,7 +181,13 @@ export default function FoodSwipeApp() {
     svc.nearbySearch({location:new window.google.maps.LatLng(lat,lng),radius:1500,type:["restaurant"]},(results,status) => { if (status==="OK"&&results.length>0) res(results.sort(()=>Math.random()-0.5).slice(0,8)); else if (status==="ZERO_RESULTS") rej(new Error("Yakında restoran bulunamadı.")); else rej(new Error("Places API: "+status)); });
   }), []);
 
-  const launchGame = (cardList, demo=false) => { setIsDemo(demo); setCards(cardList); setStack([...cardList].reverse()); setLikedCount(0); setLikedCards([]); setMatchedCards([]); simSwipes.current = {}; setRemoteLikes({}); setPhase("swiping"); };
+  const launchGame = (cardList, demo=false) => {
+    setIsDemo(demo); setCards(cardList); setStack([...cardList].reverse());
+    setLikedCount(0); setLikedCards([]); setMatchedCards([]);
+    setDoneMembers(new Set());
+    simSwipes.current = {}; setRemoteLikes({});
+    setPhase("swiping");
+  };
 
   const startSolo = async (demo=false) => {
     if (demo) { setIsFriend(false); launchGame(DEMO_CARDS, true); return; }
@@ -166,9 +208,35 @@ export default function FoodSwipeApp() {
   const subscribeToRoom = useCallback((code, currentName) => {
     if (channelRef.current) { sb.removeChannel(channelRef.current); }
     const channel = sb.channel(`room:${code}`, { config: { broadcast: { self: false } } });
-    channel.on("postgres_changes", { event:"INSERT", schema:"public", table:"members", filter:`room_id=eq.${code}` }, (payload) => { const newMember = payload.new; if (newMember.name !== currentName) { setMembers(prev => { if (prev.find(m => m.name === newMember.name)) return prev; return [...prev, { id: newMember.id, name: newMember.name, ready: true }]; }); } });
+
+    channel.on("postgres_changes", { event:"INSERT", schema:"public", table:"members", filter:`room_id=eq.${code}` }, (payload) => {
+      const newMember = payload.new;
+      if (newMember.name !== currentName) {
+        setMembers(prev => { if (prev.find(m => m.name === newMember.name)) return prev; return [...prev, { id: newMember.id, name: newMember.name, ready: true }]; });
+      }
+    });
+
     channel.on("postgres_changes", { event:"INSERT", schema:"public", table:"swipes", filter:`room_id=eq.${code}` }, (payload) => {
-      const { member_name, card_id, direction } = payload.new; if (member_name === currentName) return;
+      const { member_name, card_id, direction } = payload.new;
+      if (member_name === currentName) return;
+
+      // Birisi bitirdi
+      if (direction === "done" && card_id === "DONE") {
+        setDoneMembers(prev => {
+          const updated = new Set([...prev, member_name]);
+          // Herkes bitti mi? (ben waiting'deyim demek ki ben bittim, diğerleri kontrol)
+          setMembers(currentMembers => {
+            const othersCount = currentMembers.length - 1; // ben hariç
+            if (updated.size >= othersCount) {
+              setTimeout(() => setPhase("matchList"), 600);
+            }
+            return currentMembers;
+          });
+          return updated;
+        });
+        return;
+      }
+
       if (direction === "right") {
         setRemoteLikes(prev => {
           const updated = { ...prev }; if (!updated[card_id]) updated[card_id] = new Set(); updated[card_id] = new Set([...updated[card_id], member_name]);
@@ -177,46 +245,70 @@ export default function FoodSwipeApp() {
         });
       }
     });
+
     channel.on("broadcast", { event:"game_start" }, () => { setIsFriend(true); launchGame(DEMO_CARDS, true); });
     channel.subscribe(); channelRef.current = channel;
   }, []);
 
-  const createRoom = async () => { const code = genCode(); try { await sb.from("rooms").insert({ id: code, cards: DEMO_CARDS }); await sb.from("members").insert({ room_id: code, name: myName }); setRoomCode(code); setIsHost(true); setIsFriend(true); setMembers([{ id:"me", name:myName, ready:true }]); subscribeToRoom(code, myName); setPhase("lobby"); } catch(err) { alert("Oda oluşturulamadı: " + err.message); } };
+  const createRoom = async () => {
+    const code = genCode();
+    try {
+      await sb.from("rooms").insert({ id: code, cards: DEMO_CARDS });
+      await sb.from("members").insert({ room_id: code, name: myName });
+      setRoomCode(code); setIsHost(true); setIsFriend(true);
+      setMembers([{ id:"me", name:myName, ready:true }]);
+      subscribeToRoom(code, myName); setPhase("lobby");
+    } catch(err) { alert("Oda oluşturulamadı: " + err.message); }
+  };
 
   const joinRoom = async () => {
     const code = joinInput.trim().toUpperCase(); if (code.length < 4) return;
-    try { const { data: room, error } = await sb.from("rooms").select("*").eq("id", code).single(); if (error || !room) { alert("Oda bulunamadı. Kodu kontrol et."); return; } const { data: existingMembers } = await sb.from("members").select("*").eq("room_id", code); await sb.from("members").insert({ room_id: code, name: myName }); const allMembers = [...(existingMembers || []).map(m => ({ id:m.id, name:m.name, ready:true })), { id:"me", name:myName, ready:true }]; setRoomCode(code); setIsHost(false); setIsFriend(true); setMembers(allMembers); subscribeToRoom(code, myName); setJoinInput(""); setPhase("lobby"); } catch(err) { alert("Odaya katılınamadı: " + err.message); }
+    try {
+      const { data: room, error } = await sb.from("rooms").select("*").eq("id", code).single();
+      if (error || !room) { alert("Oda bulunamadı. Kodu kontrol et."); return; }
+      const { data: existingMembers } = await sb.from("members").select("*").eq("room_id", code);
+      await sb.from("members").insert({ room_id: code, name: myName });
+      const allMembers = [...(existingMembers || []).map(m => ({ id:m.id, name:m.name, ready:true })), { id:"me", name:myName, ready:true }];
+      setRoomCode(code); setIsHost(false); setIsFriend(true); setMembers(allMembers);
+      subscribeToRoom(code, myName); setJoinInput(""); setPhase("lobby");
+    } catch(err) { alert("Odaya katılınamadı: " + err.message); }
   };
 
-  const startFriendGame = async () => { await sb.channel(`room:${roomCode}`).send({ type:"broadcast", event:"game_start", payload:{} }); setIsFriend(true); launchGame(DEMO_CARDS, true); };
+  const startFriendGame = async () => {
+    await sb.channel(`room:${roomCode}`).send({ type:"broadcast", event:"game_start", payload:{} });
+    setIsFriend(true); launchGame(DEMO_CARDS, true);
+  };
 
   const handleSwipe = useCallback(async (card, dir) => {
     setFlashDir(dir); setTimeout(()=>setFlashDir(null),350);
     const newLiked = dir==="right" ? [...likedCards,card] : likedCards;
     if (dir==="right") { setLikedCount(l=>l+1); setLikedCards(newLiked); }
+
     if (isFriend) {
       try { await sb.from("swipes").insert({ room_id: roomCode, member_name: myName, card_id: card.id, direction: dir }); } catch(e) { console.error("Swipe yazılamadı:", e); }
       if (dir === "right") {
-        const myLikes = { ...remoteLikes }; if (!myLikes[card.id]) myLikes[card.id] = new Set(); myLikes[card.id] = new Set([...myLikes[card.id], myName]);
+        const myLikes = { ...remoteLikes };
+        if (!myLikes[card.id]) myLikes[card.id] = new Set();
+        myLikes[card.id] = new Set([...myLikes[card.id], myName]);
         const allLiked = members.every(m => myLikes[card.id]?.has(m.name));
         if (allLiked) { setMatchedCards(prev => { if (prev.find(c => c.id === card.id)) return prev; return [...prev, card]; }); }
         setRemoteLikes(myLikes);
       }
     }
+
     setStack(prev => {
       const next = prev.filter(c=>c.id!==card.id);
       if (next.length===0) {
-        setTimeout(()=>{
+        setTimeout(async () => {
           if (isFriend) {
-            setPhase("matchList");
+            // Bittiğimi Supabase'e yaz
+            try { await sb.from("swipes").insert({ room_id: roomCode, member_name: myName, card_id: "DONE", direction: "done" }); } catch(e) {}
+            setPhase("waiting");
           } else {
-            // Solo mod: puana göre sırala, en iyi üstte
             const sorted = newLiked.length>0
               ? [...newLiked].sort((a,b) => b.rating - a.rating)
               : [...cards].sort((a,b) => b.rating - a.rating);
-            setLikedCards(sorted);
-            setResult(sorted[0]);
-            setPhase("result");
+            setLikedCards(sorted); setResult(sorted[0]); setPhase("result");
           }
         }, 500);
       }
@@ -226,14 +318,18 @@ export default function FoodSwipeApp() {
 
   const forceSwipe = (dir) => { const top = stack[stack.length-1]; if (!top) return; const el = document.getElementById("tc-"+top.id); if (el) el.dispatchEvent(new CustomEvent("forceswipe",{detail:{dir}})); };
   const progress = cards.length>0 ? ((cards.length-stack.length)/cards.length)*100 : 0;
-  const handleRestart = () => { setMatchedCards([]); setRemoteLikes({}); launchGame(DEMO_CARDS, true); };
-  const handleHome = () => { setIsFriend(false); setMembers([]); setMatchedCards([]); if (channelRef.current) sb.removeChannel(channelRef.current); setPhase("intro"); };
+  const handleRestart = () => { setMatchedCards([]); setRemoteLikes({}); setDoneMembers(new Set()); launchGame(DEMO_CARDS, true); };
+  const handleHome = () => { setIsFriend(false); setMembers([]); setMatchedCards([]); setDoneMembers(new Set()); if (channelRef.current) sb.removeChannel(channelRef.current); setPhase("intro"); };
 
   return (
-    <div style={{ minHeight:"100vh", background:"#f8fdf4", fontFamily:"'DM Sans',sans-serif", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"flex-start", paddingTop:"60px", paddingBottom:"20px", overflow:"hidden" }}>
+    <div style={{ minHeight:"100vh", background:"#f8fdf4", fontFamily:"'DM Sans',sans-serif",
+      display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"flex-start",
+      paddingTop:"60px", paddingBottom:"40px",
+      overflowY:"auto", overflowX:"hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+        html,body{overflow-x:hidden;}
         @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
         @keyframes spin{to{transform:rotate(360deg);}}
         @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
@@ -412,14 +508,19 @@ export default function FoodSwipeApp() {
         </div>
       )}
 
-      {phase==="matchList"&&(<MatchListScreen matchedCards={matchedCards} members={members} onRestart={handleRestart} onHome={handleHome}/>)}
+      {/* ── WAITING ── */}
+      {phase==="waiting"&&(
+        <WaitingScreen members={members} myName={myName} doneMembers={doneMembers} />
+      )}
+
+      {phase==="matchList"&&(
+        <MatchListScreen matchedCards={matchedCards} members={members} onRestart={handleRestart} onHome={handleHome}/>
+      )}
 
       {phase==="result"&&result&&(
         <div className="fade-up" style={{ textAlign:"center",padding:"20px 20px 24px",maxWidth:420,width:"100%",zIndex:10 }}>
           <div style={{ fontSize:11,color:"#16a34a",fontWeight:700,letterSpacing:3,marginBottom:12,textTransform:"uppercase" }}>{likedCount>0?`${likedCount} mekan beğendin`:"Hiçbirini beğenmeseydin de..."}</div>
           <h1 style={{ fontFamily:"'Playfair Display',serif",fontSize:38,color:"#111827",lineHeight:1.05,marginBottom:20,letterSpacing:-1 }}>Bu gece<br/><em style={{ color:"#16a34a" }}>buraya git!</em></h1>
-
-          {/* En iyi seçim — büyük kart */}
           <div style={{ borderRadius:22,overflow:"hidden",marginBottom:16,position:"relative",height:240,background:"#f0fdf4",boxShadow:"0 8px 40px rgba(0,0,0,0.1)",border:"1px solid #e5e7eb" }}>
             {result.photo ? <img src={result.photo} alt={result.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}/> : <div style={{ position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:72 }}>{result.emoji}</div>}
             <div style={{ position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0) 55%)" }}/>
@@ -434,8 +535,6 @@ export default function FoodSwipeApp() {
               <div style={{ color:"rgba(255,255,255,0.5)",fontSize:12 }}>📍 {result.address}</div>
             </div>
           </div>
-
-          {/* Diğer beğeniler */}
           {likedCards.length>1&&(
             <div style={{ marginBottom:16 }}>
               <div style={{ fontSize:11,color:"#9ca3af",fontWeight:600,letterSpacing:2,marginBottom:10,textTransform:"uppercase" }}>Diğer beğenilerin</div>
@@ -458,7 +557,6 @@ export default function FoodSwipeApp() {
               </div>
             </div>
           )}
-
           <div style={{ display:"flex",gap:10,justifyContent:"center" }}>
             <button className="cta" onClick={()=>{ const s=[...cards].sort(()=>Math.random()-0.5); setStack([...s].reverse()); setLikedCount(0); setLikedCards([]); simSwipes.current={}; setPhase("swiping"); }}>🔄 Tekrar</button>
             <button className="ghost" onClick={handleHome}>Ana Sayfa</button>
