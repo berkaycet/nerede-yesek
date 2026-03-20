@@ -233,9 +233,8 @@ export default function FoodSwipeApp() {
       if (direction === "done" && card_id === "DONE") {
         setDoneMembers(prev => {
           const updated = new Set([...prev, member_name]);
-          // membersRef kullan — stale closure yok
-          const othersCount = membersRef.current.length - 1; // ben hariç
-          if (updated.size >= othersCount && othersCount > 0) {
+          const totalCount = membersRef.current.length;
+          if (updated.size >= totalCount && totalCount > 0) {
             setTimeout(() => setPhase("matchList"), 600);
           }
           return updated;
@@ -313,6 +312,15 @@ export default function FoodSwipeApp() {
           if (isFriend) {
             // Bittiğimi Supabase'e yaz
             try { await sb.from("swipes").insert({ room_id: roomCode, member_name: myName, card_id: "DONE", direction: "done" }); } catch(e) {}
+            setDoneMembers(prev => {
+              const updated = new Set([...prev, myName]);
+              const totalCount = membersRef.current.length;
+              if (updated.size >= totalCount && totalCount > 0) {
+                setTimeout(() => setPhase("matchList"), 600);
+                return updated;
+              }
+              return updated;
+            });
             setPhase("waiting");
           } else {
             const sorted = newLiked.length>0
