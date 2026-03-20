@@ -348,9 +348,10 @@ export default function FoodSwipeApp() {
   const handleHome = () => { setIsFriend(false); setMembers([]); setMatchedCards([]); setDoneMembers(new Set()); if (channelRef.current) sb.removeChannel(channelRef.current); setPhase("intro"); };
 
   return (
-    <div style={{ minHeight:"100vh", background:"#f8fdf4", fontFamily:"'DM Sans',sans-serif",
+    <div style={{ height:"100vh", background:"#f8fdf4", fontFamily:"'DM Sans',sans-serif",
       display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"flex-start",
-      paddingTop:"60px", paddingBottom:"40px" }}>
+      paddingTop:"60px", paddingBottom:"40px",
+      overflowY:"auto", WebkitOverflowScrolling:"touch" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
