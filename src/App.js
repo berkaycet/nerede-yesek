@@ -112,7 +112,7 @@ function WaitingScreen({ members, myName, doneMembers }) {
 // ─── Match List Screen ────────────────────────────────────────
 function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
   return (
-    <div style={{ width:"100%",maxWidth:420,padding:"20px 20px 40px",zIndex:10 }}>
+    <div style={{ width:"100%",maxWidth:420,padding:"20px 20px 40px",zIndex:10,overflowY:"auto",WebkitOverflowScrolling:"touch" }}>
       <div style={{ textAlign:"center",marginBottom:24 }}>
         <div style={{ fontSize:52,marginBottom:8 }}>🎉</div>
         <div style={{ fontFamily:"'Playfair Display',serif",fontSize:32,color:"#111827",fontWeight:700,letterSpacing:-1,marginBottom:6 }}>{matchedCards.length > 0 ? "Eşleşmeler!" : "Ortak seçim yok"}</div>
@@ -350,12 +350,12 @@ export default function FoodSwipeApp() {
   return (
     <div style={{ minHeight:"100vh", background:"#f8fdf4", fontFamily:"'DM Sans',sans-serif",
       display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"flex-start",
-      paddingTop:"60px", paddingBottom:"40px",
-      overflowX:"hidden" }}>
+      paddingTop:"60px", paddingBottom:"40px" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        html,body{overflow-x:hidden;overflow-y:auto;}
+        html,body{margin:0;padding:0;}
+        html{overflow-x:hidden;}
         @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
         @keyframes spin{to{transform:rotate(360deg);}}
         @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
