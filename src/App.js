@@ -88,7 +88,7 @@ function WaitingScreen({ members, myName, doneMembers }) {
   const waiting = members.filter(m => !doneMembers.has(m.name) && m.name !== myName);
   return (
     <div style={{ textAlign:"center",padding:"40px 24px",maxWidth:400,zIndex:10 }}>
-      <div style={{ fontSize:52,marginBottom:16 }}>⏳</div>
+      <div style={{ fontSize:52,marginBottom:16 }}>🕐</div>
       <h2 style={{ fontFamily:"'Playfair Display',serif",fontSize:28,color:"#111827",marginBottom:8 }}>Bitti!</h2>
       <p style={{ color:"#9ca3af",fontSize:14,marginBottom:32 }}>
         {waiting.length > 0 ? `${waiting.map(m=>m.name).join(", ")} henüz bitirmedi...` : "Herkes bitti, yükleniyor..."}
