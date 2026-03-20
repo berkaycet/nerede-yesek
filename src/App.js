@@ -344,11 +344,11 @@ export default function FoodSwipeApp() {
     <div style={{ minHeight:"100vh", background:"#f8fdf4", fontFamily:"'DM Sans',sans-serif",
       display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"flex-start",
       paddingTop:"60px", paddingBottom:"40px",
-      overflowY:"auto", overflowX:"hidden" }}>
+      overflowX:"hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        html,body{overflow-x:hidden;}
+        html,body{overflow-x:hidden;overflow-y:auto;}
         @keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
         @keyframes spin{to{transform:rotate(360deg);}}
         @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
@@ -494,12 +494,6 @@ export default function FoodSwipeApp() {
       {phase==="swiping"&&(
         <div style={{ width:"100%",maxWidth:400,display:"flex",flexDirection:"column",alignItems:"center",padding:"6px 16px 12px",zIndex:10 }}>
           {flashDir&&(<div style={{ position:"fixed",inset:0,zIndex:500,pointerEvents:"none",background:flashDir==="right"?"rgba(34,197,94,0.08)":"rgba(239,68,68,0.08)",animation:"flashAnim 0.35s ease both" }}/>)}
-          {isFriend&&matchedCards.length>0&&(
-            <div style={{ width:"100%",background:"#dcfce7",border:"1px solid #bbf7d0",borderRadius:12,padding:"8px 14px",display:"flex",alignItems:"center",gap:8,marginBottom:10,fontSize:12 }}>
-              <span style={{ fontSize:16 }}>🎉</span>
-              <span style={{ color:"#15803d",fontWeight:600 }}>{matchedCards.length} eşleşme! Kaydırmaya devam et.</span>
-            </div>
-          )}
           <div style={{ width:"100%",marginBottom:10,padding:"0 2px" }}>
             <div style={{ display:"flex",justifyContent:"space-between",marginBottom:6 }}>
               <span style={{ color:"#9ca3af",fontSize:12 }}>{isFriend?`${members.length} kişi · ${roomCode}`:isDemo?"Demo":"1.5 km çevren"}</span>
