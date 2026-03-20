@@ -156,12 +156,21 @@ export default function FoodSwipeApp() {
   const [isFriend, setIsFriend] = useState(false); const [isHost, setIsHost] = useState(false);
   const [roomCode, setRoomCode] = useState(""); const [joinInput, setJoinInput] = useState("");
   const [members, setMembers] = useState([]);
+  const setMembersAndRef = (fn) => {
+    setMembers(prev => {
+      const next = typeof fn === 'function' ? fn(prev) : fn;
+      membersRef.current = next;
+      return next;
+    });
+  };
   const simSwipes = useRef({});
+  const swipedCards = useRef(new Set()); // çift swipe önleme
   const [remoteLikes, setRemoteLikes] = useState({});
   const [matchedCards, setMatchedCards] = useState([]);
   // ── YENİ: kim bitirdi takibi ──
   const [doneMembers, setDoneMembers] = useState(new Set());
   const channelRef = useRef(null);
+  const membersRef = useRef([]); // stale closure önleme
   useEffect(() => { return () => { if (channelRef.current) sb.removeChannel(channelRef.current); }; }, []);
   const [cards, setCards] = useState([]); const [stack, setStack] = useState([]);
   const [likedCount, setLikedCount] = useState(0); const [likedCards, setLikedCards] = useState([]);
@@ -185,7 +194,7 @@ export default function FoodSwipeApp() {
     setIsDemo(demo); setCards(cardList); setStack([...cardList].reverse());
     setLikedCount(0); setLikedCards([]); setMatchedCards([]);
     setDoneMembers(new Set());
-    simSwipes.current = {}; setRemoteLikes({});
+    simSwipes.current = {}; swipedCards.current = new Set(); setRemoteLikes({});
     setPhase("swiping");
   };
 
@@ -212,7 +221,7 @@ export default function FoodSwipeApp() {
     channel.on("postgres_changes", { event:"INSERT", schema:"public", table:"members", filter:`room_id=eq.${code}` }, (payload) => {
       const newMember = payload.new;
       if (newMember.name !== currentName) {
-        setMembers(prev => { if (prev.find(m => m.name === newMember.name)) return prev; return [...prev, { id: newMember.id, name: newMember.name, ready: true }]; });
+        setMembersAndRef(prev => { if (prev.find(m => m.name === newMember.name)) return prev; return [...prev, { id: newMember.id, name: newMember.name, ready: true }]; });
       }
     });
 
@@ -224,14 +233,11 @@ export default function FoodSwipeApp() {
       if (direction === "done" && card_id === "DONE") {
         setDoneMembers(prev => {
           const updated = new Set([...prev, member_name]);
-          // Herkes bitti mi? (ben waiting'deyim demek ki ben bittim, diğerleri kontrol)
-          setMembers(currentMembers => {
-            const othersCount = currentMembers.length - 1; // ben hariç
-            if (updated.size >= othersCount) {
-              setTimeout(() => setPhase("matchList"), 600);
-            }
-            return currentMembers;
-          });
+          // membersRef kullan — stale closure yok
+          const othersCount = membersRef.current.length - 1; // ben hariç
+          if (updated.size >= othersCount && othersCount > 0) {
+            setTimeout(() => setPhase("matchList"), 600);
+          }
           return updated;
         });
         return;
@@ -256,7 +262,7 @@ export default function FoodSwipeApp() {
       await sb.from("rooms").insert({ id: code, cards: DEMO_CARDS });
       await sb.from("members").insert({ room_id: code, name: myName });
       setRoomCode(code); setIsHost(true); setIsFriend(true);
-      setMembers([{ id:"me", name:myName, ready:true }]);
+      setMembersAndRef([{ id:"me", name:myName, ready:true }]);
       subscribeToRoom(code, myName); setPhase("lobby");
     } catch(err) { alert("Oda oluşturulamadı: " + err.message); }
   };
@@ -269,7 +275,7 @@ export default function FoodSwipeApp() {
       const { data: existingMembers } = await sb.from("members").select("*").eq("room_id", code);
       await sb.from("members").insert({ room_id: code, name: myName });
       const allMembers = [...(existingMembers || []).map(m => ({ id:m.id, name:m.name, ready:true })), { id:"me", name:myName, ready:true }];
-      setRoomCode(code); setIsHost(false); setIsFriend(true); setMembers(allMembers);
+      setRoomCode(code); setIsHost(false); setIsFriend(true); setMembersAndRef(allMembers);
       subscribeToRoom(code, myName); setJoinInput(""); setPhase("lobby");
     } catch(err) { alert("Odaya katılınamadı: " + err.message); }
   };
@@ -280,6 +286,10 @@ export default function FoodSwipeApp() {
   };
 
   const handleSwipe = useCallback(async (card, dir) => {
+    // Çift swipe önleme — aynı kart iki kez işlenemesin
+    if (swipedCards.current.has(card.id)) return;
+    swipedCards.current.add(card.id);
+
     setFlashDir(dir); setTimeout(()=>setFlashDir(null),350);
     const newLiked = dir==="right" ? [...likedCards,card] : likedCards;
     if (dir==="right") { setLikedCount(l=>l+1); setLikedCards(newLiked); }
