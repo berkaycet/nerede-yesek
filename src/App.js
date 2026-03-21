@@ -433,7 +433,7 @@ export default function FoodSwipeApp() {
       overflowY:"auto", WebkitOverflowScrolling:"touch" }}>
       {showConfetti && <Confetti key={confettiKey} onDone={() => setShowConfetti(false)} />}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&family=Gudea:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         html,body{margin:0;padding:0;}
         html{overflow-x:hidden;}
@@ -523,7 +523,7 @@ export default function FoodSwipeApp() {
             </div>
             <div style={{ background:"white",border:"1.5px solid #e5e7eb",borderRadius:18,padding:18,boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
               <div style={{ color:"#374151",fontSize:14,fontWeight:600,marginBottom:12 }}>🔑 Odaya Katıl</div>
-              <input className="inp" placeholder="Oda kodunu gir..." value={joinInput} onChange={e=>setJoinInput(e.target.value.toUpperCase())} onKeyDown={e=>e.key==="Enter"&&joinRoom()} style={{ textAlign:"center",letterSpacing:4,fontSize:18,fontWeight:700,marginBottom:10 }}/>
+              <input className="inp" placeholder="Oda kodunu gir..." value={joinInput} onChange={e=>setJoinInput(e.target.value.toUpperCase())} onKeyDown={e=>e.key==="Enter"&&joinRoom()} style={{ textAlign:"center",letterSpacing:4,fontSize:18,fontWeight:700,marginBottom:10,fontFamily:"'Gudea',sans-serif" }}/>
               <button className="cta" style={{ width:"100%",padding:"14px" }} onClick={joinRoom} disabled={joinInput.trim().length<4}>Katıl →</button>
             </div>
           </div>
@@ -534,11 +534,11 @@ export default function FoodSwipeApp() {
         <div style={{ width:"100%",maxWidth:400,padding:"20px 20px 20px",zIndex:10 }}>
           <div style={{ textAlign:"center",marginBottom:24 }}>
             <div style={{ fontSize:11,color:"#16a34a",fontWeight:700,letterSpacing:3,marginBottom:10,textTransform:"uppercase" }}>Arkadaş Modu</div>
-            <h2 style={{ fontFamily:"'Playfair Display',serif",fontSize:34,color:"#111827",letterSpacing:-1 }}>Oda <em style={{ color:"#16a34a" }}>{roomCode}</em></h2>
+            <h2 style={{ fontFamily:"'Playfair Display',serif",fontSize:34,color:"#111827",letterSpacing:-1 }}>Oda <em style={{ color:"#16a34a",fontFamily:"'Gudea',sans-serif",fontStyle:"normal" }}>{roomCode}</em></h2>
           </div>
           <div style={{ background:"white",border:"1px solid #e5e7eb",borderRadius:18,padding:"18px 22px",textAlign:"center",marginBottom:12,boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
             <div style={{ color:"#9ca3af",fontSize:11,fontWeight:600,letterSpacing:2,marginBottom:8 }}>ODA KODU</div>
-            <div style={{ fontFamily:"'Playfair Display',serif",fontSize:38,color:"#111827",letterSpacing:8,fontWeight:700 }}>{roomCode}</div>
+            <div style={{ fontFamily:"'Gudea',sans-serif",fontSize:38,color:"#111827",letterSpacing:8,fontWeight:700 }}>{roomCode}</div>
           </div>
           <div style={{ background:"white",border:"1px solid #e5e7eb",borderRadius:18,padding:"16px 18px",marginBottom:18,boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
             <div style={{ color:"#9ca3af",fontSize:11,fontWeight:600,letterSpacing:2,marginBottom:14 }}>KATILANLAR · {members.length} KİŞİ</div>
