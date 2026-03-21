@@ -534,11 +534,11 @@ export default function FoodSwipeApp() {
         <div style={{ width:"100%",maxWidth:400,padding:"20px 20px 20px",zIndex:10 }}>
           <div style={{ textAlign:"center",marginBottom:24 }}>
             <div style={{ fontSize:11,color:"#16a34a",fontWeight:700,letterSpacing:3,marginBottom:10,textTransform:"uppercase" }}>Arkadaş Modu</div>
-            <h2 style={{ fontFamily:"'Playfair Display',serif",fontSize:34,color:"#111827",letterSpacing:-1 }}>Oda <em style={{ color:"#16a34a",fontFamily:"'Roboto Mono',monospace",fontStyle:"normal",letterSpacing:2 }}>{roomCode}</em></h2>
+            <h2 style={{ fontFamily:"'Playfair Display',serif",fontSize:34,color:"#111827",letterSpacing:-1 }}>Odana Hoş Geldin!</h2>
           </div>
           <div style={{ background:"white",border:"1px solid #e5e7eb",borderRadius:18,padding:"18px 22px",textAlign:"center",marginBottom:12,boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
             <div style={{ color:"#9ca3af",fontSize:11,fontWeight:600,letterSpacing:2,marginBottom:8 }}>ODA KODU</div>
-            <div style={{ fontFamily:"'Roboto Mono',monospace",fontSize:38,color:"#111827",letterSpacing:8,fontWeight:700 }}>{roomCode}</div>
+            <div style={{ fontFamily:"'Roboto Mono',monospace",fontSize:36,color:"#111827",letterSpacing:4,fontWeight:700 }}>{roomCode}</div>
           </div>
           <div style={{ background:"white",border:"1px solid #e5e7eb",borderRadius:18,padding:"16px 18px",marginBottom:18,boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
             <div style={{ color:"#9ca3af",fontSize:11,fontWeight:600,letterSpacing:2,marginBottom:14 }}>KATILANLAR · {members.length} KİŞİ</div>
