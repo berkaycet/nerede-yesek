@@ -33,10 +33,11 @@ function avatarColor(name) { return AVATAR_COLORS[(name?.charCodeAt(0)||0) % AVA
 function avatarLetter(name) { return name ? name[0].toUpperCase() : "?"; }
 function genCode() { return Math.random().toString(36).slice(2,8).toUpperCase(); }
 
-function TopCard({ card, gradIndex, onSwipe }) {
+function TopCard({ card, gradIndex, onSwipe, disabled=false, extraStyle={} }) {
   const ref = useRef(null);
   const grad = GRADIENTS[gradIndex % GRADIENTS.length];
   useEffect(() => {
+    if (disabled) return;
     const el = ref.current;
     if (!el) return;
     let dragging=false, startX=0, startY=0, curX=0, curY=0, vx=0, lastX=0, lastT=0, gone=false;
@@ -62,9 +63,9 @@ function TopCard({ card, gradIndex, onSwipe }) {
     const onForce = (e) => fly(e.detail.dir);
     el.addEventListener("pointerdown", onDown); window.addEventListener("pointermove", onMove); window.addEventListener("pointerup", onUp); el.addEventListener("forceswipe", onForce);
     return () => { el.removeEventListener("pointerdown", onDown); window.removeEventListener("pointermove", onMove); window.removeEventListener("pointerup", onUp); el.removeEventListener("forceswipe", onForce); };
-  }, [onSwipe]);
+  }, [onSwipe, disabled]);
   return (
-    <div ref={ref} id={"tc-"+card.id} style={{ position:"absolute",inset:0,borderRadius:26,overflow:"hidden",background:`linear-gradient(155deg,${grad[0]},${grad[1]})`,cursor:"grab",userSelect:"none",touchAction:"none",willChange:"transform",zIndex:10,border:"1px solid rgba(0,0,0,0.06)",boxShadow:"0 8px 40px rgba(0,0,0,0.1)" }}>
+    <div ref={ref} id={"tc-"+card.id} style={{ position:"absolute",inset:0,borderRadius:26,overflow:"hidden",background:`linear-gradient(155deg,${grad[0]},${grad[1]})`,cursor:disabled?"default":"grab",userSelect:"none",touchAction:"none",willChange:"transform",zIndex:10,border:"1px solid rgba(0,0,0,0.06)",boxShadow:"0 8px 40px rgba(0,0,0,0.1)",pointerEvents:disabled?"none":undefined,...extraStyle }}>
       {card.photo ? <img src={card.photo} alt={card.name} draggable={false} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",pointerEvents:"none" }}/> : <div style={{ position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:100,filter:"drop-shadow(0 6px 16px rgba(0,0,0,0.15))",pointerEvents:"none" }}>{card.emoji}</div>}
       <div style={{ position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.25) 45%,rgba(0,0,0,0) 100%)",pointerEvents:"none" }}/>
       <div className="ll" style={{ position:"absolute",top:26,left:22,opacity:0,transition:"opacity 0.05s",background:"rgba(34,197,94,0.93)",backdropFilter:"blur(10px)",color:"white",fontWeight:900,fontSize:18,padding:"8px 20px",borderRadius:12,border:"2.5px solid rgba(74,222,128,0.7)",transform:"rotate(-10deg)",letterSpacing:1.5,pointerEvents:"none" }}>YEP 🔥</div>
@@ -587,7 +588,7 @@ export default function FoodSwipeApp() {
           )}
           <div style={{ position:"relative",width:"100%",height:460,marginBottom:20 }}>
             {stack.length>2&&<div style={{ position:"absolute",inset:0,borderRadius:26,background:"#e5e7eb",transform:"scale(0.87) translateY(28px)",zIndex:1 }}/>}
-            {stack.length>1&&(<div style={{ position:"absolute",inset:0,borderRadius:26,background:`linear-gradient(155deg,${GRADIENTS[(cards.length-stack.length+1)%GRADIENTS.length][0]},${GRADIENTS[(cards.length-stack.length+1)%GRADIENTS.length][1]})`,transform:"scale(0.94) translateY(14px)",zIndex:2,overflow:"hidden",border:"1px solid rgba(0,0,0,0.06)" }}/>)}
+            {stack.length>1&&(<TopCard key={stack[stack.length-2].id} card={stack[stack.length-2]} gradIndex={(cards.length-stack.length+1)%GRADIENTS.length} onSwipe={()=>{}} disabled extraStyle={{ transform:"scale(0.94) translateY(14px)",zIndex:2,boxShadow:"none" }}/>)}
             {stack.length>0&&(<TopCard key={stack[stack.length-1].id} card={stack[stack.length-1]} gradIndex={(cards.length-stack.length)%GRADIENTS.length} onSwipe={dir=>handleSwipe(stack[stack.length-1], dir)}/>)}
           </div>
           <div style={{ display:"flex",alignItems:"center",gap:20 }}>
