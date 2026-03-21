@@ -109,6 +109,52 @@ function WaitingScreen({ members, myName, doneMembers }) {
   );
 }
 
+// ─── Confetti ────────────────────────────────────────────────
+const CONFETTI_COLORS = ["#16a34a","#4ade80","#fbbf24","#f472b6","#60a5fa","#f97316","#a78bfa"];
+function Confetti({ onDone }) {
+  const canvasRef = useRef(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const particles = Array.from({ length: 90 }, () => ({
+      x: Math.random() * canvas.width,
+      y: canvas.height + Math.random() * 10,
+      vx: (Math.random() - 0.5) * 7,
+      vy: -(Math.random() * 14 + 7),
+      color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+      w: Math.random() * 8 + 4,
+      h: Math.random() * 5 + 3,
+      rot: Math.random() * 360,
+      rotV: (Math.random() - 0.5) * 12,
+      gravity: 0.35,
+      opacity: 1,
+    }));
+    const start = Date.now();
+    let animId;
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const elapsed = Date.now() - start;
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += p.gravity; p.rot += p.rotV;
+        if (elapsed > 1200) p.opacity = Math.max(0, p.opacity - 0.025);
+        ctx.save();
+        ctx.globalAlpha = p.opacity;
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rot * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      });
+      if (elapsed < 2200) { animId = requestAnimationFrame(animate); } else { onDone?.(); }
+    };
+    animId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+  return <canvas ref={canvasRef} style={{ position:"fixed",inset:0,pointerEvents:"none",zIndex:9999 }} />;
+}
+
 // ─── Match List Screen ────────────────────────────────────────
 function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
   return (
@@ -181,6 +227,12 @@ export default function FoodSwipeApp() {
   const [likedCount, setLikedCount] = useState(0); const [likedCards, setLikedCards] = useState([]);
   const [result, setResult] = useState(null);
   const [flashDir, setFlashDir] = useState(null); const [isDemo, setIsDemo] = useState(false);
+  const [confettiKey, setConfettiKey] = useState(0); const [showConfetti, setShowConfetti] = useState(false);
+  const prevMatchCountRef = useRef(0);
+  useEffect(() => {
+    if (matchedCards.length > prevMatchCountRef.current) { setConfettiKey(k => k + 1); setShowConfetti(true); }
+    prevMatchCountRef.current = matchedCards.length;
+  }, [matchedCards]);
   const [loadingStep, setLoadingStep] = useState(0); const [errorMsg, setErrorMsg] = useState("");
   const STEPS = [{ icon:"📍", text:"GPS konumun alınıyor..." },{ icon:"🗺️", text:"Google Maps yükleniyor..." },{ icon:"🔍", text:"Restoranlar taranıyor..." },{ icon:"✨", text:"Kartlar hazırlanıyor..." }];
 
@@ -368,6 +420,7 @@ export default function FoodSwipeApp() {
       display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"flex-start",
       paddingTop:"60px", paddingBottom:"40px",
       overflowY:"auto", WebkitOverflowScrolling:"touch" }}>
+      {showConfetti && <Confetti key={confettiKey} onDone={() => setShowConfetti(false)} />}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
