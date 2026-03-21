@@ -28,7 +28,7 @@ const GRADIENTS = [
 const AVATAR_COLORS = ["#ff5722","#2196f3","#9c27b0","#4caf50","#ff9800","#00bcd4","#e91e63","#607d8b"];
 
 function getPriceLabel(l) { return l ? (["","₺","₺₺","₺₺₺","₺₺₺₺"][l]||"") : ""; }
-function getRatingColor(r) { return r>=4.5?"#16a34a":r>=4.0?"#ca8a04":r>=3.5?"#ea580c":"#dc2626"; }
+function getRatingColor(r) { return r>=4.5?"#22c55e":r>=4.0?"#ca8a04":r>=3.5?"#ea580c":"#dc2626"; }
 function avatarColor(name) { return AVATAR_COLORS[(name?.charCodeAt(0)||0) % AVATAR_COLORS.length]; }
 function avatarLetter(name) { return name ? name[0].toUpperCase() : "?"; }
 function genCode() { return Math.random().toString(36).slice(2,8).toUpperCase(); }
@@ -80,7 +80,7 @@ function TopCard({ card, gradIndex, onSwipe }) {
       <div style={{ position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.25) 45%,rgba(0,0,0,0) 100%)",pointerEvents:"none" }}/>
       <div className="ll" style={{ position:"absolute",top:26,left:22,opacity:0,transition:"opacity 0.05s",background:"rgba(34,197,94,0.93)",backdropFilter:"blur(10px)",color:"white",fontWeight:900,fontSize:18,padding:"8px 20px",borderRadius:12,border:"2.5px solid rgba(74,222,128,0.7)",transform:"rotate(-10deg)",letterSpacing:1.5,pointerEvents:"none" }}>YEP 🔥</div>
       <div className="nl" style={{ position:"absolute",top:26,left:22,opacity:0,transition:"opacity 0.05s",background:"rgba(239,68,68,0.93)",backdropFilter:"blur(10px)",color:"white",fontWeight:900,fontSize:18,padding:"8px 20px",borderRadius:12,border:"2.5px solid rgba(248,113,113,0.7)",transform:"rotate(-10deg)",letterSpacing:1.5,pointerEvents:"none" }}>NOPE 👋</div>
-      <div style={{ position:"absolute",top:22,right:22,pointerEvents:"none",background:"rgba(255,255,255,0.85)",border:`1px solid ${card.isOpen?"rgba(74,222,128,0.6)":"rgba(248,113,113,0.6)"}`,padding:"4px 12px",borderRadius:20,color:card.isOpen?"#15803d":"#dc2626",fontSize:11,fontWeight:700,letterSpacing:1,backdropFilter:"blur(8px)" }}>{card.isOpen?"● AÇIK":"● KAPALI"}</div>
+      <div style={{ position:"absolute",top:22,right:22,pointerEvents:"none",background:"rgba(255,255,255,0.85)",border:`1px solid ${card.isOpen?"rgba(74,222,128,0.6)":"rgba(248,113,113,0.6)"}`,padding:"4px 12px",borderRadius:20,color:card.isOpen?"#16a34a":"#dc2626",fontSize:11,fontWeight:700,letterSpacing:1,backdropFilter:"blur(8px)" }}>{card.isOpen?"● AÇIK":"● KAPALI"}</div>
       <div style={{ position:"absolute",bottom:0,left:0,right:0,padding:"0 22px 28px",pointerEvents:"none" }}>
         <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:10,flexWrap:"wrap" }}>
           {card.rating>0&&(<div style={{ display:"inline-flex",alignItems:"center",gap:5,background:"rgba(0,0,0,0.6)",backdropFilter:"blur(12px)",padding:"5px 12px",borderRadius:20 }}><span style={{ color:getRatingColor(card.rating),fontWeight:800,fontSize:15 }}>★ {card.rating.toFixed(1)}</span><span style={{ color:"#444",fontSize:11 }}>({card.ratingCount.toLocaleString()})</span></div>)}
@@ -107,10 +107,10 @@ function WaitingScreen({ members, myName, doneMembers }) {
       <div style={{ display:"flex",justifyContent:"center",gap:16,flexWrap:"wrap" }}>
         {members.map(m => (
           <div key={m.id} style={{ display:"flex",flexDirection:"column",alignItems:"center",gap:8 }}>
-            <div style={{ width:48,height:48,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,fontWeight:700,color:"white",border:`3px solid ${doneMembers.has(m.name)||m.name===myName?"#16a34a":"#e5e7eb"}`,transition:"border-color .3s" }}>
+            <div style={{ width:48,height:48,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,fontWeight:700,color:"white",border:`3px solid ${doneMembers.has(m.name)||m.name===myName?"#22c55e":"#e5e7eb"}`,transition:"border-color .3s" }}>
               {avatarLetter(m.name)}
             </div>
-            <span style={{ fontSize:11,fontWeight:600,color:doneMembers.has(m.name)||m.name===myName?"#16a34a":"#9ca3af" }}>
+            <span style={{ fontSize:11,fontWeight:600,color:doneMembers.has(m.name)||m.name===myName?"#22c55e":"#9ca3af" }}>
               {doneMembers.has(m.name)||m.name===myName?"✓ Bitti":"Devam..."}
             </span>
           </div>
@@ -121,7 +121,7 @@ function WaitingScreen({ members, myName, doneMembers }) {
 }
 
 // ─── Confetti ────────────────────────────────────────────────
-const CONFETTI_COLORS = ["#16a34a","#4ade80","#fbbf24","#f472b6","#60a5fa","#f97316","#a78bfa"];
+const CONFETTI_COLORS = ["#22c55e","#4ade80","#fbbf24","#f472b6","#60a5fa","#f97316","#a78bfa"];
 function Confetti({ onDone }) {
   const canvasRef = useRef(null);
   useEffect(() => {
@@ -166,6 +166,57 @@ function Confetti({ onDone }) {
   return <canvas ref={canvasRef} style={{ position:"fixed",inset:0,pointerEvents:"none",zIndex:9999 }} />;
 }
 
+// ─── Code Input ───────────────────────────────────────────────
+function CodeInput({ value, onChange, onSubmit }) {
+  const refs = useRef([]);
+  const handleKeyDown = (i, e) => {
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      if (value.length > 0) {
+        onChange(value.slice(0, -1));
+        refs.current[Math.max(value.length - 1, 0)]?.focus();
+      }
+    } else if (e.key === "Enter") { onSubmit?.(); }
+  };
+  const handleChange = (i, e) => {
+    const char = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(-1);
+    if (!char || value.length >= 6) return;
+    const next = value + char;
+    onChange(next);
+    if (next.length < 6) refs.current[next.length]?.focus();
+  };
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6);
+    onChange(pasted);
+    refs.current[Math.min(pasted.length, 5)]?.focus();
+  };
+  const activeIdx = Math.min(value.length, 5);
+  return (
+    <div style={{ display:"flex",gap:8,justifyContent:"center",marginBottom:14 }}>
+      {Array.from({length:6}, (_, i) => {
+        const filled = i < value.length;
+        const active = i === activeIdx;
+        return (
+          <input key={i} ref={el => refs.current[i] = el}
+            value={value[i] || ""}
+            onChange={e => handleChange(i, e)}
+            onKeyDown={e => handleKeyDown(i, e)}
+            onPaste={handlePaste}
+            onClick={() => refs.current[activeIdx]?.focus()}
+            maxLength={2} inputMode="text" autoCapitalize="characters"
+            style={{ width:44,height:54,textAlign:"center",fontFamily:"'Roboto Mono',monospace",fontSize:22,fontWeight:700,
+              border:`2px solid ${active?"#22c55e":filled?"#bbf7d0":"#e5e7eb"}`,borderRadius:12,
+              background:filled?"#f0fdf4":"white",color:"#111827",outline:"none",
+              boxShadow:active?"0 0 0 3px rgba(34,197,94,0.15)":"none",
+              caretColor:"transparent",transition:"all 0.15s",cursor:"text" }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
 // ─── Match List Screen ────────────────────────────────────────
 function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
   return (
@@ -184,13 +235,13 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
                 {card.photo ? <img src={card.photo} alt={card.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}/> : card.emoji}
               </div>
               <div style={{ padding:"12px 14px",flex:1 }}>
-                {i===0&&<span style={{ background:"#dcfce7",color:"#15803d",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:20,display:"inline-block",marginBottom:4 }}>EN İYİ EŞLEŞME</span>}
+                {i===0&&<span style={{ background:"#dcfce7",color:"#16a34a",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:20,display:"inline-block",marginBottom:4 }}>EN İYİ EŞLEŞME</span>}
                 <div style={{ fontFamily:"'Playfair Display',serif",fontSize:16,color:"#111827",marginBottom:3 }}>{card.name}</div>
                 <div style={{ color:"#9ca3af",fontSize:12,marginBottom:4 }}>📍 {card.address}</div>
                 <div style={{ display:"flex",alignItems:"center",gap:8 }}>
                   {card.rating>0&&<span style={{ color:getRatingColor(card.rating),fontWeight:700,fontSize:13 }}>★ {card.rating.toFixed(1)}</span>}
-                  {card.price&&<span style={{ color:"#16a34a",fontWeight:600,fontSize:13 }}>{card.price}</span>}
-                  <span style={{ color:card.isOpen?"#16a34a":"#dc2626",fontSize:11,fontWeight:600 }}>{card.isOpen?"● Açık":"● Kapalı"}</span>
+                  {card.price&&<span style={{ color:"#22c55e",fontWeight:600,fontSize:13 }}>{card.price}</span>}
+                  <span style={{ color:card.isOpen?"#22c55e":"#dc2626",fontSize:11,fontWeight:600 }}>{card.isOpen?"● Açık":"● Kapalı"}</span>
                 </div>
               </div>
             </div>
@@ -427,12 +478,12 @@ export default function FoodSwipeApp() {
   };
 
   return (
-    <div style={{ minHeight:"100vh", background:"#f8fdf4", fontFamily:"'DM Sans',sans-serif",
+    <div style={{ minHeight:"100vh", background:"#f8fdf4", fontFamily:"'Plus Jakarta Sans',sans-serif",
       display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"flex-start",
       paddingTop:"60px", paddingBottom:"40px" }}>
       {showConfetti && <Confetti key={confettiKey} onDone={() => setShowConfetti(false)} />}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&family=Roboto+Mono:wght@600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         html,body{margin:0;padding:0;}
         html{overflow-x:hidden;}
@@ -440,12 +491,12 @@ export default function FoodSwipeApp() {
         @keyframes spin{to{transform:rotate(360deg);}}
         @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
         @keyframes stepIn{from{opacity:0;transform:translateX(-12px);}to{opacity:1;transform:translateX(0);}}
-        @keyframes glowGreen{0%,100%{box-shadow:0 8px 32px rgba(34,197,94,0.3);}50%{box-shadow:0 8px 48px rgba(34,197,94,0.55);}}
+        @keyframes glowGreen{0%,100%{box-shadow:0 8px 32px rgba(34,197,94,0.35);}50%{box-shadow:0 8px 48px rgba(34,197,94,0.6);}}
         @keyframes flashAnim{0%{opacity:1;}100%{opacity:0;}}
         @keyframes blink{0%,100%{opacity:0.3;}50%{opacity:1;}}
         .fade-up{animation:fadeUp 0.45s cubic-bezier(0.34,1.2,0.64,1) both;}
-        .cta{background:#16a34a;color:white;border:none;padding:16px 40px;border-radius:50px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .18s;}
-        .cta:hover{background:#15803d;transform:translateY(-2px);box-shadow:0 10px 32px rgba(22,163,74,0.4);}
+        .cta{background:#22c55e;color:white;border:none;padding:16px 40px;border-radius:50px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .18s;}
+        .cta:hover{background:#16a34a;transform:translateY(-2px);box-shadow:0 10px 32px rgba(34,197,94,0.4);}
         .cta:active{transform:translateY(0);}
         .cta:disabled{background:#d1d5db!important;color:#9ca3af!important;transform:none!important;cursor:not-allowed;}
         .ghost{background:white;color:#6b7280;border:1.5px solid #e5e7eb;padding:14px 28px;border-radius:50px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .18s;}
@@ -455,15 +506,15 @@ export default function FoodSwipeApp() {
         .act-btn{border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,background .15s;}
         .act-btn:active{transform:scale(0.88)!important;}
         .inp{width:100%;background:white;border:1.5px solid #e5e7eb;border-radius:14px;padding:14px 18px;color:#111827;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
-        .inp:focus{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,0.1);}
-        .inp::placeholder{color:#d1d5db;}
+        .inp:focus{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,0.12);}
+        .inp::placeholder{color:#c4cdd8;font-family:'Plus Jakarta Sans',sans-serif;font-weight:400;}
       `}</style>
 
       <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:300,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"15px 22px",borderBottom:"1px solid #e5e7eb",background:"rgba(248,253,244,0.92)",backdropFilter:"blur(20px)" }}>
         <div style={{ display:"flex",alignItems:"center",gap:8 }}>
           <span style={{ fontSize:17 }}>🍽️</span>
           <span style={{ fontFamily:"'Playfair Display',serif",fontSize:17,color:"#111827",fontStyle:"italic" }}>ne yesek</span>
-          {isFriend&&<span style={{ background:"#dcfce7",color:"#15803d",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:20,letterSpacing:1 }}>ARKADAŞ</span>}
+          {isFriend&&<span style={{ background:"#dcfce7",color:"#16a34a",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:20,letterSpacing:1 }}>ARKADAŞ</span>}
           {!isFriend&&isDemo&&<span style={{ background:"#f3f4f6",color:"#9ca3af",fontSize:10,fontWeight:600,padding:"2px 8px",borderRadius:20,letterSpacing:1 }}>DEMO</span>}
         </div>
         {phase==="swiping"&&(
@@ -471,25 +522,25 @@ export default function FoodSwipeApp() {
             {isFriend&&(<div style={{ display:"flex" }}>{members.slice(0,4).map((m,i)=>(<div key={m.id} style={{ width:26,height:26,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:"white",border:"2px solid #f8fdf4",marginLeft:i>0?-7:0,zIndex:10-i }}>{avatarLetter(m.name)}</div>))}</div>)}
             <div style={{ display:"flex",alignItems:"center",gap:4,background:"#dcfce7",padding:"4px 10px",borderRadius:20 }}>
               <span style={{ fontSize:12 }}>❤️</span>
-              <span style={{ color:"#15803d",fontSize:13,fontWeight:700 }}>{likedCount}</span>
+              <span style={{ color:"#16a34a",fontSize:13,fontWeight:700 }}>{likedCount}</span>
             </div>
           </div>
         )}
       </nav>
 
-      <div style={{ position:"fixed",top:"-15%",left:"50%",transform:"translateX(-50%)",width:900,height:700,background:"radial-gradient(ellipse,rgba(22,163,74,0.06) 0%,transparent 65%)",pointerEvents:"none",zIndex:0 }}/>
+      <div style={{ position:"fixed",top:"-15%",left:"50%",transform:"translateX(-50%)",width:900,height:700,background:"radial-gradient(ellipse,rgba(34,197,94,0.06) 0%,transparent 65%)",pointerEvents:"none",zIndex:0 }}/>
 
       {phase==="intro"&&(
         <div className="fade-up" style={{ textAlign:"center",padding:"0 24px",maxWidth:400,zIndex:10 }}>
-          <div style={{ fontSize:80,marginBottom:22,animation:"bounce 2.6s ease infinite",filter:"drop-shadow(0 8px 28px rgba(22,163,74,0.3))" }}>🗺️</div>
-          <h1 style={{ fontFamily:"'Playfair Display',serif",fontSize:46,color:"#111827",lineHeight:1.05,marginBottom:14,letterSpacing:-1 }}>Bugün ne<br/><em style={{ color:"#16a34a" }}>yesek?</em></h1>
+          <div style={{ fontSize:80,marginBottom:22,animation:"bounce 2.6s ease infinite",filter:"drop-shadow(0 8px 28px rgba(34,197,94,0.3))" }}>🗺️</div>
+          <h1 style={{ fontFamily:"'Playfair Display',serif",fontSize:46,color:"#111827",lineHeight:1.05,marginBottom:14,letterSpacing:-1 }}>Bugün ne<br/><em style={{ color:"#22c55e" }}>yesek?</em></h1>
           <p style={{ color:"#9ca3af",fontSize:14,lineHeight:1.8,marginBottom:32 }}>Tek başına veya arkadaşlarınla kaydır,<br/>ortak sevdiğiniz restoranı bul.</p>
           <div style={{ display:"flex",flexDirection:"column",gap:12,marginBottom:16,width:"100%" }}>
-            <button onClick={()=>startSolo(false)} style={{ width:"100%",padding:"22px 28px",background:"#16a34a",color:"white",border:"none",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .18s",boxShadow:"0 4px 20px rgba(22,163,74,0.25)" }} onMouseEnter={e=>{ e.currentTarget.style.background="#15803d"; e.currentTarget.style.transform="translateY(-2px)"; }} onMouseLeave={e=>{ e.currentTarget.style.background="#16a34a"; e.currentTarget.style.transform="translateY(0)"; }}>
+            <button onClick={()=>startSolo(false)} style={{ width:"100%",padding:"22px 28px",background:"#22c55e",color:"white",border:"none",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .18s",boxShadow:"0 4px 20px rgba(34,197,94,0.25)" }} onMouseEnter={e=>{ e.currentTarget.style.background="#16a34a"; e.currentTarget.style.transform="translateY(-2px)"; }} onMouseLeave={e=>{ e.currentTarget.style.background="#22c55e"; e.currentTarget.style.transform="translateY(0)"; }}>
               <div style={{ textAlign:"left" }}><div style={{ fontSize:18,fontWeight:900,letterSpacing:-0.3,marginBottom:3 }}>Tek Başına</div><div style={{ fontSize:12,opacity:0.75,fontWeight:500 }}>GPS ile yakın restoranları tara</div></div>
               <span style={{ fontSize:28 }}>📍</span>
             </button>
-            <button onClick={()=>requireName("friend")} style={{ width:"100%",padding:"22px 28px",background:"white",color:"#16a34a",border:"2px solid #16a34a",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .18s" }} onMouseEnter={e=>{ e.currentTarget.style.background="#f0fdf4"; e.currentTarget.style.transform="translateY(-2px)"; }} onMouseLeave={e=>{ e.currentTarget.style.background="white"; e.currentTarget.style.transform="translateY(0)"; }}>
+            <button onClick={()=>requireName("friend")} style={{ width:"100%",padding:"22px 28px",background:"white",color:"#22c55e",border:"2px solid #16a34a",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .18s" }} onMouseEnter={e=>{ e.currentTarget.style.background="#f0fdf4"; e.currentTarget.style.transform="translateY(-2px)"; }} onMouseLeave={e=>{ e.currentTarget.style.background="white"; e.currentTarget.style.transform="translateY(0)"; }}>
               <div style={{ textAlign:"left" }}><div style={{ fontSize:18,fontWeight:900,letterSpacing:-0.3,marginBottom:3 }}>Arkadaş Modu</div><div style={{ fontSize:12,color:"#9ca3af",fontWeight:500 }}>Hep beraber kaydırın, eşleşen kazanır</div></div>
               <span style={{ fontSize:28 }}>👥</span>
             </button>
@@ -501,7 +552,7 @@ export default function FoodSwipeApp() {
       {phase==="name"&&(
         <div className="fade-up" style={{ width:"100%",maxWidth:380,padding:"20px 24px 24px",zIndex:10 }}>
           <button onClick={()=>setPhase("intro")} style={{ background:"none",border:"none",color:"#9ca3af",fontSize:13,cursor:"pointer",fontFamily:"inherit",marginBottom:28,display:"flex",alignItems:"center",gap:6 }}>← Geri</button>
-          <div style={{ fontSize:11,color:"#16a34a",fontWeight:700,letterSpacing:3,marginBottom:12,textTransform:"uppercase" }}>Arkadaş Modu</div>
+          <div style={{ fontSize:11,color:"#22c55e",fontWeight:700,letterSpacing:3,marginBottom:12,textTransform:"uppercase" }}>Arkadaş Modu</div>
           <h2 style={{ fontFamily:"'Playfair Display',serif",fontSize:34,color:"#111827",marginBottom:8,letterSpacing:-0.5 }}>Adın ne?</h2>
           <p style={{ color:"#9ca3af",fontSize:14,marginBottom:24 }}>Arkadaşların seni bu isimle görecek</p>
           <input className="inp" placeholder="Adını yaz..." value={nameInput} autoFocus onChange={e=>setNameInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submitName()} style={{ marginBottom:14 }}/>
@@ -512,18 +563,18 @@ export default function FoodSwipeApp() {
       {phase==="friendMenu"&&(
         <div className="fade-up" style={{ width:"100%",maxWidth:380,padding:"20px 24px 24px",zIndex:10 }}>
           <button onClick={()=>setPhase("intro")} style={{ background:"none",border:"none",color:"#9ca3af",fontSize:13,cursor:"pointer",fontFamily:"inherit",marginBottom:28,display:"flex",alignItems:"center",gap:6 }}>← Geri</button>
-          <div style={{ fontSize:11,color:"#16a34a",fontWeight:700,letterSpacing:3,marginBottom:12,textTransform:"uppercase" }}>Arkadaş Modu</div>
-          <h2 style={{ fontFamily:"'Playfair Display',serif",fontSize:32,color:"#111827",marginBottom:24,letterSpacing:-0.5 }}>Merhaba, <em style={{ color:"#16a34a" }}>{myName}</em>!</h2>
+          <div style={{ fontSize:11,color:"#22c55e",fontWeight:700,letterSpacing:3,marginBottom:12,textTransform:"uppercase" }}>Arkadaş Modu</div>
+          <h2 style={{ fontFamily:"'Playfair Display',serif",fontSize:32,color:"#111827",marginBottom:24,letterSpacing:-0.5 }}>Merhaba, <em style={{ color:"#22c55e" }}>{myName}</em>!</h2>
           <div style={{ display:"flex",flexDirection:"column",gap:12 }}>
-            <div style={{ background:"white",border:"1.5px solid #e5e7eb",borderRadius:18,padding:"18px 20px",cursor:"pointer",transition:"all .2s",display:"flex",alignItems:"center",gap:14,boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }} onClick={createRoom} onMouseEnter={e=>e.currentTarget.style.borderColor="#16a34a"} onMouseLeave={e=>e.currentTarget.style.borderColor="#e5e7eb"}>
+            <div style={{ background:"white",border:"1.5px solid #e5e7eb",borderRadius:18,padding:"18px 20px",cursor:"pointer",transition:"all .2s",display:"flex",alignItems:"center",gap:14,boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }} onClick={createRoom} onMouseEnter={e=>e.currentTarget.style.borderColor="#22c55e"} onMouseLeave={e=>e.currentTarget.style.borderColor="#e5e7eb"}>
               <div style={{ width:42,height:42,borderRadius:13,background:"#dcfce7",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0 }}>🏠</div>
               <div style={{ textAlign:"left" }}><div style={{ color:"#111827",fontSize:15,fontWeight:700,marginBottom:2 }}>Oda Oluştur</div><div style={{ color:"#9ca3af",fontSize:12 }}>Arkadaşlarını davet et</div></div>
               <div style={{ marginLeft:"auto",color:"#d1d5db",fontSize:18 }}>›</div>
             </div>
             <div style={{ background:"white",border:"1.5px solid #e5e7eb",borderRadius:18,padding:18,boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
               <div style={{ color:"#374151",fontSize:14,fontWeight:600,marginBottom:12 }}>🔑 Odaya Katıl</div>
-              <input className="inp" placeholder="Oda kodunu gir..." value={joinInput} onChange={e=>setJoinInput(e.target.value.toUpperCase())} onKeyDown={e=>e.key==="Enter"&&joinRoom()} style={{ textAlign:"center",letterSpacing:4,fontSize:18,fontWeight:700,marginBottom:10,fontFamily:"'Roboto Mono',monospace" }}/>
-              <button className="cta" style={{ width:"100%",padding:"14px" }} onClick={joinRoom} disabled={joinInput.trim().length<4}>Katıl →</button>
+              <CodeInput value={joinInput} onChange={setJoinInput} onSubmit={joinRoom} />
+              <button className="cta" style={{ width:"100%",padding:"14px" }} onClick={joinRoom} disabled={joinInput.trim().length<6}>Katıl →</button>
             </div>
           </div>
         </div>
@@ -532,7 +583,7 @@ export default function FoodSwipeApp() {
       {phase==="lobby"&&(
         <div style={{ width:"100%",maxWidth:400,padding:"20px 20px 20px",zIndex:10 }}>
           <div style={{ textAlign:"center",marginBottom:24 }}>
-            <div style={{ fontSize:11,color:"#16a34a",fontWeight:700,letterSpacing:3,marginBottom:10,textTransform:"uppercase" }}>Arkadaş Modu</div>
+            <div style={{ fontSize:11,color:"#22c55e",fontWeight:700,letterSpacing:3,marginBottom:10,textTransform:"uppercase" }}>Arkadaş Modu</div>
             <h2 style={{ fontFamily:"'Playfair Display',serif",fontSize:34,color:"#111827",letterSpacing:-1 }}>Odana Hoş Geldin!</h2>
           </div>
           <div style={{ background:"white",border:"1px solid #e5e7eb",borderRadius:18,padding:"18px 22px",textAlign:"center",marginBottom:12,boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
@@ -544,8 +595,8 @@ export default function FoodSwipeApp() {
             {members.map((m,i)=>(
               <div key={m.id} style={{ display:"flex",alignItems:"center",gap:12,marginBottom:i<members.length-1?10:0 }}>
                 <div style={{ width:36,height:36,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,color:"white",flexShrink:0 }}>{avatarLetter(m.name)}</div>
-                <div style={{ flex:1 }}><div style={{ color:"#111827",fontSize:14,fontWeight:600 }}>{m.name} {m.name===myName&&<span style={{ color:"#16a34a",fontSize:11 }}>(sen)</span>}</div><div style={{ color:m.ready?"#16a34a":"#d1d5db",fontSize:11 }}>{m.ready?"✓ Hazır":"Bekleniyor..."}</div></div>
-                {i===0&&<span style={{ color:"#15803d",fontSize:10,fontWeight:700,background:"#dcfce7",padding:"3px 9px",borderRadius:20 }}>HOST</span>}
+                <div style={{ flex:1 }}><div style={{ color:"#111827",fontSize:14,fontWeight:600 }}>{m.name} {m.name===myName&&<span style={{ color:"#22c55e",fontSize:11 }}>(sen)</span>}</div><div style={{ color:m.ready?"#22c55e":"#d1d5db",fontSize:11 }}>{m.ready?"✓ Hazır":"Bekleniyor..."}</div></div>
+                {i===0&&<span style={{ color:"#16a34a",fontSize:10,fontWeight:700,background:"#dcfce7",padding:"3px 9px",borderRadius:20 }}>HOST</span>}
               </div>
             ))}
           </div>
@@ -562,7 +613,7 @@ export default function FoodSwipeApp() {
             <p style={{ color:"#111827",fontSize:16,fontWeight:600,marginBottom:5 }}>{STEPS[loadingStep].text}</p>
             <p style={{ color:"#9ca3af",fontSize:12 }}>Adım {loadingStep+1} / {STEPS.length}</p>
           </div>
-          <div style={{ display:"flex",gap:6,justifyContent:"center",marginTop:24 }}>{STEPS.map((_,i)=><div key={i} style={{ width:i===loadingStep?20:6,height:6,borderRadius:3,background:i<=loadingStep?"#16a34a":"#e5e7eb",transition:"all 0.3s" }}/>)}</div>
+          <div style={{ display:"flex",gap:6,justifyContent:"center",marginTop:24 }}>{STEPS.map((_,i)=><div key={i} style={{ width:i===loadingStep?20:6,height:6,borderRadius:3,background:i<=loadingStep?"#22c55e":"#e5e7eb",transition:"all 0.3s" }}/>)}</div>
         </div>
       )}
 
@@ -595,14 +646,14 @@ export default function FoodSwipeApp() {
               <div style={{ marginLeft:"auto",display:"flex",gap:3 }}>{[0,1,2].map(i=><div key={i} style={{ width:4,height:4,borderRadius:"50%",background:"#d1d5db",animation:`blink 0.9s ${i*0.2}s ease infinite` }}/>)}</div>
             </div>
           )}
-          <div style={{ position:"relative",width:"100%",height:460,marginBottom:20 }}>
+          <div style={{ position:"relative",width:"100%",height:"clamp(360px,54vh,480px)",marginBottom:20 }}>
             {stack.length>2&&<div style={{ position:"absolute",inset:0,borderRadius:26,background:"#e5e7eb",transform:"translateY(8px)",zIndex:1 }}/>}
             {stack.length>1&&(<div style={{ position:"absolute",inset:0,borderRadius:26,background:`linear-gradient(155deg,${GRADIENTS[(cards.length-stack.length+1)%GRADIENTS.length][0]},${GRADIENTS[(cards.length-stack.length+1)%GRADIENTS.length][1]})`,transform:"translateY(4px)",zIndex:2,overflow:"hidden",border:"1px solid rgba(0,0,0,0.06)" }}/>)}
             {stack.length>0&&(<TopCard key={stack[stack.length-1].id} card={stack[stack.length-1]} gradIndex={(cards.length-stack.length)%GRADIENTS.length} onSwipe={dir=>handleSwipe(stack[stack.length-1], dir)}/>)}
           </div>
           <div style={{ display:"flex",alignItems:"center",gap:20 }}>
             <button className="act-btn" onClick={()=>forceSwipe("left")} style={{ width:68,height:68,background:"white",border:"1.5px solid #e5e7eb",fontSize:24,boxShadow:"0 4px 16px rgba(0,0,0,0.08)" }} onMouseEnter={e=>e.currentTarget.style.background="#fff1f2"} onMouseLeave={e=>e.currentTarget.style.background="white"}>👎</button>
-            <button className="act-btn" onClick={()=>forceSwipe("right")} style={{ width:68,height:68,background:"#16a34a",fontSize:24,animation:"glowGreen 2.5s ease infinite" }} onMouseEnter={e=>{e.currentTarget.style.background="#15803d";e.currentTarget.style.transform="scale(1.08)";}} onMouseLeave={e=>{e.currentTarget.style.background="#16a34a";e.currentTarget.style.transform="scale(1)";}}>❤️</button>
+            <button className="act-btn" onClick={()=>forceSwipe("right")} style={{ width:68,height:68,background:"#22c55e",fontSize:24,animation:"glowGreen 2.5s ease infinite" }} onMouseEnter={e=>{e.currentTarget.style.background="#16a34a";e.currentTarget.style.transform="scale(1.08)";}} onMouseLeave={e=>{e.currentTarget.style.background="#22c55e";e.currentTarget.style.transform="scale(1)";}}>❤️</button>
           </div>
           <p style={{ color:"#d1d5db",fontSize:11,marginTop:10,letterSpacing:0.5 }}>← Sürükle veya butona bas →</p>
         </div>
@@ -619,12 +670,12 @@ export default function FoodSwipeApp() {
 
       {phase==="result"&&result&&(
         <div className="fade-up" style={{ textAlign:"center",padding:"20px 20px 24px",maxWidth:420,width:"100%",zIndex:10 }}>
-          <div style={{ fontSize:11,color:"#16a34a",fontWeight:700,letterSpacing:3,marginBottom:12,textTransform:"uppercase" }}>{likedCount>0?`${likedCount} mekan beğendin`:"Hiçbirini beğenmeseydin de..."}</div>
-          <h1 style={{ fontFamily:"'Playfair Display',serif",fontSize:38,color:"#111827",lineHeight:1.05,marginBottom:20,letterSpacing:-1 }}>Bu gece<br/><em style={{ color:"#16a34a" }}>buraya git!</em></h1>
+          <div style={{ fontSize:11,color:"#22c55e",fontWeight:700,letterSpacing:3,marginBottom:12,textTransform:"uppercase" }}>{likedCount>0?`${likedCount} mekan beğendin`:"Hiçbirini beğenmeseydin de..."}</div>
+          <h1 style={{ fontFamily:"'Playfair Display',serif",fontSize:38,color:"#111827",lineHeight:1.05,marginBottom:20,letterSpacing:-1 }}>Bu gece<br/><em style={{ color:"#22c55e" }}>buraya git!</em></h1>
           <div style={{ borderRadius:22,overflow:"hidden",marginBottom:16,position:"relative",height:240,background:"#f0fdf4",boxShadow:"0 8px 40px rgba(0,0,0,0.1)",border:"1px solid #e5e7eb" }}>
             {result.photo ? <img src={result.photo} alt={result.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}/> : <div style={{ position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:72 }}>{result.emoji}</div>}
             <div style={{ position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0) 55%)" }}/>
-            <div style={{ position:"absolute",top:14,left:"50%",transform:"translateX(-50%)",background:"#16a34a",color:"white",fontWeight:900,fontSize:11,padding:"5px 18px",borderRadius:20,letterSpacing:2,whiteSpace:"nowrap" }}>✨ EN İYİ SEÇİM</div>
+            <div style={{ position:"absolute",top:14,left:"50%",transform:"translateX(-50%)",background:"#22c55e",color:"white",fontWeight:900,fontSize:11,padding:"5px 18px",borderRadius:20,letterSpacing:2,whiteSpace:"nowrap" }}>✨ EN İYİ SEÇİM</div>
             <div style={{ position:"absolute",bottom:0,left:0,right:0,padding:"16px 18px" }}>
               <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:6,flexWrap:"wrap" }}>
                 {result.rating>0&&<span style={{ color:"#fbbf24",fontWeight:800,fontSize:13 }}>★ {result.rating.toFixed(1)}</span>}
@@ -648,8 +699,8 @@ export default function FoodSwipeApp() {
                       <div style={{ fontFamily:"'Playfair Display',serif",fontSize:15,color:"#111827",marginBottom:2 }}>{card.name}</div>
                       <div style={{ display:"flex",alignItems:"center",gap:6 }}>
                         {card.rating>0&&<span style={{ color:getRatingColor(card.rating),fontWeight:700,fontSize:12 }}>★ {card.rating.toFixed(1)}</span>}
-                        {card.price&&<span style={{ color:"#16a34a",fontSize:12,fontWeight:600 }}>{card.price}</span>}
-                        <span style={{ color:card.isOpen?"#16a34a":"#dc2626",fontSize:11 }}>{card.isOpen?"● Açık":"● Kapalı"}</span>
+                        {card.price&&<span style={{ color:"#22c55e",fontSize:12,fontWeight:600 }}>{card.price}</span>}
+                        <span style={{ color:card.isOpen?"#22c55e":"#dc2626",fontSize:11 }}>{card.isOpen?"● Açık":"● Kapalı"}</span>
                       </div>
                     </div>
                   </div>
