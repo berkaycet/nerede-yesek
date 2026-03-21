@@ -260,6 +260,7 @@ export default function FoodSwipeApp() {
 
     channel.on("broadcast", { event:"game_start" }, () => { setIsFriend(true); launchGame(DEMO_CARDS, true); });
     channel.on("broadcast", { event:"game_restart" }, () => { setMatchedCards([]); remoteLikesRef.current = {}; setRemoteLikes({}); setDoneMembers(new Set()); launchGame(DEMO_CARDS, true); });
+    channel.on("broadcast", { event:"host_left" }, () => { setIsFriend(false); setMembers([]); setMatchedCards([]); setDoneMembers(new Set()); sb.removeChannel(channelRef.current); setPhase("intro"); });
     channel.subscribe(); channelRef.current = channel;
   }, []);
 
@@ -348,7 +349,19 @@ export default function FoodSwipeApp() {
     await sb.channel(`room:${roomCode}`).send({ type:"broadcast", event:"game_restart", payload:{} });
     setMatchedCards([]); remoteLikesRef.current = {}; setRemoteLikes({}); setDoneMembers(new Set()); launchGame(DEMO_CARDS, true);
   };
-  const handleHome = () => { setIsFriend(false); setMembers([]); setMatchedCards([]); setDoneMembers(new Set()); if (channelRef.current) sb.removeChannel(channelRef.current); setPhase("intro"); };
+  const handleHome = async () => {
+    if (isHost) {
+      try {
+        await sb.channel(`room:${roomCode}`).send({ type:"broadcast", event:"host_left", payload:{} });
+        await sb.from("swipes").delete().eq("room_id", roomCode);
+        await sb.from("members").delete().eq("room_id", roomCode);
+        await sb.from("rooms").delete().eq("id", roomCode);
+      } catch(e) {}
+    }
+    setIsFriend(false); setMembers([]); setMatchedCards([]); setDoneMembers(new Set());
+    if (channelRef.current) sb.removeChannel(channelRef.current);
+    setPhase("intro");
+  };
 
   return (
     <div style={{ height:"100vh", background:"#f8fdf4", fontFamily:"'DM Sans',sans-serif",
