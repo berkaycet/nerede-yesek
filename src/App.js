@@ -112,7 +112,7 @@ function WaitingScreen({ members, myName, doneMembers }) {
 // ─── Match List Screen ────────────────────────────────────────
 function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
   return (
-    <div style={{ width:"100%",maxWidth:420,padding:"20px 20px 40px",zIndex:10,overflowY:"auto",WebkitOverflowScrolling:"touch" }}>
+    <div style={{ width:"100%",maxWidth:420,padding:"20px 20px 40px",zIndex:10,flexShrink:0 }}>
       <div style={{ textAlign:"center",marginBottom:24 }}>
         <div style={{ fontSize:52,marginBottom:8 }}>🎉</div>
         <div style={{ fontFamily:"'Playfair Display',serif",fontSize:32,color:"#111827",fontWeight:700,letterSpacing:-1,marginBottom:6 }}>{matchedCards.length > 0 ? "Eşleşmeler!" : "Ortak seçim yok"}</div>
@@ -159,13 +159,6 @@ export default function FoodSwipeApp() {
   const [isFriend, setIsFriend] = useState(false); const [isHost, setIsHost] = useState(false);
   const [roomCode, setRoomCode] = useState(""); const [joinInput, setJoinInput] = useState("");
   const [members, setMembers] = useState([]);
-  const setMembersAndRef = (fn) => {
-    setMembers(prev => {
-      const next = typeof fn === 'function' ? fn(prev) : fn;
-      membersRef.current = next;
-      return next;
-    });
-  };
   const simSwipes = useRef({});
   const swipedCards = useRef(new Set()); // çift swipe önleme
   const [remoteLikes, setRemoteLikes] = useState({});
@@ -175,6 +168,13 @@ export default function FoodSwipeApp() {
   const [doneMembers, setDoneMembers] = useState(new Set());
   const channelRef = useRef(null);
   const membersRef = useRef([]); // stale closure önleme
+  const setMembersAndRef = (fn) => {
+    setMembers(prev => {
+      const next = typeof fn === 'function' ? fn(prev) : fn;
+      membersRef.current = next;
+      return next;
+    });
+  };
   const myFinishedRef = useRef(false); // ben bitirdim mi?
   useEffect(() => { return () => { if (channelRef.current) sb.removeChannel(channelRef.current); }; }, []);
   const [cards, setCards] = useState([]); const [stack, setStack] = useState([]);
@@ -241,7 +241,7 @@ export default function FoodSwipeApp() {
           const updated = new Set([...prev, member_name]);
           const othersCount = membersRef.current.length - 1; // ben hariç
           if (updated.size >= othersCount && othersCount > 0 && myFinishedRef.current) {
-            setTimeout(() => setPhase("matchList"), 600);
+            setTimeout(() => { sb.from("swipes").delete().eq("room_id", code); setPhase("matchList"); }, 600);
           }
           return updated;
         });
@@ -325,7 +325,7 @@ export default function FoodSwipeApp() {
             setDoneMembers(prev => {
               const othersCount = membersRef.current.length - 1;
               if (prev.size >= othersCount && othersCount > 0) {
-                setTimeout(() => setPhase("matchList"), 600);
+                setTimeout(() => { sb.from("swipes").delete().eq("room_id", roomCode); setPhase("matchList"); }, 600);
               }
               return prev;
             });
