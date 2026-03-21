@@ -427,10 +427,9 @@ export default function FoodSwipeApp() {
   };
 
   return (
-    <div style={{ height:"100vh", background:"#f8fdf4", fontFamily:"'DM Sans',sans-serif",
+    <div style={{ minHeight:"100vh", background:"#f8fdf4", fontFamily:"'DM Sans',sans-serif",
       display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"flex-start",
-      paddingTop:"60px", paddingBottom:"40px",
-      overflowY:"auto", WebkitOverflowScrolling:"touch" }}>
+      paddingTop:"60px", paddingBottom:"40px" }}>
       {showConfetti && <Confetti key={confettiKey} onDone={() => setShowConfetti(false)} />}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&family=Roboto+Mono:wght@600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
