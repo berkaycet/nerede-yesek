@@ -596,13 +596,13 @@ export default function FoodSwipeApp() {
             </div>
           )}
           <div style={{ position:"relative",width:"100%",height:460,marginBottom:20 }}>
-            {stack.length>2&&<div style={{ position:"absolute",inset:0,borderRadius:26,background:"#e5e7eb",transform:"scale(0.87) translateY(28px)",zIndex:1 }}/>}
-            {stack.length>1&&(<div style={{ position:"absolute",inset:0,borderRadius:26,background:`linear-gradient(155deg,${GRADIENTS[(cards.length-stack.length+1)%GRADIENTS.length][0]},${GRADIENTS[(cards.length-stack.length+1)%GRADIENTS.length][1]})`,transform:"scale(0.94) translateY(14px)",zIndex:2,overflow:"hidden",border:"1px solid rgba(0,0,0,0.06)" }}/>)}
+            {stack.length>2&&<div style={{ position:"absolute",inset:0,borderRadius:26,background:"#e5e7eb",transform:"translateY(8px)",zIndex:1 }}/>}
+            {stack.length>1&&(<div style={{ position:"absolute",inset:0,borderRadius:26,background:`linear-gradient(155deg,${GRADIENTS[(cards.length-stack.length+1)%GRADIENTS.length][0]},${GRADIENTS[(cards.length-stack.length+1)%GRADIENTS.length][1]})`,transform:"translateY(4px)",zIndex:2,overflow:"hidden",border:"1px solid rgba(0,0,0,0.06)" }}/>)}
             {stack.length>0&&(<TopCard key={stack[stack.length-1].id} card={stack[stack.length-1]} gradIndex={(cards.length-stack.length)%GRADIENTS.length} onSwipe={dir=>handleSwipe(stack[stack.length-1], dir)}/>)}
           </div>
           <div style={{ display:"flex",alignItems:"center",gap:20 }}>
-            <button className="act-btn" onClick={()=>forceSwipe("left")} style={{ width:62,height:62,background:"white",border:"1.5px solid #e5e7eb",fontSize:22,boxShadow:"0 4px 16px rgba(0,0,0,0.08)" }} onMouseEnter={e=>e.currentTarget.style.background="#fff1f2"} onMouseLeave={e=>e.currentTarget.style.background="white"}>👎</button>
-            <button className="act-btn" onClick={()=>forceSwipe("right")} style={{ width:74,height:74,background:"#16a34a",fontSize:26,animation:"glowGreen 2.5s ease infinite" }} onMouseEnter={e=>{e.currentTarget.style.background="#15803d";e.currentTarget.style.transform="scale(1.08)";}} onMouseLeave={e=>{e.currentTarget.style.background="#16a34a";e.currentTarget.style.transform="scale(1)";}}>❤️</button>
+            <button className="act-btn" onClick={()=>forceSwipe("left")} style={{ width:68,height:68,background:"white",border:"1.5px solid #e5e7eb",fontSize:24,boxShadow:"0 4px 16px rgba(0,0,0,0.08)" }} onMouseEnter={e=>e.currentTarget.style.background="#fff1f2"} onMouseLeave={e=>e.currentTarget.style.background="white"}>👎</button>
+            <button className="act-btn" onClick={()=>forceSwipe("right")} style={{ width:68,height:68,background:"#16a34a",fontSize:24,animation:"glowGreen 2.5s ease infinite" }} onMouseEnter={e=>{e.currentTarget.style.background="#15803d";e.currentTarget.style.transform="scale(1.08)";}} onMouseLeave={e=>{e.currentTarget.style.background="#16a34a";e.currentTarget.style.transform="scale(1)";}}>❤️</button>
           </div>
           <p style={{ color:"#d1d5db",fontSize:11,marginTop:10,letterSpacing:0.5 }}>← Sürükle veya butona bas →</p>
         </div>
