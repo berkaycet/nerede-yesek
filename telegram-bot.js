@@ -31,26 +31,30 @@ bot.on("message", async (msg) => {
       maxBuffer: 10 * 1024 * 1024,
     });
 
-    // Git commit ve push
+    // Dosya değişikliği var mı kontrol et
+    const hasChanges = execSync("git status --porcelain", {
+      cwd: PROJECT_DIR, encoding: "utf8",
+    }).trim().length > 0;
+
     let gitResult = "";
-    try {
-      const commitMsg = `telegram: ${userMessage.slice(0, 72)}`;
-      gitResult = execSync(
-        `git add -A && git commit -m ${JSON.stringify(commitMsg)} && git push`,
-        { cwd: PROJECT_DIR, encoding: "utf8" }
-      );
-      gitResult = "✅ Commit ve push başarılı.";
-    } catch (gitErr) {
-      const msg = gitErr.stderr || gitErr.message || "";
-      gitResult = msg.includes("nothing to commit")
-        ? "ℹ️ Değişiklik yok, commit yapılmadı."
-        : `⚠️ Git hatası: ${msg.slice(0, 300)}`;
+    if (hasChanges) {
+      try {
+        const commitMsg = `telegram: ${userMessage.slice(0, 72)}`;
+        execSync(
+          `git add -A && git commit -m ${JSON.stringify(commitMsg)} && git push`,
+          { cwd: PROJECT_DIR, encoding: "utf8" }
+        );
+        gitResult = "\n\n📦 Commit ve push başarılı.";
+      } catch (gitErr) {
+        const errMsg = gitErr.stderr || gitErr.message || "";
+        gitResult = `\n\n⚠️ Git hatası: ${errMsg.slice(0, 300)}`;
+      }
     }
 
-    const preview = claudeOutput.slice(0, 3200);
+    const preview = claudeOutput.slice(0, 3800);
     await bot.sendMessage(
       CHAT_ID,
-      `✅ Tamamlandı!\n\n${preview}\n\n${gitResult}`.slice(0, 4096)
+      `✅ Tamamlandı!\n\n${preview}${gitResult}`.slice(0, 4096)
     );
   } catch (err) {
     const errText = (err.stderr || err.message || String(err)).slice(0, 3500);
