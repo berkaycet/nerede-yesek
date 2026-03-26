@@ -619,18 +619,15 @@ export default function FoodSwipeApp() {
       {phase==="intro"&&(
         <div className="fade-up" style={{ textAlign:"center",padding:"0 22px",maxWidth:400,width:"100%",zIndex:10 }}>
 
-          {/* Label */}
-          <div style={{ fontSize:11,fontWeight:800,letterSpacing:4,color:"#A89880",textTransform:"uppercase",marginBottom:16,marginTop:8 }}>İSTANBUL · YEMEK</div>
-
           {/* Main heading — centered, dramatic 3-line */}
-          <div style={{ marginBottom:18,lineHeight:1 }}>
+          <div style={{ marginBottom:20,lineHeight:1,marginTop:16 }}>
             <div style={{ fontFamily:"'Syne',sans-serif",fontSize:58,fontWeight:800,color:"#1A1208",letterSpacing:-2,lineHeight:0.95 }}>Bugün</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:78,fontWeight:800,color:"#FF3B55",letterSpacing:-3,lineHeight:0.88 }}>nerede</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:58,fontWeight:800,color:"#1A1208",letterSpacing:-2,lineHeight:0.95 }}>yesek<span style={{ color:"#FF6830" }}>?</span></div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:82,fontWeight:800,color:"#FF3B55",letterSpacing:-4,lineHeight:0.88 }}>nerede</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:58,fontWeight:800,color:"#1A1208",letterSpacing:-2,lineHeight:0.95 }}>yesek<span style={{ color:"#1A1208" }}>?</span></div>
           </div>
 
           {/* Subtitle */}
-          <p style={{ color:"#8C7B68",fontSize:14,lineHeight:1.75,marginBottom:32,fontWeight:500 }}>
+          <p style={{ color:"#6B5C4A",fontSize:14,lineHeight:1.75,marginBottom:32,fontWeight:500 }}>
             Kaydır, seç, eşleş.<br/>Arkadaşlarınla oyna, ortak yer bulun.
           </p>
 
@@ -644,27 +641,27 @@ export default function FoodSwipeApp() {
             >
               <div style={{ textAlign:"left" }}>
                 <div style={{ fontSize:18,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:3,letterSpacing:-0.3 }}>Tek Başına</div>
-                <div style={{ fontSize:12,opacity:0.45,fontWeight:500 }}>GPS ile yakın restoranları tara</div>
+                <div style={{ fontSize:12,opacity:0.5,fontWeight:500 }}>GPS ile yakın restoranları tara</div>
               </div>
-              <span style={{ fontSize:28 }}>📍</span>
+              <span style={{ fontSize:26 }}>📍</span>
             </button>
 
             <button
               onClick={()=>requireName("friend")}
-              style={{ width:"100%",padding:"20px 24px",background:"rgba(255,255,255,0.7)",color:"#1A1208",border:"2px solid rgba(26,18,8,0.15)",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)",backdropFilter:"blur(8px)" }}
-              onMouseEnter={e=>{ e.currentTarget.style.background="#FF3B55"; e.currentTarget.style.color="white"; e.currentTarget.style.borderColor="#FF3B55"; e.currentTarget.style.transform="translateY(-3px)"; e.currentTarget.style.boxShadow="0 12px 32px rgba(255,59,85,0.35)"; }}
-              onMouseLeave={e=>{ e.currentTarget.style.background="rgba(255,255,255,0.7)"; e.currentTarget.style.color="#1A1208"; e.currentTarget.style.borderColor="rgba(26,18,8,0.15)"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow=""; }}
+              style={{ width:"100%",padding:"20px 24px",background:"white",color:"#1A1208",border:"2px solid #1A1208",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)" }}
+              onMouseEnter={e=>{ e.currentTarget.style.background="#1A1208"; e.currentTarget.style.color="white"; e.currentTarget.style.transform="translateY(-3px)"; e.currentTarget.style.boxShadow="0 12px 32px rgba(26,18,8,0.2)"; }}
+              onMouseLeave={e=>{ e.currentTarget.style.background="white"; e.currentTarget.style.color="#1A1208"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow=""; }}
             >
               <div style={{ textAlign:"left" }}>
                 <div style={{ fontSize:18,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:3,letterSpacing:-0.3 }}>Arkadaş Modu</div>
-                <div style={{ fontSize:12,color:"#8C7B68",fontWeight:500 }}>Hep beraber kaydırın, eşleşen kazanır</div>
+                <div style={{ fontSize:12,color:"#6B5C4A",fontWeight:500 }}>Hep beraber kaydırın, eşleşen kazanır</div>
               </div>
-              <span style={{ fontSize:28 }}>👥</span>
+              <span style={{ fontSize:26 }}>👥</span>
             </button>
           </div>
 
-          <button className="demo-btn" onClick={()=>startSolo(true)} style={{ width:"100%",borderRadius:14,padding:"13px",background:"rgba(255,255,255,0.5)",borderColor:"rgba(26,18,8,0.12)",color:"#8C7B68" }}>
-            Nasıl Çalışır? 🤝 &nbsp; Hızlı Demo
+          <button className="demo-btn" onClick={()=>startSolo(true)} style={{ width:"100%",borderRadius:14,padding:"13px" }}>
+            Hızlı Demo
           </button>
         </div>
       )}
