@@ -112,16 +112,6 @@ function TopCard({ card, gradIndex, onSwipe }) {
         boxShadow:"0 4px 20px rgba(239,68,68,0.55)"
       }}>NOPE 👋</div>
 
-      {/* Open/closed badge */}
-      <div style={{
-        position:"absolute",top:22,right:22,pointerEvents:"none",
-        background:"rgba(0,0,0,0.65)",backdropFilter:"blur(14px)",
-        padding:"6px 14px",borderRadius:50,
-        color:card.isOpen?"#4ADE80":"#F87171",
-        fontSize:10,fontWeight:800,letterSpacing:2,
-        border:`1.5px solid ${card.isOpen?"rgba(74,222,128,0.35)":"rgba(248,113,113,0.35)"}`
-      }}>{card.isOpen?"● AÇIK":"● KAPALI"}</div>
-
       {/* Bottom info */}
       <div style={{ position:"absolute",bottom:0,left:0,right:0,padding:"0 24px 30px",pointerEvents:"none" }}>
         <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:12,flexWrap:"wrap" }}>
@@ -134,6 +124,7 @@ function TopCard({ card, gradIndex, onSwipe }) {
           {card.price&&(
             <div style={{ background:"rgba(0,0,0,0.6)",backdropFilter:"blur(14px)",padding:"6px 14px",borderRadius:50,color:"#FFD60A",fontWeight:800,fontSize:13 }}>{card.price}</div>
           )}
+          <div style={{ background:"rgba(0,0,0,0.6)",backdropFilter:"blur(14px)",padding:"6px 14px",borderRadius:50,color:card.isOpen?"#4ADE80":"#F87171",fontSize:10,fontWeight:800,letterSpacing:1.5 }}>{card.isOpen?"● AÇIK":"● KAPALI"}</div>
         </div>
         <h2 style={{
           fontFamily:"'Syne',sans-serif",fontSize:34,color:"white",lineHeight:1.08,
@@ -159,8 +150,8 @@ function WaitingScreen({ members, myName, doneMembers }) {
   return (
     <div style={{ textAlign:"center",padding:"40px 24px",maxWidth:400,zIndex:10 }}>
       <div style={{ fontSize:56,marginBottom:18,animation:"bounce 2s ease infinite" }}>⏳</div>
-      <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:32,color:"#0D0D0D",marginBottom:10,fontWeight:800,letterSpacing:-0.5 }}>Bitti!</h2>
-      <p style={{ color:"#9CA3AF",fontSize:14,marginBottom:32,lineHeight:1.7,fontWeight:500 }}>
+      <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:32,color:"#1A1208",marginBottom:10,fontWeight:800,letterSpacing:-0.5 }}>Bitti!</h2>
+      <p style={{ color:"#8C7B68",fontSize:14,marginBottom:32,lineHeight:1.7,fontWeight:500 }}>
         {waiting.length > 0 ? `${waiting.map(m=>m.name).join(", ")} henüz bitirmedi...` : "Herkes bitti, yükleniyor..."}
       </p>
       <div style={{ display:"flex",justifyContent:"center",gap:16,flexWrap:"wrap" }}>
@@ -170,11 +161,11 @@ function WaitingScreen({ members, myName, doneMembers }) {
               width:52,height:52,borderRadius:"50%",background:avatarColor(m.name),
               display:"flex",alignItems:"center",justifyContent:"center",
               fontSize:18,fontWeight:800,color:"white",fontFamily:"'Syne',sans-serif",
-              border:`3px solid ${doneMembers.has(m.name)||m.name===myName?"#22C55E":"#E5E7EB"}`,
+              border:`3px solid ${doneMembers.has(m.name)||m.name===myName?"#22C55E":"#E8E0D4"}`,
               transition:"all .3s",
               boxShadow:doneMembers.has(m.name)||m.name===myName?"0 0 0 5px rgba(34,197,94,0.18)":"none"
             }}>{avatarLetter(m.name)}</div>
-            <span style={{ fontSize:11,fontWeight:700,color:doneMembers.has(m.name)||m.name===myName?"#22C55E":"#9CA3AF" }}>
+            <span style={{ fontSize:11,fontWeight:700,color:doneMembers.has(m.name)||m.name===myName?"#22C55E":"#8C7B68" }}>
               {doneMembers.has(m.name)||m.name===myName?"✓ Bitti":"Devam..."}
             </span>
           </div>
@@ -262,8 +253,8 @@ function CodeInput({ value, onChange, onSubmit }) {
             style={{
               width:46,height:56,textAlign:"center",
               fontFamily:"'Roboto Mono',monospace",fontSize:22,fontWeight:700,
-              border:`2.5px solid ${active?"#FF3B55":filled?"#FFB3BD":"#E5E7EB"}`,
-              borderRadius:14,background:filled?"#FFF0F3":"white",color:"#0D0D0D",
+              border:`2.5px solid ${active?"#FF3B55":filled?"#FFB3BD":"#E8E0D4"}`,
+              borderRadius:14,background:filled?"#FFF0F3":"white",color:"#1A1208",
               outline:"none",boxShadow:active?"0 0 0 4px rgba(255,59,85,0.12)":"none",
               caretColor:"transparent",transition:"all 0.15s",cursor:"text"
             }}
@@ -280,15 +271,15 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
     <div style={{ width:"100%",maxWidth:420,padding:"20px 20px 40px",zIndex:10,flexShrink:0 }}>
       <div style={{ textAlign:"center",marginBottom:28 }}>
         <div style={{ fontSize:56,marginBottom:10,animation:"bounce 2s ease infinite" }}>🎉</div>
-        <div style={{ fontFamily:"'Syne',sans-serif",fontSize:36,color:"#0D0D0D",fontWeight:800,letterSpacing:-1,marginBottom:8 }}>
+        <div style={{ fontFamily:"'Syne',sans-serif",fontSize:36,color:"#1A1208",fontWeight:800,letterSpacing:-1,marginBottom:8 }}>
           {matchedCards.length > 0 ? "Eşleşme!" : "Ortak seçim yok"}
         </div>
         <div style={{ display:"flex",justifyContent:"center",marginBottom:14 }}>
           {members.map((m,i)=>(
-            <div key={m.id} style={{ width:38,height:38,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:"white",fontFamily:"'Syne',sans-serif",border:"3px solid #FAFAF8",marginLeft:i>0?-10:0,zIndex:members.length-i }}>{avatarLetter(m.name)}</div>
+            <div key={m.id} style={{ width:38,height:38,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:"white",fontFamily:"'Syne',sans-serif",border:"3px solid #EDE8DF",marginLeft:i>0?-10:0,zIndex:members.length-i }}>{avatarLetter(m.name)}</div>
           ))}
         </div>
-        <p style={{ color:"#9CA3AF",fontSize:13,lineHeight:1.7 }}>
+        <p style={{ color:"#8C7B68",fontSize:13,lineHeight:1.7 }}>
           {matchedCards.length > 0 ? `${members.map(m=>m.name).join(" ve ")} ${matchedCards.length} restoranı ortak beğendi` : "Hiç ortak beğeni olmadı, tekrar deneyin!"}
         </p>
       </div>
@@ -297,7 +288,7 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
           {matchedCards.map((card, i) => (
             <div key={card.id} style={{
               background:"white",borderRadius:20,overflow:"hidden",
-              border:i===0?"2px solid #0D0D0D":"1.5px solid #F0F0F0",
+              border:i===0?"2px solid #1A1208":"1.5px solid #EAE4DC",
               boxShadow:i===0?"0 8px 32px rgba(0,0,0,0.12)":"0 2px 8px rgba(0,0,0,0.05)",
               display:"flex",alignItems:"center",
               transform:i===0?"scale(1.015)":"scale(1)"
@@ -306,9 +297,9 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
                 {card.photo ? <img src={card.photo} alt={card.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}/> : card.emoji}
               </div>
               <div style={{ padding:"12px 16px",flex:1 }}>
-                {i===0&&<span style={{ background:"#0D0D0D",color:"white",fontSize:9,fontWeight:800,fontFamily:"'Syne',sans-serif",padding:"3px 10px",borderRadius:50,display:"inline-block",marginBottom:6,letterSpacing:1.5 }}>🏆 EN İYİ</span>}
-                <div style={{ fontFamily:"'Syne',sans-serif",fontSize:16,color:"#0D0D0D",fontWeight:800,marginBottom:3 }}>{card.name}</div>
-                <div style={{ color:"#9CA3AF",fontSize:12,marginBottom:5 }}>📍 {card.address}</div>
+                {i===0&&<span style={{ background:"#1A1208",color:"white",fontSize:9,fontWeight:800,fontFamily:"'Syne',sans-serif",padding:"3px 10px",borderRadius:50,display:"inline-block",marginBottom:6,letterSpacing:1.5 }}>🏆 EN İYİ</span>}
+                <div style={{ fontFamily:"'Syne',sans-serif",fontSize:16,color:"#1A1208",fontWeight:800,marginBottom:3 }}>{card.name}</div>
+                <div style={{ color:"#8C7B68",fontSize:12,marginBottom:5 }}>📍 {card.address}</div>
                 <div style={{ display:"flex",alignItems:"center",gap:8 }}>
                   {card.rating>0&&<span style={{ color:getRatingColor(card.rating),fontWeight:700,fontSize:13 }}>★ {card.rating.toFixed(1)}</span>}
                   {card.price&&<span style={{ color:"#FF6830",fontWeight:700,fontSize:13 }}>{card.price}</span>}
@@ -321,13 +312,13 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
       ) : (
         <div style={{ textAlign:"center",padding:"32px 0",marginBottom:24 }}>
           <div style={{ fontSize:48,marginBottom:12 }}>🤷</div>
-          <p style={{ color:"#9CA3AF",fontSize:14 }}>Farklı zevkler! Tekrar deneyin.</p>
+          <p style={{ color:"#8C7B68",fontSize:14 }}>Farklı zevkler! Tekrar deneyin.</p>
         </div>
       )}
       <div style={{ display:"flex",gap:10 }}>
         {isHost
           ? <button className="cta" style={{ flex:1 }} onClick={onRestart}>🔄 Tekrar Oyna</button>
-          : <div style={{ flex:1,textAlign:"center",padding:14,background:"#F9FAFB",border:"1px solid #E5E7EB",borderRadius:14,color:"#9CA3AF",fontSize:14 }}>⏳ Host yeni oyun başlatmayı bekliyor...</div>
+          : <div style={{ flex:1,textAlign:"center",padding:14,background:"#F5F0E8",border:"1px solid #E8E0D4",borderRadius:14,color:"#8C7B68",fontSize:14 }}>⏳ Host yeni oyun başlatmayı bekliyor...</div>
         }
         <button className="ghost" onClick={onHome}>Ana Sayfa</button>
       </div>
@@ -539,10 +530,10 @@ export default function FoodSwipeApp() {
   };
 
   return (
-    <div style={{ minHeight:"100vh",fontFamily:"'Plus Jakarta Sans',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start",paddingTop:phase==="swiping"?"62px":"20px",paddingBottom:"40px",background:"#EDE8DF",backgroundImage:"repeating-linear-gradient(118deg,transparent 0,transparent 44px,rgba(180,162,140,0.07) 44px,rgba(180,162,140,0.07) 46px),repeating-linear-gradient(62deg,transparent 0,transparent 70px,rgba(170,152,130,0.05) 70px,rgba(170,152,130,0.05) 72px),linear-gradient(170deg,#F2ECE4 0%,#E8DFD3 40%,#EDE6DB 70%,#F0EAE0 100%)" }}>
+    <div style={{ minHeight:"100vh",fontFamily:"'Space Grotesk',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:phase==="swiping"?"flex-start":"center",paddingTop:phase==="swiping"?"62px":"0",paddingBottom:phase==="swiping"?"40px":"32px",background:"#EDE8DF",backgroundImage:"repeating-linear-gradient(118deg,transparent 0,transparent 44px,rgba(180,162,140,0.07) 44px,rgba(180,162,140,0.07) 46px),repeating-linear-gradient(62deg,transparent 0,transparent 70px,rgba(170,152,130,0.05) 70px,rgba(170,152,130,0.05) 72px),linear-gradient(170deg,#F2ECE4 0%,#E8DFD3 40%,#EDE6DB 70%,#F0EAE0 100%)" }}>
       {showConfetti && <Confetti key={confettiKey} onDone={() => setShowConfetti(false)} />}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&family=Roboto+Mono:wght@600;700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         html,body{margin:0;padding:0;background:#EDE8DF;}
         html{overflow-x:hidden;}
@@ -557,35 +548,35 @@ export default function FoodSwipeApp() {
         .cta{
           background:linear-gradient(135deg,#FF3B55 0%,#FF6830 100%);
           color:white;border:none;padding:17px 40px;border-radius:16px;
-          font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.3px;
+          font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.2px;
           transition:transform .2s cubic-bezier(0.34,1.56,0.64,1),box-shadow .2s;
           box-shadow:0 4px 20px rgba(255,59,85,0.35);
         }
         .cta:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 36px rgba(255,59,85,0.5);}
         .cta:active{transform:translateY(0) scale(0.98);box-shadow:0 2px 10px rgba(255,59,85,0.3);}
-        .cta:disabled{background:linear-gradient(135deg,#D1D5DB,#E5E7EB)!important;color:#9CA3AF!important;transform:none!important;box-shadow:none!important;cursor:not-allowed;}
+        .cta:disabled{background:linear-gradient(135deg,#C4B8A8,#E8E0D4)!important;color:#8C7B68!important;transform:none!important;box-shadow:none!important;cursor:not-allowed;}
         .ghost{
-          background:transparent;color:#0D0D0D;border:2px solid #0D0D0D;
+          background:transparent;color:#1A1208;border:2px solid #1A1208;
           padding:15px 28px;border-radius:16px;font-size:14px;font-weight:700;
           cursor:pointer;font-family:inherit;letter-spacing:0.3px;transition:all .2s;
         }
-        .ghost:hover{background:#0D0D0D;color:white;transform:translateY(-2px);}
+        .ghost:hover{background:#1A1208;color:white;transform:translateY(-2px);}
         .ghost:active{transform:translateY(0);}
         .demo-btn{
-          background:transparent;color:#9CA3AF;border:1.5px solid #E5E7EB;
+          background:transparent;color:#8C7B68;border:1.5px solid #E8E0D4;
           padding:11px 24px;border-radius:50px;font-size:13px;font-weight:600;
           cursor:pointer;font-family:inherit;transition:all .18s;
         }
-        .demo-btn:hover{background:#F0F0EC;color:#6B7280;border-color:#D1D5DB;}
+        .demo-btn:hover{background:#EAE4DC;color:#6B5C4A;border-color:#C4B8A8;}
         .act-btn{border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s cubic-bezier(0.34,1.56,0.64,1);}
         .act-btn:active{transform:scale(0.84)!important;}
         .inp{
-          width:100%;background:white;border:2px solid #E5E7EB;border-radius:16px;
-          padding:16px 20px;color:#0D0D0D;font-size:15px;font-family:inherit;font-weight:500;
+          width:100%;background:white;border:2px solid #E8E0D4;border-radius:16px;
+          padding:16px 20px;color:#1A1208;font-size:15px;font-family:inherit;font-weight:500;
           outline:none;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,0.04);
         }
         .inp:focus{border-color:#FF3B55;box-shadow:0 0 0 4px rgba(255,59,85,0.1),0 2px 8px rgba(0,0,0,0.04);}
-        .inp::placeholder{color:#C4CDD8;font-weight:400;}
+        .inp::placeholder{color:#C4B8A8;font-weight:400;}
       `}</style>
 
       {/* ── NAV — only shown during swiping ── */}
@@ -620,10 +611,10 @@ export default function FoodSwipeApp() {
         <div className="fade-up" style={{ textAlign:"center",padding:"0 22px",maxWidth:400,width:"100%",zIndex:10 }}>
 
           {/* Main heading — centered, dramatic 3-line */}
-          <div style={{ marginBottom:20,lineHeight:1,marginTop:16 }}>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:58,fontWeight:800,color:"#1A1208",letterSpacing:-2,lineHeight:0.95 }}>Bugün</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:82,fontWeight:800,color:"#FF3B55",letterSpacing:-4,lineHeight:0.88 }}>nerede</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:58,fontWeight:800,color:"#1A1208",letterSpacing:-2,lineHeight:0.95 }}>yesek<span style={{ color:"#1A1208" }}>?</span></div>
+          <div style={{ marginBottom:24,lineHeight:1 }}>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-1.5,lineHeight:0.95,textAlign:"center" }}>Bugün</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:84,fontWeight:800,color:"#FF3B55",letterSpacing:-1,lineHeight:0.88,textAlign:"center" }}>nerede</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-1.5,lineHeight:0.95,textAlign:"center" }}>yesek?</div>
           </div>
 
           {/* Subtitle */}
@@ -635,32 +626,26 @@ export default function FoodSwipeApp() {
           <div style={{ display:"flex",flexDirection:"column",gap:10,marginBottom:14,width:"100%" }}>
             <button
               onClick={()=>startSolo(false)}
-              style={{ width:"100%",padding:"20px 24px",background:"#1A1208",color:"white",border:"none",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)",boxShadow:"0 6px 24px rgba(26,18,8,0.25)" }}
+              style={{ width:"100%",padding:"18px 24px",background:"#1A1208",color:"white",border:"none",borderRadius:18,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center",gap:10,transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)",boxShadow:"0 6px 24px rgba(26,18,8,0.25)" }}
               onMouseEnter={e=>{ e.currentTarget.style.transform="translateY(-3px) scale(1.01)"; e.currentTarget.style.boxShadow="0 16px 40px rgba(26,18,8,0.35)"; }}
               onMouseLeave={e=>{ e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow="0 6px 24px rgba(26,18,8,0.25)"; }}
             >
-              <div style={{ textAlign:"left" }}>
-                <div style={{ fontSize:18,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:3,letterSpacing:-0.3 }}>Tek Başına</div>
-                <div style={{ fontSize:12,opacity:0.5,fontWeight:500 }}>GPS ile yakın restoranları tara</div>
-              </div>
-              <span style={{ fontSize:26 }}>📍</span>
+              <span style={{ fontSize:22 }}>📍</span>
+              <span style={{ fontSize:17,fontWeight:700,letterSpacing:-0.2 }}>Tek Başına</span>
             </button>
 
             <button
               onClick={()=>requireName("friend")}
-              style={{ width:"100%",padding:"20px 24px",background:"white",color:"#1A1208",border:"2px solid #1A1208",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)" }}
+              style={{ width:"100%",padding:"18px 24px",background:"white",color:"#1A1208",border:"2px solid #1A1208",borderRadius:18,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center",gap:10,transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)" }}
               onMouseEnter={e=>{ e.currentTarget.style.background="#1A1208"; e.currentTarget.style.color="white"; e.currentTarget.style.transform="translateY(-3px)"; e.currentTarget.style.boxShadow="0 12px 32px rgba(26,18,8,0.2)"; }}
               onMouseLeave={e=>{ e.currentTarget.style.background="white"; e.currentTarget.style.color="#1A1208"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow=""; }}
             >
-              <div style={{ textAlign:"left" }}>
-                <div style={{ fontSize:18,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:3,letterSpacing:-0.3 }}>Arkadaş Modu</div>
-                <div style={{ fontSize:12,color:"#6B5C4A",fontWeight:500 }}>Hep beraber kaydırın, eşleşen kazanır</div>
-              </div>
-              <span style={{ fontSize:26 }}>👥</span>
+              <span style={{ fontSize:22 }}>👥</span>
+              <span style={{ fontSize:17,fontWeight:700,letterSpacing:-0.2 }}>Arkadaş Modu</span>
             </button>
           </div>
 
-          <button className="demo-btn" onClick={()=>startSolo(true)} style={{ width:"100%",borderRadius:14,padding:"13px" }}>
+          <button className="demo-btn" onClick={()=>startSolo(true)} style={{ width:"100%",borderRadius:14,padding:"12px" }}>
             Hızlı Demo
           </button>
         </div>
@@ -669,10 +654,10 @@ export default function FoodSwipeApp() {
       {/* ── NAME ── */}
       {phase==="name"&&(
         <div className="fade-up" style={{ width:"100%",maxWidth:380,padding:"20px 24px 24px",zIndex:10 }}>
-          <button onClick={()=>setPhase("intro")} style={{ background:"none",border:"none",color:"#9CA3AF",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit",marginBottom:32,display:"flex",alignItems:"center",gap:6 }}>← Geri</button>
+          <button onClick={()=>setPhase("intro")} style={{ background:"none",border:"none",color:"#8C7B68",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit",marginBottom:32,display:"flex",alignItems:"center",gap:6 }}>← Geri</button>
           <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:4,marginBottom:14,textTransform:"uppercase" }}>Arkadaş Modu</div>
-          <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:42,color:"#0D0D0D",marginBottom:10,fontWeight:800,letterSpacing:-1.5 }}>Adın ne?</h2>
-          <p style={{ color:"#9CA3AF",fontSize:14,marginBottom:26,lineHeight:1.7,fontWeight:500 }}>Arkadaşların seni bu isimle görecek</p>
+          <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:42,color:"#1A1208",marginBottom:10,fontWeight:800,letterSpacing:-1.5 }}>Adın ne?</h2>
+          <p style={{ color:"#8C7B68",fontSize:14,marginBottom:26,lineHeight:1.7,fontWeight:500 }}>Arkadaşların seni bu isimle görecek</p>
           <input className="inp" placeholder="Adını yaz..." value={nameInput} autoFocus onChange={e=>setNameInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submitName()} style={{ marginBottom:14 }}/>
           <button className="cta" style={{ width:"100%" }} onClick={submitName} disabled={!nameInput.trim()}>Devam Et →</button>
         </div>
@@ -681,25 +666,25 @@ export default function FoodSwipeApp() {
       {/* ── FRIEND MENU ── */}
       {phase==="friendMenu"&&(
         <div className="fade-up" style={{ width:"100%",maxWidth:380,padding:"20px 24px 24px",zIndex:10 }}>
-          <button onClick={()=>setPhase("intro")} style={{ background:"none",border:"none",color:"#9CA3AF",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit",marginBottom:32,display:"flex",alignItems:"center",gap:6 }}>← Geri</button>
+          <button onClick={()=>setPhase("intro")} style={{ background:"none",border:"none",color:"#8C7B68",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit",marginBottom:32,display:"flex",alignItems:"center",gap:6 }}>← Geri</button>
           <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:4,marginBottom:14,textTransform:"uppercase" }}>Arkadaş Modu</div>
-          <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:38,color:"#0D0D0D",marginBottom:28,fontWeight:800,letterSpacing:-1.5 }}>Merhaba, <span style={{ color:"#FF3B55" }}>{myName}</span>!</h2>
+          <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:38,color:"#1A1208",marginBottom:28,fontWeight:800,letterSpacing:-1.5 }}>Merhaba, <span style={{ color:"#FF3B55" }}>{myName}</span>!</h2>
           <div style={{ display:"flex",flexDirection:"column",gap:12 }}>
             <div
-              style={{ background:"white",border:"2px solid #E5E7EB",borderRadius:20,padding:"18px 20px",cursor:"pointer",transition:"all .2s cubic-bezier(0.34,1.56,0.64,1)",display:"flex",alignItems:"center",gap:14,boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}
+              style={{ background:"white",border:"2px solid #E8E0D4",borderRadius:20,padding:"18px 20px",cursor:"pointer",transition:"all .2s cubic-bezier(0.34,1.56,0.64,1)",display:"flex",alignItems:"center",gap:14,boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}
               onClick={createRoom}
-              onMouseEnter={e=>{ e.currentTarget.style.borderColor="#0D0D0D"; e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.boxShadow="0 10px 28px rgba(0,0,0,0.1)"; }}
-              onMouseLeave={e=>{ e.currentTarget.style.borderColor="#E5E7EB"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.04)"; }}
+              onMouseEnter={e=>{ e.currentTarget.style.borderColor="#1A1208"; e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.boxShadow="0 10px 28px rgba(0,0,0,0.1)"; }}
+              onMouseLeave={e=>{ e.currentTarget.style.borderColor="#E8E0D4"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.04)"; }}
             >
-              <div style={{ width:44,height:44,borderRadius:14,background:"#0D0D0D",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0 }}>🏠</div>
+              <div style={{ width:44,height:44,borderRadius:14,background:"#1A1208",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0 }}>🏠</div>
               <div style={{ textAlign:"left" }}>
-                <div style={{ color:"#0D0D0D",fontSize:15,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:2 }}>Oda Oluştur</div>
-                <div style={{ color:"#9CA3AF",fontSize:12,fontWeight:500 }}>Arkadaşlarını davet et</div>
+                <div style={{ color:"#1A1208",fontSize:15,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:2 }}>Oda Oluştur</div>
+                <div style={{ color:"#8C7B68",fontSize:12,fontWeight:500 }}>Arkadaşlarını davet et</div>
               </div>
-              <div style={{ marginLeft:"auto",color:"#D1D5DB",fontSize:20 }}>›</div>
+              <div style={{ marginLeft:"auto",color:"#C4B8A8",fontSize:20 }}>›</div>
             </div>
-            <div style={{ background:"white",border:"2px solid #E5E7EB",borderRadius:20,padding:"18px 20px",boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
-              <div style={{ color:"#0D0D0D",fontSize:14,fontWeight:700,marginBottom:14,display:"flex",alignItems:"center",gap:8 }}><span>🔑</span>Odaya Katıl</div>
+            <div style={{ background:"white",border:"2px solid #E8E0D4",borderRadius:20,padding:"18px 20px",boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
+              <div style={{ color:"#1A1208",fontSize:14,fontWeight:700,marginBottom:14,display:"flex",alignItems:"center",gap:8 }}><span>🔑</span>Odaya Katıl</div>
               <CodeInput value={joinInput} onChange={setJoinInput} onSubmit={joinRoom} />
               <button className="cta" style={{ width:"100%",padding:"14px" }} onClick={joinRoom} disabled={joinInput.trim().length<6}>Katıl →</button>
             </div>
@@ -712,28 +697,28 @@ export default function FoodSwipeApp() {
         <div style={{ width:"100%",maxWidth:400,padding:"20px",zIndex:10 }}>
           <div style={{ textAlign:"center",marginBottom:28 }}>
             <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:4,marginBottom:12,textTransform:"uppercase" }}>Arkadaş Modu</div>
-            <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:36,color:"#0D0D0D",fontWeight:800,letterSpacing:-1 }}>Odana Hoş Geldin!</h2>
+            <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:36,color:"#1A1208",fontWeight:800,letterSpacing:-1 }}>Odana Hoş Geldin!</h2>
           </div>
-          <div style={{ background:"white",border:"2.5px solid #0D0D0D",borderRadius:20,padding:"20px 24px",textAlign:"center",marginBottom:12,boxShadow:"0 4px 20px rgba(0,0,0,0.08)" }}>
-            <div style={{ color:"#9CA3AF",fontSize:10,fontWeight:800,letterSpacing:3,marginBottom:10 }}>ODA KODU</div>
-            <div style={{ fontFamily:"'Roboto Mono',monospace",fontSize:40,color:"#0D0D0D",letterSpacing:7,fontWeight:700 }}>{roomCode}</div>
+          <div style={{ background:"white",border:"2.5px solid #1A1208",borderRadius:20,padding:"20px 24px",textAlign:"center",marginBottom:12,boxShadow:"0 4px 20px rgba(0,0,0,0.08)" }}>
+            <div style={{ color:"#8C7B68",fontSize:10,fontWeight:800,letterSpacing:3,marginBottom:10 }}>ODA KODU</div>
+            <div style={{ fontFamily:"'Roboto Mono',monospace",fontSize:40,color:"#1A1208",letterSpacing:7,fontWeight:700 }}>{roomCode}</div>
           </div>
-          <div style={{ background:"white",border:"1.5px solid #E5E7EB",borderRadius:20,padding:"18px 20px",marginBottom:18,boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
-            <div style={{ color:"#9CA3AF",fontSize:10,fontWeight:800,letterSpacing:3,marginBottom:16 }}>KATILANLAR · {members.length} KİŞİ</div>
+          <div style={{ background:"white",border:"1.5px solid #E8E0D4",borderRadius:20,padding:"18px 20px",marginBottom:18,boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
+            <div style={{ color:"#8C7B68",fontSize:10,fontWeight:800,letterSpacing:3,marginBottom:16 }}>KATILANLAR · {members.length} KİŞİ</div>
             {members.map((m,i)=>(
               <div key={m.id} style={{ display:"flex",alignItems:"center",gap:12,marginBottom:i<members.length-1?12:0 }}>
                 <div style={{ width:38,height:38,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:"white",fontFamily:"'Syne',sans-serif",flexShrink:0 }}>{avatarLetter(m.name)}</div>
                 <div style={{ flex:1 }}>
-                  <div style={{ color:"#0D0D0D",fontSize:14,fontWeight:700 }}>{m.name} {m.name===myName&&<span style={{ color:"#FF3B55",fontSize:11,fontWeight:600 }}>(sen)</span>}</div>
-                  <div style={{ color:m.ready?"#22C55E":"#D1D5DB",fontSize:11,fontWeight:600 }}>{m.ready?"✓ Hazır":"Bekleniyor..."}</div>
+                  <div style={{ color:"#1A1208",fontSize:14,fontWeight:700 }}>{m.name} {m.name===myName&&<span style={{ color:"#FF3B55",fontSize:11,fontWeight:600 }}>(sen)</span>}</div>
+                  <div style={{ color:m.ready?"#22C55E":"#C4B8A8",fontSize:11,fontWeight:600 }}>{m.ready?"✓ Hazır":"Bekleniyor..."}</div>
                 </div>
-                {i===0&&<span style={{ color:"white",fontSize:9,fontWeight:800,fontFamily:"'Syne',sans-serif",background:"#0D0D0D",padding:"4px 10px",borderRadius:50,letterSpacing:1.5 }}>HOST</span>}
+                {i===0&&<span style={{ color:"white",fontSize:9,fontWeight:800,fontFamily:"'Syne',sans-serif",background:"#1A1208",padding:"4px 10px",borderRadius:50,letterSpacing:1.5 }}>HOST</span>}
               </div>
             ))}
           </div>
           {isHost
             ? <button className="cta" style={{ width:"100%",marginBottom:10 }} disabled={members.length<2} onClick={startFriendGame}>{members.length<2?"En az 2 kişi gerekli...":`Oyunu Başlat 🚀 (${members.length} kişi)`}</button>
-            : <div style={{ textAlign:"center",padding:16,background:"#F9FAFB",border:"1.5px solid #E5E7EB",borderRadius:14,marginBottom:10,color:"#9CA3AF",fontSize:14 }}>⏳ Host oyunu başlatmayı bekliyor...</div>
+            : <div style={{ textAlign:"center",padding:16,background:"#F5F0E8",border:"1.5px solid #E8E0D4",borderRadius:14,marginBottom:10,color:"#8C7B68",fontSize:14 }}>⏳ Host oyunu başlatmayı bekliyor...</div>
           }
           <button className="ghost" style={{ width:"100%" }} onClick={()=>{ setIsFriend(false); setMembers([]); setPhase("intro"); }}>← Çık</button>
         </div>
@@ -742,14 +727,14 @@ export default function FoodSwipeApp() {
       {/* ── LOADING ── */}
       {phase==="loading"&&(
         <div style={{ textAlign:"center",padding:32,zIndex:10 }}>
-          <div style={{ width:56,height:56,border:"3.5px solid #F0F0EC",borderTop:"3.5px solid #FF3B55",borderRadius:"50%",animation:"spin 0.72s linear infinite",margin:"0 auto 32px" }}/>
+          <div style={{ width:56,height:56,border:"3.5px solid #EAE4DC",borderTop:"3.5px solid #FF3B55",borderRadius:"50%",animation:"spin 0.72s linear infinite",margin:"0 auto 32px" }}/>
           <div key={loadingStep} style={{ animation:"stepIn 0.3s ease both" }}>
             <div style={{ fontSize:40,marginBottom:14 }}>{STEPS[loadingStep].icon}</div>
-            <p style={{ color:"#0D0D0D",fontSize:17,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:6 }}>{STEPS[loadingStep].text}</p>
-            <p style={{ color:"#9CA3AF",fontSize:12,fontWeight:500 }}>Adım {loadingStep+1} / {STEPS.length}</p>
+            <p style={{ color:"#1A1208",fontSize:17,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:6 }}>{STEPS[loadingStep].text}</p>
+            <p style={{ color:"#8C7B68",fontSize:12,fontWeight:500 }}>Adım {loadingStep+1} / {STEPS.length}</p>
           </div>
           <div style={{ display:"flex",gap:6,justifyContent:"center",marginTop:28 }}>
-            {STEPS.map((_,i)=><div key={i} style={{ width:i===loadingStep?24:6,height:6,borderRadius:3,background:i<=loadingStep?"#FF3B55":"#E5E7EB",transition:"all 0.3s" }}/>)}
+            {STEPS.map((_,i)=><div key={i} style={{ width:i===loadingStep?24:6,height:6,borderRadius:3,background:i<=loadingStep?"#FF3B55":"#E8E0D4",transition:"all 0.3s" }}/>)}
           </div>
         </div>
       )}
@@ -758,8 +743,8 @@ export default function FoodSwipeApp() {
       {phase==="error"&&(
         <div className="fade-up" style={{ textAlign:"center",padding:24,maxWidth:360,zIndex:10 }}>
           <div style={{ fontSize:60,marginBottom:18 }}>😕</div>
-          <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:28,color:"#0D0D0D",marginBottom:14,fontWeight:800,letterSpacing:-0.5 }}>Bir sorun oluştu</h2>
-          <p style={{ color:"#6B7280",fontSize:14,lineHeight:1.8,marginBottom:28,background:"white",border:"1.5px solid #E5E7EB",borderRadius:16,padding:"14px 18px" }}>{errorMsg}</p>
+          <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:28,color:"#1A1208",marginBottom:14,fontWeight:800,letterSpacing:-0.5 }}>Bir sorun oluştu</h2>
+          <p style={{ color:"#6B5C4A",fontSize:14,lineHeight:1.8,marginBottom:28,background:"white",border:"1.5px solid #E8E0D4",borderRadius:16,padding:"14px 18px" }}>{errorMsg}</p>
           <div style={{ display:"flex",gap:10,justifyContent:"center" }}>
             <button className="cta" onClick={()=>startSolo(false)}>🔄 Tekrar Dene</button>
             <button className="ghost" onClick={()=>startSolo(true)}>Demo</button>
@@ -775,22 +760,22 @@ export default function FoodSwipeApp() {
           )}
           <div style={{ width:"100%",marginBottom:12,padding:"0 2px" }}>
             <div style={{ display:"flex",justifyContent:"space-between",marginBottom:7 }}>
-              <span style={{ color:"#9CA3AF",fontSize:12,fontWeight:500 }}>{isFriend?`${members.length} kişi · ${roomCode}`:isDemo?"Demo":"1.5 km çevren"}</span>
-              <span style={{ color:"#9CA3AF",fontSize:12,fontWeight:500 }}>{cards.length-stack.length} / {cards.length}</span>
+              <span style={{ color:"#8C7B68",fontSize:12,fontWeight:500 }}>{isFriend?`${members.length} kişi · ${roomCode}`:isDemo?"Demo":"1.5 km çevren"}</span>
+              <span style={{ color:"#8C7B68",fontSize:12,fontWeight:500 }}>{cards.length-stack.length} / {cards.length}</span>
             </div>
-            <div style={{ background:"#EBEBEB",borderRadius:4,height:4 }}>
+            <div style={{ background:"#E0D9CF",borderRadius:4,height:4 }}>
               <div style={{ background:"linear-gradient(90deg,#FF3B55,#FF6830)",height:"100%",borderRadius:4,width:`${progress}%`,transition:"width 0.4s ease" }}/>
             </div>
           </div>
           {isFriend&&members.length>1&&(
-            <div style={{ width:"100%",background:"white",border:"1.5px solid #F0F0F0",borderRadius:14,padding:"10px 16px",display:"flex",alignItems:"center",gap:10,marginBottom:10,fontSize:12,color:"#9CA3AF",boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
+            <div style={{ width:"100%",background:"white",border:"1.5px solid #EAE4DC",borderRadius:14,padding:"10px 16px",display:"flex",alignItems:"center",gap:10,marginBottom:10,fontSize:12,color:"#8C7B68",boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
               <div style={{ display:"flex" }}>
                 {members.filter(m=>m.name!==myName).slice(0,3).map((m,i)=>(
                   <div key={m.id} style={{ width:24,height:24,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,fontWeight:800,color:"white",border:"2px solid white",marginLeft:i>0?-6:0 }}>{avatarLetter(m.name)}</div>
                 ))}
               </div>
               <span style={{ fontWeight:500 }}>{members.filter(m=>m.name!==myName).map(m=>m.name).join(", ")} de kaydırıyor...</span>
-              <div style={{ marginLeft:"auto",display:"flex",gap:3 }}>{[0,1,2].map(i=><div key={i} style={{ width:4,height:4,borderRadius:"50%",background:"#D1D5DB",animation:`blink 0.9s ${i*0.2}s ease infinite` }}/>)}</div>
+              <div style={{ marginLeft:"auto",display:"flex",gap:3 }}>{[0,1,2].map(i=><div key={i} style={{ width:4,height:4,borderRadius:"50%",background:"#C4B8A8",animation:`blink 0.9s ${i*0.2}s ease infinite` }}/>)}</div>
             </div>
           )}
           <div style={{ position:"relative",width:"100%",height:"clamp(360px,54vh,490px)",marginBottom:22 }}>
@@ -806,8 +791,8 @@ export default function FoodSwipeApp() {
             <button
               className="act-btn"
               onClick={()=>forceSwipe("left")}
-              style={{ width:72,height:72,background:"white",border:"2.5px solid #0D0D0D",fontSize:26,boxShadow:"0 4px 16px rgba(0,0,0,0.1)" }}
-              onMouseEnter={e=>{ e.currentTarget.style.background="#0D0D0D"; e.currentTarget.style.transform="scale(1.1)"; }}
+              style={{ width:72,height:72,background:"white",border:"2.5px solid #1A1208",fontSize:26,boxShadow:"0 4px 16px rgba(0,0,0,0.1)" }}
+              onMouseEnter={e=>{ e.currentTarget.style.background="#1A1208"; e.currentTarget.style.transform="scale(1.1)"; }}
               onMouseLeave={e=>{ e.currentTarget.style.background="white"; e.currentTarget.style.transform="scale(1)"; }}
             >👎</button>
             <button
@@ -818,7 +803,7 @@ export default function FoodSwipeApp() {
               onMouseLeave={e=>{ e.currentTarget.style.transform="scale(1)"; }}
             >❤️</button>
           </div>
-          <p style={{ color:"#CECECE",fontSize:11,marginTop:12,fontWeight:500,letterSpacing:0.5 }}>← Sürükle veya butona bas →</p>
+          <p style={{ color:"#B0A090",fontSize:11,marginTop:12,fontWeight:500,letterSpacing:0.5 }}>← Sürükle veya butona bas →</p>
         </div>
       )}
 
@@ -832,7 +817,7 @@ export default function FoodSwipeApp() {
           <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:4,marginBottom:14,textTransform:"uppercase" }}>
             {likedCount>0?`${likedCount} mekan beğendin`:"Hiçbirini beğenmeseydin de..."}
           </div>
-          <h1 style={{ fontFamily:"'Syne',sans-serif",fontSize:44,color:"#0D0D0D",lineHeight:0.98,marginBottom:22,fontWeight:800,letterSpacing:-2 }}>
+          <h1 style={{ fontFamily:"'Syne',sans-serif",fontSize:44,color:"#1A1208",lineHeight:0.98,marginBottom:22,fontWeight:800,letterSpacing:-2 }}>
             Bu gece<br/><span style={{ color:"#FF3B55" }}>buraya git!</span>
           </h1>
           <div style={{ borderRadius:24,overflow:"hidden",marginBottom:18,position:"relative",height:252,background:`linear-gradient(155deg,${GRADIENTS[0][0]},${GRADIENTS[0][1]})`,boxShadow:"0 20px 56px rgba(0,0,0,0.22)" }}>
@@ -851,15 +836,15 @@ export default function FoodSwipeApp() {
           </div>
           {likedCards.length>1&&(
             <div style={{ marginBottom:18,textAlign:"left" }}>
-              <div style={{ fontSize:10,color:"#9CA3AF",fontWeight:800,letterSpacing:3,marginBottom:12,textTransform:"uppercase" }}>Diğer beğenilerin</div>
+              <div style={{ fontSize:10,color:"#8C7B68",fontWeight:800,letterSpacing:3,marginBottom:12,textTransform:"uppercase" }}>Diğer beğenilerin</div>
               <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
                 {likedCards.slice(1).map(card=>(
-                  <div key={card.id} style={{ background:"white",borderRadius:16,border:"1.5px solid #F0F0F0",display:"flex",alignItems:"center",overflow:"hidden",boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
+                  <div key={card.id} style={{ background:"white",borderRadius:16,border:"1.5px solid #EAE4DC",display:"flex",alignItems:"center",overflow:"hidden",boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
                     <div style={{ width:68,height:68,background:`linear-gradient(135deg,${GRADIENTS[2][0]},${GRADIENTS[2][1]})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:30,flexShrink:0,position:"relative" }}>
                       {card.photo?<img src={card.photo} alt={card.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}/>:card.emoji}
                     </div>
                     <div style={{ padding:"10px 16px",flex:1,textAlign:"left" }}>
-                      <div style={{ fontFamily:"'Syne',sans-serif",fontSize:15,color:"#0D0D0D",fontWeight:700,marginBottom:2 }}>{card.name}</div>
+                      <div style={{ fontFamily:"'Syne',sans-serif",fontSize:15,color:"#1A1208",fontWeight:700,marginBottom:2 }}>{card.name}</div>
                       <div style={{ display:"flex",alignItems:"center",gap:6 }}>
                         {card.rating>0&&<span style={{ color:getRatingColor(card.rating),fontWeight:700,fontSize:12 }}>★ {card.rating.toFixed(1)}</span>}
                         {card.price&&<span style={{ color:"#FF6830",fontSize:12,fontWeight:700 }}>{card.price}</span>}
