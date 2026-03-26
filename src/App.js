@@ -608,46 +608,47 @@ export default function FoodSwipeApp() {
 
       {/* ── INTRO ── */}
       {phase==="intro"&&(
-        <div className="fade-up" style={{ textAlign:"center",padding:"0 22px",maxWidth:400,width:"100%",zIndex:10 }}>
+        <div className="fade-up" style={{ width:"100%",maxWidth:420,zIndex:10 }}>
 
-          {/* Main heading — centered, dramatic 3-line */}
-          <div style={{ marginBottom:24,lineHeight:1 }}>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-1.5,lineHeight:0.95,textAlign:"center" }}>Bugün</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:84,fontWeight:800,color:"#FF3B55",letterSpacing:-1,lineHeight:0.88,textAlign:"center" }}>nerede</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-1.5,lineHeight:0.95,textAlign:"center" }}>yesek?</div>
+          {/* Heading — no padding, full-width flex centering */}
+          <div style={{ marginBottom:28,lineHeight:1,display:"flex",flexDirection:"column",alignItems:"center" }}>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-1,lineHeight:0.95 }}>Bugün</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:88,fontWeight:800,color:"#FF3B55",letterSpacing:0,lineHeight:0.88 }}>nerede</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-1,lineHeight:0.95 }}>yesek?</div>
           </div>
 
-          {/* Subtitle */}
-          <p style={{ color:"#6B5C4A",fontSize:14,lineHeight:1.75,marginBottom:32,fontWeight:500 }}>
-            Kaydır, seç, eşleş.<br/>Arkadaşlarınla oyna, ortak yer bulun.
-          </p>
+          {/* Padded section */}
+          <div style={{ padding:"0 24px" }}>
+            <p style={{ color:"#6B5C4A",fontSize:14,lineHeight:1.75,marginBottom:28,fontWeight:500,textAlign:"center" }}>
+              Kaydır, seç, eşleş.<br/>Arkadaşlarınla oyna, ortak yer bulun.
+            </p>
 
-          {/* Buttons */}
-          <div style={{ display:"flex",flexDirection:"column",gap:10,marginBottom:14,width:"100%" }}>
-            <button
-              onClick={()=>startSolo(false)}
-              style={{ width:"100%",padding:"18px 24px",background:"#1A1208",color:"white",border:"none",borderRadius:18,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center",gap:10,transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)",boxShadow:"0 6px 24px rgba(26,18,8,0.25)" }}
-              onMouseEnter={e=>{ e.currentTarget.style.transform="translateY(-3px) scale(1.01)"; e.currentTarget.style.boxShadow="0 16px 40px rgba(26,18,8,0.35)"; }}
-              onMouseLeave={e=>{ e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow="0 6px 24px rgba(26,18,8,0.25)"; }}
-            >
-              <span style={{ fontSize:22 }}>📍</span>
-              <span style={{ fontSize:17,fontWeight:700,letterSpacing:-0.2 }}>Tek Başına</span>
-            </button>
+            <div style={{ display:"flex",flexDirection:"column",gap:10,marginBottom:14,width:"100%" }}>
+              <button
+                onClick={()=>startSolo(false)}
+                style={{ width:"100%",padding:"18px 24px",background:"#1A1208",color:"white",border:"none",borderRadius:18,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center",gap:10,transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)",boxShadow:"0 6px 24px rgba(26,18,8,0.25)" }}
+                onMouseEnter={e=>{ e.currentTarget.style.transform="translateY(-3px) scale(1.01)"; e.currentTarget.style.boxShadow="0 16px 40px rgba(26,18,8,0.35)"; }}
+                onMouseLeave={e=>{ e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow="0 6px 24px rgba(26,18,8,0.25)"; }}
+              >
+                <span style={{ fontSize:22 }}>📍</span>
+                <span style={{ fontSize:17,fontWeight:700,letterSpacing:-0.2 }}>Tek Başına</span>
+              </button>
 
-            <button
-              onClick={()=>requireName("friend")}
-              style={{ width:"100%",padding:"18px 24px",background:"white",color:"#1A1208",border:"2px solid #1A1208",borderRadius:18,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center",gap:10,transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)" }}
-              onMouseEnter={e=>{ e.currentTarget.style.background="#1A1208"; e.currentTarget.style.color="white"; e.currentTarget.style.transform="translateY(-3px)"; e.currentTarget.style.boxShadow="0 12px 32px rgba(26,18,8,0.2)"; }}
-              onMouseLeave={e=>{ e.currentTarget.style.background="white"; e.currentTarget.style.color="#1A1208"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow=""; }}
-            >
-              <span style={{ fontSize:22 }}>👥</span>
-              <span style={{ fontSize:17,fontWeight:700,letterSpacing:-0.2 }}>Arkadaş Modu</span>
+              <button
+                onClick={()=>requireName("friend")}
+                style={{ width:"100%",padding:"18px 24px",background:"white",color:"#1A1208",border:"2px solid #1A1208",borderRadius:18,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center",gap:10,transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)" }}
+                onMouseEnter={e=>{ e.currentTarget.style.background="#1A1208"; e.currentTarget.style.color="white"; e.currentTarget.style.transform="translateY(-3px)"; e.currentTarget.style.boxShadow="0 12px 32px rgba(26,18,8,0.2)"; }}
+                onMouseLeave={e=>{ e.currentTarget.style.background="white"; e.currentTarget.style.color="#1A1208"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow=""; }}
+              >
+                <span style={{ fontSize:22 }}>👥</span>
+                <span style={{ fontSize:17,fontWeight:700,letterSpacing:-0.2 }}>Arkadaş Modu</span>
+              </button>
+            </div>
+
+            <button className="demo-btn" onClick={()=>startSolo(true)} style={{ width:"100%",borderRadius:14,padding:"12px" }}>
+              Hızlı Demo
             </button>
           </div>
-
-          <button className="demo-btn" onClick={()=>startSolo(true)} style={{ width:"100%",borderRadius:14,padding:"12px" }}>
-            Hızlı Demo
-          </button>
         </div>
       )}
 
