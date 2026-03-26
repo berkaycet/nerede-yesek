@@ -320,7 +320,7 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
                 {card.photo ? <img src={card.photo} alt={card.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}/> : card.emoji}
               </div>
               <div style={{ padding:"12px 16px",flex:1 }}>
-                <div style={{ fontFamily:"'Syne',sans-serif",fontSize:16,color:"#1A1208",fontWeight:700,marginBottom:3 }}>{card.name}</div>
+                <div style={{ fontFamily:"'Syne',sans-serif",fontSize:16,color:"#1A1208",fontWeight:800,marginBottom:3 }}>{card.name}</div>
                 <div style={{ color:"#8C7B68",fontSize:12,marginBottom:5 }}>📍 {card.address}</div>
                 <div style={{ display:"flex",alignItems:"center",gap:8 }}>
                   {card.rating>0&&<span style={{ color:getRatingColor(card.rating),fontWeight:700,fontSize:12 }}>★ {card.rating.toFixed(1)}</span>}
@@ -574,7 +574,7 @@ export default function FoodSwipeApp() {
         .cta{
           background:linear-gradient(135deg,#FF3B55 0%,#FF6830 100%);
           color:white;border:none;padding:17px 40px;border-radius:16px;
-          font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:0.2px;
+          font-size:15px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:0.2px;
           transition:transform .2s cubic-bezier(0.34,1.56,0.64,1),box-shadow .2s;
           box-shadow:0 4px 20px rgba(255,59,85,0.35);
         }
@@ -584,14 +584,14 @@ export default function FoodSwipeApp() {
         .ghost{
           background:transparent;color:#1A1208;border:2px solid #1A1208;
           padding:15px 28px;border-radius:16px;font-size:14px;font-weight:700;
-          cursor:pointer;font-family:inherit;letter-spacing:0.3px;transition:all .2s;
+          cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:0.3px;transition:all .2s;
         }
         .ghost:hover{background:#1A1208;color:white;transform:translateY(-2px);}
         .ghost:active{transform:translateY(0);}
         .demo-btn{
           background:transparent;color:#8C7B68;border:1.5px solid #E8E0D4;
-          padding:11px 24px;border-radius:50px;font-size:13px;font-weight:600;
-          cursor:pointer;font-family:inherit;transition:all .18s;
+          padding:11px 24px;border-radius:50px;font-size:13px;font-weight:700;
+          cursor:pointer;font-family:'Syne',sans-serif;transition:all .18s;
         }
         .demo-btn:hover{background:#EAE4DC;color:#6B5C4A;border-color:#C4B8A8;}
         .act-btn{border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s cubic-bezier(0.34,1.56,0.64,1);}
@@ -657,7 +657,7 @@ export default function FoodSwipeApp() {
                 onMouseLeave={e=>{ e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow="0 6px 24px rgba(26,18,8,0.25)"; }}
               >
                 <span style={{ fontSize:22 }}>📍</span>
-                <span style={{ fontSize:17,fontWeight:700,letterSpacing:-0.2 }}>Tek Başına</span>
+                <span style={{ fontSize:17,fontWeight:700,fontFamily:"'Syne',sans-serif",letterSpacing:-0.2 }}>Tek Başına</span>
               </button>
 
               <button
@@ -667,7 +667,7 @@ export default function FoodSwipeApp() {
                 onMouseLeave={e=>{ e.currentTarget.style.background="white"; e.currentTarget.style.color="#1A1208"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow=""; }}
               >
                 <span style={{ fontSize:22 }}>👥</span>
-                <span style={{ fontSize:17,fontWeight:700,letterSpacing:-0.2 }}>Arkadaş Modu</span>
+                <span style={{ fontSize:17,fontWeight:700,fontFamily:"'Syne',sans-serif",letterSpacing:-0.2 }}>Arkadaş Modu</span>
               </button>
             </div>
 
@@ -871,7 +871,7 @@ export default function FoodSwipeApp() {
                       {card.photo?<img src={card.photo} alt={card.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}/>:card.emoji}
                     </div>
                     <div style={{ padding:"10px 16px",flex:1,textAlign:"left" }}>
-                      <div style={{ fontFamily:"'Syne',sans-serif",fontSize:15,color:"#1A1208",fontWeight:700,marginBottom:2 }}>{card.name}</div>
+                      <div style={{ fontFamily:"'Syne',sans-serif",fontSize:15,color:"#1A1208",fontWeight:800,marginBottom:2 }}>{card.name}</div>
                       <div style={{ display:"flex",alignItems:"center",gap:6 }}>
                         {card.rating>0&&<span style={{ color:getRatingColor(card.rating),fontWeight:700,fontSize:12 }}>★ {card.rating.toFixed(1)}</span>}
                         {card.price&&<span style={{ color:"#FF6830",fontSize:12,fontWeight:700 }}>{card.price}</span>}
