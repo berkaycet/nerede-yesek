@@ -99,7 +99,7 @@ function TopCard({ card, gradIndex, onSwipe }) {
         position:"absolute",top:28,left:22,opacity:0,transition:"opacity 0.06s",
         background:"#22C55E",color:"white",fontFamily:"'Syne',sans-serif",fontWeight:800,
         fontSize:19,padding:"9px 22px",borderRadius:10,border:"3px solid #4ADE80",
-        transform:"rotate(-8deg)",letterSpacing:2.5,pointerEvents:"none",
+        transform:"rotate(-8deg)",letterSpacing:1,pointerEvents:"none",
         boxShadow:"0 4px 20px rgba(34,197,94,0.55)"
       }}>YEP 🔥</div>
 
@@ -108,7 +108,7 @@ function TopCard({ card, gradIndex, onSwipe }) {
         position:"absolute",top:28,right:22,opacity:0,transition:"opacity 0.06s",
         background:"#EF4444",color:"white",fontFamily:"'Syne',sans-serif",fontWeight:800,
         fontSize:19,padding:"9px 22px",borderRadius:10,border:"3px solid #F87171",
-        transform:"rotate(8deg)",letterSpacing:2.5,pointerEvents:"none",
+        transform:"rotate(8deg)",letterSpacing:1,pointerEvents:"none",
         boxShadow:"0 4px 20px rgba(239,68,68,0.55)"
       }}>NOPE 👋</div>
 
@@ -128,7 +128,7 @@ function TopCard({ card, gradIndex, onSwipe }) {
         </div>
         <h2 style={{
           fontFamily:"'Syne',sans-serif",fontSize:34,color:"white",lineHeight:1.08,
-          marginBottom:8,fontWeight:800,letterSpacing:-0.5,
+          marginBottom:8,fontWeight:800,letterSpacing:0,
           textShadow:"0 2px 24px rgba(0,0,0,0.9)"
         }}>{card.name}</h2>
         <p style={{ color:"rgba(255,255,255,0.45)",fontSize:13,marginBottom:14,fontWeight:500 }}>📍 {card.address}</p>
@@ -272,7 +272,7 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
 
       {/* Header */}
       <div style={{ textAlign:"center",marginBottom:28 }}>
-        <div style={{ fontFamily:"'Syne',sans-serif",fontSize:52,color:"#1A1208",fontWeight:800,letterSpacing:-2,lineHeight:1,marginBottom:12 }}>
+        <div style={{ fontFamily:"'Syne',sans-serif",fontSize:52,color:"#1A1208",fontWeight:800,letterSpacing:-0.5,lineHeight:1,marginBottom:12 }}>
           {matchedCards.length > 0 ? "Eşleşme!" : "Ortak seçim yok"}
         </div>
         <div style={{ display:"flex",justifyContent:"center",marginBottom:12 }}>
@@ -293,7 +293,7 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
             <div key={card.id}>
               <div style={{ background:"#FF3B55",borderRadius:"16px 16px 0 0",padding:"8px 16px",display:"flex",alignItems:"center",gap:6 }}>
                 <span style={{ fontSize:13 }}>🏆</span>
-                <span style={{ fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:800,color:"white",letterSpacing:2,textTransform:"uppercase" }}>EN İYİ EŞLEŞME</span>
+                <span style={{ fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:800,color:"white",letterSpacing:1,textTransform:"uppercase" }}>EN İYİ EŞLEŞME</span>
               </div>
               <div style={{ background:"#1A1208",borderRadius:"0 0 16px 16px",height:140,display:"flex",alignItems:"center",overflow:"hidden",position:"relative",boxShadow:"0 8px 32px rgba(26,18,8,0.25)" }}>
                 {card.photo
@@ -301,7 +301,7 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
                   : <div style={{ position:"absolute",right:20,fontSize:72,opacity:0.2,lineHeight:1 }}>{card.emoji}</div>
                 }
                 <div style={{ position:"relative",padding:"0 20px",flex:1 }}>
-                  <div style={{ fontFamily:"'Syne',sans-serif",fontSize:28,color:"white",fontWeight:800,letterSpacing:-0.5,marginBottom:8 }}>{card.name}</div>
+                  <div style={{ fontFamily:"'Syne',sans-serif",fontSize:28,color:"white",fontWeight:800,letterSpacing:0,marginBottom:8 }}>{card.name}</div>
                   <div style={{ color:"rgba(255,255,255,0.5)",fontSize:12,marginBottom:10 }}>📍 {card.address}</div>
                   <div style={{ display:"flex",alignItems:"center",gap:10 }}>
                     {card.rating>0&&<span style={{ color:"#FFD60A",fontWeight:700,fontSize:14 }}>★ {card.rating.toFixed(1)}</span>}
@@ -574,7 +574,7 @@ export default function FoodSwipeApp() {
         .cta{
           background:linear-gradient(135deg,#FF3B55 0%,#FF6830 100%);
           color:white;border:none;padding:17px 40px;border-radius:16px;
-          font-size:15px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:0.2px;
+          font-size:15px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:0;
           transition:transform .2s cubic-bezier(0.34,1.56,0.64,1),box-shadow .2s;
           box-shadow:0 4px 20px rgba(255,59,85,0.35);
         }
@@ -584,7 +584,7 @@ export default function FoodSwipeApp() {
         .ghost{
           background:transparent;color:#1A1208;border:2px solid #1A1208;
           padding:15px 28px;border-radius:16px;font-size:14px;font-weight:700;
-          cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:0.3px;transition:all .2s;
+          cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:0;transition:all .2s;
         }
         .ghost:hover{background:#1A1208;color:white;transform:translateY(-2px);}
         .ghost:active{transform:translateY(0);}
@@ -609,9 +609,9 @@ export default function FoodSwipeApp() {
       {phase==="swiping"&&(
         <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:300,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 22px",borderBottom:"1px solid rgba(180,162,140,0.2)",background:"rgba(237,232,223,0.92)",backdropFilter:"blur(24px)" }}>
           <div style={{ display:"flex",alignItems:"center",gap:8 }}>
-            <span style={{ fontFamily:"'Syne',sans-serif",fontSize:17,color:"#1A1208",fontWeight:800,letterSpacing:-0.5 }}>nerede yesek<span style={{ color:"#FF3B55" }}>.</span></span>
-            {isFriend&&<span style={{ background:"linear-gradient(135deg,#FF3B55,#FF6830)",color:"white",fontSize:9,fontWeight:800,padding:"3px 9px",borderRadius:50,letterSpacing:1.5 }}>ARKADAŞ</span>}
-            {isDemo&&<span style={{ background:"rgba(26,18,8,0.08)",color:"#8C7B68",fontSize:9,fontWeight:700,padding:"3px 9px",borderRadius:50,letterSpacing:1.5 }}>DEMO</span>}
+            <span style={{ fontFamily:"'Syne',sans-serif",fontSize:17,color:"#1A1208",fontWeight:800,letterSpacing:0 }}>nerede yesek<span style={{ color:"#FF3B55" }}>.</span></span>
+            {isFriend&&<span style={{ background:"linear-gradient(135deg,#FF3B55,#FF6830)",color:"white",fontSize:9,fontWeight:800,padding:"3px 9px",borderRadius:50,letterSpacing:1 }}>ARKADAŞ</span>}
+            {isDemo&&<span style={{ background:"rgba(26,18,8,0.08)",color:"#8C7B68",fontSize:9,fontWeight:700,padding:"3px 9px",borderRadius:50,letterSpacing:1 }}>DEMO</span>}
           </div>
           <div style={{ display:"flex",alignItems:"center",gap:10 }}>
             {isFriend&&(
@@ -638,9 +638,9 @@ export default function FoodSwipeApp() {
 
           {/* Heading — no padding, full-width flex centering */}
           <div style={{ marginBottom:28,lineHeight:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"0 16px" }}>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:"clamp(40px,12vw,60px)",fontWeight:800,color:"#1A1208",letterSpacing:-1,lineHeight:0.95 }}>Bugün</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:"clamp(40px,12vw,60px)",fontWeight:800,color:"#1A1208",letterSpacing:-0.5,lineHeight:0.95 }}>Bugün</div>
             <div style={{ fontFamily:"'Syne',sans-serif",fontSize:"clamp(52px,16vw,84px)",fontWeight:800,color:"#FF3B55",letterSpacing:0,lineHeight:0.88 }}>nerede</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:"clamp(40px,12vw,60px)",fontWeight:800,color:"#1A1208",letterSpacing:-1,lineHeight:0.95 }}>yesek?</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:"clamp(40px,12vw,60px)",fontWeight:800,color:"#1A1208",letterSpacing:-0.5,lineHeight:0.95 }}>yesek?</div>
           </div>
 
           {/* Padded section */}
@@ -657,7 +657,7 @@ export default function FoodSwipeApp() {
                 onMouseLeave={e=>{ e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow="0 6px 24px rgba(26,18,8,0.25)"; }}
               >
                 <span style={{ fontSize:22 }}>📍</span>
-                <span style={{ fontSize:17,fontWeight:700,fontFamily:"'Syne',sans-serif",letterSpacing:-0.2 }}>Tek Başına</span>
+                <span style={{ fontSize:17,fontWeight:700,fontFamily:"'Syne',sans-serif",letterSpacing:0 }}>Tek Başına</span>
               </button>
 
               <button
@@ -667,7 +667,7 @@ export default function FoodSwipeApp() {
                 onMouseLeave={e=>{ e.currentTarget.style.background="white"; e.currentTarget.style.color="#1A1208"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow=""; }}
               >
                 <span style={{ fontSize:22 }}>👥</span>
-                <span style={{ fontSize:17,fontWeight:700,fontFamily:"'Syne',sans-serif",letterSpacing:-0.2 }}>Arkadaş Modu</span>
+                <span style={{ fontSize:17,fontWeight:700,fontFamily:"'Syne',sans-serif",letterSpacing:0 }}>Arkadaş Modu</span>
               </button>
             </div>
 
@@ -682,8 +682,8 @@ export default function FoodSwipeApp() {
       {phase==="name"&&(
         <div className="fade-up" style={{ width:"100%",maxWidth:380,padding:"20px 24px 24px",zIndex:10 }}>
           <button onClick={()=>setPhase("intro")} style={{ background:"none",border:"none",color:"#8C7B68",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit",marginBottom:32,display:"flex",alignItems:"center",gap:6 }}>← Geri</button>
-          <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:4,marginBottom:14,textTransform:"uppercase" }}>Arkadaş Modu</div>
-          <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:42,color:"#1A1208",marginBottom:10,fontWeight:800,letterSpacing:-1.5 }}>Adın ne?</h2>
+          <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:1,marginBottom:14,textTransform:"uppercase" }}>Arkadaş Modu</div>
+          <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:42,color:"#1A1208",marginBottom:10,fontWeight:800,letterSpacing:-0.5 }}>Adın ne?</h2>
           <p style={{ color:"#8C7B68",fontSize:14,marginBottom:26,lineHeight:1.7,fontWeight:500 }}>Arkadaşların seni bu isimle görecek</p>
           <input className="inp" placeholder="Adını yaz..." value={nameInput} autoFocus onChange={e=>setNameInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&submitName()} style={{ marginBottom:14 }}/>
           <button className="cta" style={{ width:"100%" }} onClick={submitName} disabled={!nameInput.trim()}>Devam Et →</button>
@@ -694,8 +694,8 @@ export default function FoodSwipeApp() {
       {phase==="friendMenu"&&(
         <div className="fade-up" style={{ width:"100%",maxWidth:380,padding:"20px 24px 24px",zIndex:10 }}>
           <button onClick={()=>setPhase("intro")} style={{ background:"none",border:"none",color:"#8C7B68",fontSize:13,fontWeight:600,cursor:"pointer",fontFamily:"inherit",marginBottom:32,display:"flex",alignItems:"center",gap:6 }}>← Geri</button>
-          <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:4,marginBottom:14,textTransform:"uppercase" }}>Arkadaş Modu</div>
-          <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:38,color:"#1A1208",marginBottom:28,fontWeight:800,letterSpacing:-1.5 }}>Merhaba, <span style={{ color:"#FF3B55" }}>{myName}</span>!</h2>
+          <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:1,marginBottom:14,textTransform:"uppercase" }}>Arkadaş Modu</div>
+          <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:38,color:"#1A1208",marginBottom:28,fontWeight:800,letterSpacing:-0.5 }}>Merhaba, <span style={{ color:"#FF3B55" }}>{myName}</span>!</h2>
           <div style={{ display:"flex",flexDirection:"column",gap:12 }}>
             <div
               style={{ background:"white",border:"2px solid #E8E0D4",borderRadius:20,padding:"18px 20px",cursor:"pointer",transition:"all .2s cubic-bezier(0.34,1.56,0.64,1)",display:"flex",alignItems:"center",gap:14,boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}
@@ -723,15 +723,15 @@ export default function FoodSwipeApp() {
       {phase==="lobby"&&(
         <div style={{ width:"100%",maxWidth:400,padding:"20px",zIndex:10 }}>
           <div style={{ textAlign:"center",marginBottom:28 }}>
-            <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:4,marginBottom:12,textTransform:"uppercase" }}>Arkadaş Modu</div>
-            <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:36,color:"#1A1208",fontWeight:800,letterSpacing:-1 }}>Odana Hoş Geldin!</h2>
+            <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:1,marginBottom:12,textTransform:"uppercase" }}>Arkadaş Modu</div>
+            <h2 style={{ fontFamily:"'Syne',sans-serif",fontSize:36,color:"#1A1208",fontWeight:800,letterSpacing:-0.5 }}>Odana Hoş Geldin!</h2>
           </div>
           <div style={{ background:"white",border:"2.5px solid #1A1208",borderRadius:20,padding:"20px 24px",textAlign:"center",marginBottom:12,boxShadow:"0 4px 20px rgba(0,0,0,0.08)" }}>
-            <div style={{ color:"#8C7B68",fontSize:10,fontWeight:800,letterSpacing:3,marginBottom:10 }}>ODA KODU</div>
+            <div style={{ color:"#8C7B68",fontSize:10,fontWeight:800,letterSpacing:1,marginBottom:10 }}>ODA KODU</div>
             <div style={{ fontFamily:"'Roboto Mono',monospace",fontSize:40,color:"#1A1208",letterSpacing:7,fontWeight:700 }}>{roomCode}</div>
           </div>
           <div style={{ background:"white",border:"1.5px solid #E8E0D4",borderRadius:20,padding:"18px 20px",marginBottom:18,boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
-            <div style={{ color:"#8C7B68",fontSize:10,fontWeight:800,letterSpacing:3,marginBottom:16 }}>KATILANLAR · {members.length} KİŞİ</div>
+            <div style={{ color:"#8C7B68",fontSize:10,fontWeight:800,letterSpacing:1,marginBottom:16 }}>KATILANLAR · {members.length} KİŞİ</div>
             {members.map((m,i)=>(
               <div key={m.id} style={{ display:"flex",alignItems:"center",gap:12,marginBottom:i<members.length-1?12:0 }}>
                 <div style={{ width:38,height:38,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:"white",fontFamily:"'Syne',sans-serif",flexShrink:0 }}>{avatarLetter(m.name)}</div>
@@ -739,7 +739,7 @@ export default function FoodSwipeApp() {
                   <div style={{ color:"#1A1208",fontSize:14,fontWeight:700 }}>{m.name} {m.name===myName&&<span style={{ color:"#FF3B55",fontSize:11,fontWeight:600 }}>(sen)</span>}</div>
                   <div style={{ color:m.ready?"#22C55E":"#C4B8A8",fontSize:11,fontWeight:600 }}>{m.ready?"✓ Hazır":"Bekleniyor..."}</div>
                 </div>
-                {i===0&&<span style={{ color:"white",fontSize:9,fontWeight:800,fontFamily:"'Syne',sans-serif",background:"#1A1208",padding:"4px 10px",borderRadius:50,letterSpacing:1.5 }}>HOST</span>}
+                {i===0&&<span style={{ color:"white",fontSize:9,fontWeight:800,fontFamily:"'Syne',sans-serif",background:"#1A1208",padding:"4px 10px",borderRadius:50,letterSpacing:1 }}>HOST</span>}
               </div>
             ))}
           </div>
@@ -841,16 +841,16 @@ export default function FoodSwipeApp() {
       {/* ── RESULT ── */}
       {phase==="result"&&result&&(
         <div className="fade-up" style={{ textAlign:"center",padding:"20px 20px 28px",maxWidth:420,width:"100%",zIndex:10 }}>
-          <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:4,marginBottom:14,textTransform:"uppercase" }}>
+          <div style={{ fontSize:10,color:"#FF3B55",fontWeight:800,letterSpacing:1,marginBottom:14,textTransform:"uppercase" }}>
             {likedCount>0?`${likedCount} mekan beğendin`:"Hiçbirini beğenmeseydin de..."}
           </div>
-          <h1 style={{ fontFamily:"'Syne',sans-serif",fontSize:44,color:"#1A1208",lineHeight:0.98,marginBottom:22,fontWeight:800,letterSpacing:-2 }}>
+          <h1 style={{ fontFamily:"'Syne',sans-serif",fontSize:44,color:"#1A1208",lineHeight:0.98,marginBottom:22,fontWeight:800,letterSpacing:-0.5 }}>
             Bu gece<br/><span style={{ color:"#FF3B55" }}>buraya git!</span>
           </h1>
           <div style={{ borderRadius:24,overflow:"hidden",marginBottom:18,position:"relative",height:252,background:`linear-gradient(155deg,${GRADIENTS[0][0]},${GRADIENTS[0][1]})`,boxShadow:"0 20px 56px rgba(0,0,0,0.22)" }}>
             {result.photo ? <img src={result.photo} alt={result.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}/> : <div style={{ position:"absolute",inset:0,display:"flex",alignItems:"center",justifyContent:"center",fontSize:80 }}>{result.emoji}</div>}
             <div style={{ position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.92) 0%,rgba(0,0,0,0) 55%)" }}/>
-            <div style={{ position:"absolute",top:14,left:"50%",transform:"translateX(-50%)",background:"linear-gradient(135deg,#FF3B55,#FF6830)",color:"white",fontWeight:800,fontFamily:"'Syne',sans-serif",fontSize:9,padding:"6px 20px",borderRadius:50,letterSpacing:3,whiteSpace:"nowrap" }}>✨ EN İYİ SEÇİM</div>
+            <div style={{ position:"absolute",top:14,left:"50%",transform:"translateX(-50%)",background:"linear-gradient(135deg,#FF3B55,#FF6830)",color:"white",fontWeight:800,fontFamily:"'Syne',sans-serif",fontSize:9,padding:"6px 20px",borderRadius:50,letterSpacing:1,whiteSpace:"nowrap" }}>✨ EN İYİ SEÇİM</div>
             <div style={{ position:"absolute",bottom:0,left:0,right:0,padding:"18px 20px" }}>
               <div style={{ display:"flex",alignItems:"center",gap:8,marginBottom:8,flexWrap:"wrap" }}>
                 {result.rating>0&&<span style={{ color:"#FFD60A",fontWeight:800,fontSize:13 }}>★ {result.rating.toFixed(1)}</span>}
@@ -863,7 +863,7 @@ export default function FoodSwipeApp() {
           </div>
           {likedCards.length>1&&(
             <div style={{ marginBottom:18,textAlign:"left" }}>
-              <div style={{ fontSize:10,color:"#8C7B68",fontWeight:800,letterSpacing:3,marginBottom:12,textTransform:"uppercase" }}>Diğer beğenilerin</div>
+              <div style={{ fontSize:10,color:"#8C7B68",fontWeight:800,letterSpacing:1,marginBottom:12,textTransform:"uppercase" }}>Diğer beğenilerin</div>
               <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
                 {likedCards.slice(1).map(card=>(
                   <div key={card.id} style={{ background:"white",borderRadius:16,border:"1.5px solid #EAE4DC",display:"flex",alignItems:"center",overflow:"hidden",boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
