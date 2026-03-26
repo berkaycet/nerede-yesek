@@ -622,9 +622,13 @@ export default function FoodSwipeApp() {
       {phase==="intro"&&(
         <div className="fade-up" style={{ textAlign:"center",padding:"0 20px",maxWidth:400,width:"100%",zIndex:10 }}>
           {/* Floating food hero */}
-          <div style={{ position:"relative",height:140,marginBottom:4,display:"flex",alignItems:"center",justifyContent:"center" }}>
-            <div style={{ position:"absolute",width:160,height:160,borderRadius:"50%",background:"radial-gradient(circle,rgba(255,104,48,0.12) 0%,transparent 70%)",animation:"bounce 2.8s ease infinite" }}/>
-            <div style={{ fontSize:100,lineHeight:1,animation:"bounce 2.8s ease infinite",filter:"drop-shadow(0 12px 32px rgba(255,59,85,0.25)) drop-shadow(0 4px 12px rgba(0,0,0,0.15))",position:"relative",zIndex:1 }}>🍔</div>
+          <div style={{ position:"relative",height:150,marginBottom:4,display:"flex",alignItems:"center",justifyContent:"center" }}>
+            <div style={{ position:"absolute",width:180,height:180,borderRadius:"50%",background:"radial-gradient(circle,rgba(255,104,48,0.15) 0%,transparent 70%)",animation:"bounce 2.8s ease infinite" }}/>
+            <img
+              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=320&q=85"
+              alt="burger"
+              style={{ width:150,height:150,objectFit:"cover",borderRadius:"50%",animation:"bounce 2.8s ease infinite",boxShadow:"0 16px 48px rgba(0,0,0,0.25),0 4px 16px rgba(255,59,85,0.2)",position:"relative",zIndex:1,border:"4px solid white" }}
+            />
           </div>
 
           {/* Staggered headline */}
@@ -651,7 +655,7 @@ export default function FoodSwipeApp() {
                 <div style={{ fontSize:17,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:3,letterSpacing:-0.3 }}>Tek Başına</div>
                 <div style={{ fontSize:12,opacity:0.45,fontWeight:500 }}>GPS ile yakın restoranları tara</div>
               </div>
-              <div style={{ fontSize:32,opacity:0.9,marginRight:4 }}>📍</div>
+              <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=120&q=80" alt="" style={{ width:64,height:64,objectFit:"cover",borderRadius:14,flexShrink:0,opacity:0.85 }}/>
             </button>
             <button
               onClick={()=>requireName("friend")}
@@ -663,7 +667,7 @@ export default function FoodSwipeApp() {
                 <div style={{ fontSize:17,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:3,letterSpacing:-0.3 }}>Arkadaş Modu</div>
                 <div style={{ fontSize:12,color:"#9CA3AF",fontWeight:500 }}>Hep beraber kaydırın, eşleşen kazanır</div>
               </div>
-              <div style={{ fontSize:32,opacity:0.9,marginRight:4 }}>👥</div>
+              <img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=120&q=80" alt="" style={{ width:64,height:64,objectFit:"cover",borderRadius:14,flexShrink:0,opacity:0.85 }}/>
             </button>
           </div>
 
