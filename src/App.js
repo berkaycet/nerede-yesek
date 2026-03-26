@@ -539,7 +539,7 @@ export default function FoodSwipeApp() {
   };
 
   return (
-    <div style={{ minHeight:"100vh",fontFamily:"'Plus Jakarta Sans',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start",paddingTop:"62px",paddingBottom:"40px",background:"#EDE8DF",backgroundImage:"repeating-linear-gradient(118deg,transparent 0,transparent 44px,rgba(180,162,140,0.07) 44px,rgba(180,162,140,0.07) 46px),repeating-linear-gradient(62deg,transparent 0,transparent 70px,rgba(170,152,130,0.05) 70px,rgba(170,152,130,0.05) 72px),linear-gradient(170deg,#F2ECE4 0%,#E8DFD3 40%,#EDE6DB 70%,#F0EAE0 100%)" }}>
+    <div style={{ minHeight:"100vh",fontFamily:"'Plus Jakarta Sans',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start",paddingTop:phase==="swiping"?"62px":"20px",paddingBottom:"40px",background:"#EDE8DF",backgroundImage:"repeating-linear-gradient(118deg,transparent 0,transparent 44px,rgba(180,162,140,0.07) 44px,rgba(180,162,140,0.07) 46px),repeating-linear-gradient(62deg,transparent 0,transparent 70px,rgba(170,152,130,0.05) 70px,rgba(170,152,130,0.05) 72px),linear-gradient(170deg,#F2ECE4 0%,#E8DFD3 40%,#EDE6DB 70%,#F0EAE0 100%)" }}>
       {showConfetti && <Confetti key={confettiKey} onDone={() => setShowConfetti(false)} />}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@600;700&display=swap');
@@ -588,22 +588,19 @@ export default function FoodSwipeApp() {
         .inp::placeholder{color:#C4CDD8;font-weight:400;}
       `}</style>
 
-      {/* ── NAV ── */}
-      <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:300,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 22px",borderBottom:"1px solid rgba(180,162,140,0.2)",background:"rgba(237,232,223,0.92)",backdropFilter:"blur(24px)" }}>
-        <div style={{ display:"flex",alignItems:"center",gap:8 }}>
-          <span style={{ fontSize:18 }}>🍽️</span>
-          <span style={{ fontFamily:"'Syne',sans-serif",fontSize:18,color:"#0D0D0D",fontWeight:800,letterSpacing:-0.5 }}>
-            ne yesek<span style={{ color:"#FF3B55" }}>.</span>
-          </span>
-          {isFriend&&<span style={{ background:"linear-gradient(135deg,#FF3B55,#FF6830)",color:"white",fontSize:9,fontWeight:800,padding:"3px 9px",borderRadius:50,letterSpacing:1.5 }}>ARKADAŞ</span>}
-          {!isFriend&&isDemo&&<span style={{ background:"#F3F4F6",color:"#9CA3AF",fontSize:9,fontWeight:700,padding:"3px 9px",borderRadius:50,letterSpacing:1.5 }}>DEMO</span>}
-        </div>
-        {phase==="swiping"&&(
+      {/* ── NAV — only shown during swiping ── */}
+      {phase==="swiping"&&(
+        <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:300,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 22px",borderBottom:"1px solid rgba(180,162,140,0.2)",background:"rgba(237,232,223,0.92)",backdropFilter:"blur(24px)" }}>
+          <div style={{ display:"flex",alignItems:"center",gap:8 }}>
+            <span style={{ fontFamily:"'Syne',sans-serif",fontSize:17,color:"#1A1208",fontWeight:800,letterSpacing:-0.5 }}>ne yesek<span style={{ color:"#FF3B55" }}>.</span></span>
+            {isFriend&&<span style={{ background:"linear-gradient(135deg,#FF3B55,#FF6830)",color:"white",fontSize:9,fontWeight:800,padding:"3px 9px",borderRadius:50,letterSpacing:1.5 }}>ARKADAŞ</span>}
+            {isDemo&&<span style={{ background:"rgba(26,18,8,0.08)",color:"#8C7B68",fontSize:9,fontWeight:700,padding:"3px 9px",borderRadius:50,letterSpacing:1.5 }}>DEMO</span>}
+          </div>
           <div style={{ display:"flex",alignItems:"center",gap:10 }}>
             {isFriend&&(
               <div style={{ display:"flex" }}>
                 {members.slice(0,4).map((m,i)=>(
-                  <div key={m.id} style={{ width:28,height:28,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:800,color:"white",fontFamily:"'Syne',sans-serif",border:"2.5px solid #FAFAF8",marginLeft:i>0?-8:0,zIndex:10-i }}>{avatarLetter(m.name)}</div>
+                  <div key={m.id} style={{ width:28,height:28,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:800,color:"white",fontFamily:"'Syne',sans-serif",border:"2.5px solid #EDE8DF",marginLeft:i>0?-8:0,zIndex:10-i }}>{avatarLetter(m.name)}</div>
                 ))}
               </div>
             )}
@@ -612,8 +609,8 @@ export default function FoodSwipeApp() {
               <span style={{ color:"#FF3B55",fontSize:13,fontWeight:800 }}>{likedCount}</span>
             </div>
           </div>
-        )}
-      </nav>
+        </nav>
+      )}
 
       {/* Background glow */}
       <div style={{ position:"fixed",top:"-20%",left:"50%",transform:"translateX(-50%)",width:800,height:600,background:"radial-gradient(ellipse,rgba(255,59,85,0.04) 0%,transparent 70%)",pointerEvents:"none",zIndex:0 }}/>
