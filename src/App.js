@@ -554,11 +554,11 @@ export default function FoodSwipeApp() {
   };
 
   return (
-    <div style={{ minHeight:"100vh",fontFamily:"'Space Grotesk',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:phase==="swiping"?"flex-start":"center",paddingTop:phase==="swiping"?"62px":"0",paddingBottom:phase==="swiping"?"40px":"32px",background:"#EDE8DF",backgroundImage:"repeating-linear-gradient(118deg,transparent 0,transparent 44px,rgba(180,162,140,0.07) 44px,rgba(180,162,140,0.07) 46px),repeating-linear-gradient(62deg,transparent 0,transparent 70px,rgba(170,152,130,0.05) 70px,rgba(170,152,130,0.05) 72px),linear-gradient(170deg,#F2ECE4 0%,#E8DFD3 40%,#EDE6DB 70%,#F0EAE0 100%)" }}>
+    <div style={{ minHeight:"100vh",fontFamily:"'Roboto',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:phase==="swiping"?"flex-start":"center",paddingTop:phase==="swiping"?"62px":"0",paddingBottom:phase==="swiping"?"40px":"32px",background:"#EDE8DF",backgroundImage:"repeating-linear-gradient(118deg,transparent 0,transparent 44px,rgba(180,162,140,0.07) 44px,rgba(180,162,140,0.07) 46px),repeating-linear-gradient(62deg,transparent 0,transparent 70px,rgba(170,152,130,0.05) 70px,rgba(170,152,130,0.05) 72px),linear-gradient(170deg,#F2ECE4 0%,#E8DFD3 40%,#EDE6DB 70%,#F0EAE0 100%)" }}>
       {showConfetti && <Confetti key={confettiKey} onDone={() => setShowConfetti(false)} />}
       <link rel="preconnect" href="https://fonts.googleapis.com"/>
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
-      <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&family=Roboto+Mono:wght@600;700&display=swap" rel="stylesheet"/>
+      <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@600;700&display=swap" rel="stylesheet"/>
       <style>{`
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         html,body{margin:0;padding:0;background:#EDE8DF;}
