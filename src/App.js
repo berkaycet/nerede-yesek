@@ -272,7 +272,7 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
 
       {/* Header */}
       <div style={{ textAlign:"center",marginBottom:28 }}>
-        <div style={{ fontFamily:"'Syne',sans-serif",fontSize:48,color:"#1A1208",fontWeight:800,letterSpacing:-1.5,lineHeight:1,marginBottom:12 }}>
+        <div style={{ fontFamily:"'Syne',sans-serif",fontSize:52,color:"#1A1208",fontWeight:800,letterSpacing:-2,lineHeight:1,marginBottom:12 }}>
           {matchedCards.length > 0 ? "Eşleşme!" : "Ortak seçim yok"}
         </div>
         <div style={{ display:"flex",justifyContent:"center",marginBottom:12 }}>
@@ -293,7 +293,7 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
             <div key={card.id}>
               <div style={{ background:"#FF3B55",borderRadius:"16px 16px 0 0",padding:"8px 16px",display:"flex",alignItems:"center",gap:6 }}>
                 <span style={{ fontSize:13 }}>🏆</span>
-                <span style={{ fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:800,color:"white",letterSpacing:2 }}>EN İYİ EŞLEŞME</span>
+                <span style={{ fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:800,color:"white",letterSpacing:2,textTransform:"uppercase" }}>EN İYİ EŞLEŞME</span>
               </div>
               <div style={{ background:"#1A1208",borderRadius:"0 0 16px 16px",height:140,display:"flex",alignItems:"center",overflow:"hidden",position:"relative",boxShadow:"0 8px 32px rgba(26,18,8,0.25)" }}>
                 {card.photo
@@ -301,7 +301,7 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
                   : <div style={{ position:"absolute",right:20,fontSize:72,opacity:0.2,lineHeight:1 }}>{card.emoji}</div>
                 }
                 <div style={{ position:"relative",padding:"0 20px",flex:1 }}>
-                  <div style={{ fontFamily:"'Syne',sans-serif",fontSize:20,color:"white",fontWeight:800,letterSpacing:-0.5,marginBottom:8 }}>{card.name}</div>
+                  <div style={{ fontFamily:"'Syne',sans-serif",fontSize:28,color:"white",fontWeight:800,letterSpacing:-0.5,marginBottom:8 }}>{card.name}</div>
                   <div style={{ color:"rgba(255,255,255,0.5)",fontSize:12,marginBottom:10 }}>📍 {card.address}</div>
                   <div style={{ display:"flex",alignItems:"center",gap:10 }}>
                     {card.rating>0&&<span style={{ color:"#FFD60A",fontWeight:700,fontSize:14 }}>★ {card.rating.toFixed(1)}</span>}
@@ -320,7 +320,7 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
                 {card.photo ? <img src={card.photo} alt={card.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}/> : card.emoji}
               </div>
               <div style={{ padding:"12px 16px",flex:1 }}>
-                <div style={{ fontFamily:"'Syne',sans-serif",fontSize:15,color:"#1A1208",fontWeight:700,marginBottom:3 }}>{card.name}</div>
+                <div style={{ fontFamily:"'Syne',sans-serif",fontSize:16,color:"#1A1208",fontWeight:700,marginBottom:3 }}>{card.name}</div>
                 <div style={{ color:"#8C7B68",fontSize:12,marginBottom:5 }}>📍 {card.address}</div>
                 <div style={{ display:"flex",alignItems:"center",gap:8 }}>
                   {card.rating>0&&<span style={{ color:getRatingColor(card.rating),fontWeight:700,fontSize:12 }}>★ {card.rating.toFixed(1)}</span>}
@@ -556,8 +556,10 @@ export default function FoodSwipeApp() {
   return (
     <div style={{ minHeight:"100vh",fontFamily:"'Space Grotesk',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:phase==="swiping"?"flex-start":"center",paddingTop:phase==="swiping"?"62px":"0",paddingBottom:phase==="swiping"?"40px":"32px",background:"#EDE8DF",backgroundImage:"repeating-linear-gradient(118deg,transparent 0,transparent 44px,rgba(180,162,140,0.07) 44px,rgba(180,162,140,0.07) 46px),repeating-linear-gradient(62deg,transparent 0,transparent 70px,rgba(170,152,130,0.05) 70px,rgba(170,152,130,0.05) 72px),linear-gradient(170deg,#F2ECE4 0%,#E8DFD3 40%,#EDE6DB 70%,#F0EAE0 100%)" }}>
       {showConfetti && <Confetti key={confettiKey} onDone={() => setShowConfetti(false)} />}
+      <link rel="preconnect" href="https://fonts.googleapis.com"/>
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
+      <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&family=Roboto+Mono:wght@600;700&display=swap" rel="stylesheet"/>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&family=Roboto+Mono:wght@600;700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         html,body{margin:0;padding:0;background:#EDE8DF;}
         html{overflow-x:hidden;}
