@@ -592,7 +592,7 @@ export default function FoodSwipeApp() {
       {phase==="swiping"&&(
         <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:300,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 22px",borderBottom:"1px solid rgba(180,162,140,0.2)",background:"rgba(237,232,223,0.92)",backdropFilter:"blur(24px)" }}>
           <div style={{ display:"flex",alignItems:"center",gap:8 }}>
-            <span style={{ fontFamily:"'Syne',sans-serif",fontSize:17,color:"#1A1208",fontWeight:800,letterSpacing:-0.5 }}>ne yesek<span style={{ color:"#FF3B55" }}>.</span></span>
+            <span style={{ fontFamily:"'Syne',sans-serif",fontSize:17,color:"#1A1208",fontWeight:800,letterSpacing:-0.5 }}>nerede yesek<span style={{ color:"#FF3B55" }}>.</span></span>
             {isFriend&&<span style={{ background:"linear-gradient(135deg,#FF3B55,#FF6830)",color:"white",fontSize:9,fontWeight:800,padding:"3px 9px",borderRadius:50,letterSpacing:1.5 }}>ARKADAŞ</span>}
             {isDemo&&<span style={{ background:"rgba(26,18,8,0.08)",color:"#8C7B68",fontSize:9,fontWeight:700,padding:"3px 9px",borderRadius:50,letterSpacing:1.5 }}>DEMO</span>}
           </div>
@@ -619,30 +619,14 @@ export default function FoodSwipeApp() {
       {phase==="intro"&&(
         <div className="fade-up" style={{ textAlign:"center",padding:"0 22px",maxWidth:400,width:"100%",zIndex:10 }}>
 
-          {/* Hero food photo — large, natural, floating */}
-          <div style={{ position:"relative",marginBottom:12,display:"flex",justifyContent:"center" }}>
-            <div style={{ position:"absolute",bottom:0,left:"50%",transform:"translateX(-50%)",width:"70%",height:24,background:"radial-gradient(ellipse,rgba(0,0,0,0.18) 0%,transparent 70%)",borderRadius:"50%",filter:"blur(6px)" }}/>
-            <img
-              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=90"
-              alt="yemek"
-              style={{
-                width:220,height:200,objectFit:"cover",
-                borderRadius:"50% 50% 46% 46% / 55% 55% 45% 45%",
-                boxShadow:"0 20px 50px rgba(0,0,0,0.22),0 6px 16px rgba(0,0,0,0.12)",
-                animation:"bounce 3s ease infinite",
-                position:"relative",zIndex:1
-              }}
-            />
-          </div>
-
           {/* Label */}
-          <div style={{ fontSize:11,fontWeight:800,letterSpacing:4,color:"#A89880",textTransform:"uppercase",marginBottom:10 }}>İSTANBUL · YEMEK</div>
+          <div style={{ fontSize:11,fontWeight:800,letterSpacing:4,color:"#A89880",textTransform:"uppercase",marginBottom:16,marginTop:8 }}>İSTANBUL · YEMEK</div>
 
           {/* Main heading — centered, dramatic 3-line */}
           <div style={{ marginBottom:18,lineHeight:1 }}>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-2,lineHeight:0.95 }}>Bugün</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:96,fontWeight:800,color:"#FF3B55",letterSpacing:-4,lineHeight:0.85 }}>ne</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-2,lineHeight:0.95 }}>yesek<span style={{ color:"#FF6830" }}>?</span></div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:58,fontWeight:800,color:"#1A1208",letterSpacing:-2,lineHeight:0.95 }}>Bugün</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:78,fontWeight:800,color:"#FF3B55",letterSpacing:-3,lineHeight:0.88 }}>nerede</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:58,fontWeight:800,color:"#1A1208",letterSpacing:-2,lineHeight:0.95 }}>yesek<span style={{ color:"#FF6830" }}>?</span></div>
           </div>
 
           {/* Subtitle */}
