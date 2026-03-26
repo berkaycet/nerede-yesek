@@ -705,7 +705,7 @@ export default function FoodSwipeApp() {
             >
               <div style={{ width:44,height:44,borderRadius:14,background:"#1A1208",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0 }}>🏠</div>
               <div style={{ textAlign:"left" }}>
-                <div style={{ color:"#1A1208",fontSize:15,fontWeight:700,fontFamily:"'Roboto',sans-serif",marginBottom:2 }}>Oda Oluştur</div>
+                <div style={{ color:"#1A1208",fontSize:15,fontWeight:500,fontFamily:"'Roboto',sans-serif",marginBottom:2 }}>Oda Oluştur</div>
                 <div style={{ color:"#8C7B68",fontSize:12,fontWeight:500 }}>Arkadaşlarını davet et</div>
               </div>
               <div style={{ marginLeft:"auto",color:"#C4B8A8",fontSize:20 }}>›</div>
