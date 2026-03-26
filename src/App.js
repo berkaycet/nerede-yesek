@@ -554,7 +554,7 @@ export default function FoodSwipeApp() {
   };
 
   return (
-    <div style={{ minHeight:"100vh",fontFamily:"'Roboto',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:phase==="swiping"?"flex-start":["matchList","result"].includes(phase)?"flex-start":"center",paddingTop:phase==="swiping"?"62px":["matchList","result"].includes(phase)?"32px":"0",paddingBottom:phase==="swiping"?"40px":"32px",background:"#EDE8DF",backgroundImage:"repeating-linear-gradient(118deg,transparent 0,transparent 44px,rgba(180,162,140,0.07) 44px,rgba(180,162,140,0.07) 46px),repeating-linear-gradient(62deg,transparent 0,transparent 70px,rgba(170,152,130,0.05) 70px,rgba(170,152,130,0.05) 72px),linear-gradient(170deg,#F2ECE4 0%,#E8DFD3 40%,#EDE6DB 70%,#F0EAE0 100%)" }}>
+    <div style={{ minHeight:"100vh",overflowX:"hidden",fontFamily:"'Roboto',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:phase==="swiping"?"flex-start":["matchList","result"].includes(phase)?"flex-start":"center",paddingTop:phase==="swiping"?"62px":["matchList","result"].includes(phase)?"32px":"0",paddingBottom:phase==="swiping"?"40px":"32px",background:"#EDE8DF",backgroundImage:"repeating-linear-gradient(118deg,transparent 0,transparent 44px,rgba(180,162,140,0.07) 44px,rgba(180,162,140,0.07) 46px),repeating-linear-gradient(62deg,transparent 0,transparent 70px,rgba(170,152,130,0.05) 70px,rgba(170,152,130,0.05) 72px),linear-gradient(170deg,#F2ECE4 0%,#E8DFD3 40%,#EDE6DB 70%,#F0EAE0 100%)" }}>
       {showConfetti && <Confetti key={confettiKey} onDone={() => setShowConfetti(false)} />}
       <link rel="preconnect" href="https://fonts.googleapis.com"/>
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
@@ -562,7 +562,6 @@ export default function FoodSwipeApp() {
       <style>{`
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         html,body{margin:0;padding:0;background:#EDE8DF;}
-        body{overflow-x:hidden;}
         @keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
         @keyframes spin{to{transform:rotate(360deg);}}
         @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-13px);}}
