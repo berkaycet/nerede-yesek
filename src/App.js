@@ -269,12 +269,13 @@ function CodeInput({ value, onChange, onSubmit }) {
 function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
   return (
     <div style={{ width:"100%",maxWidth:420,padding:"20px 20px 40px",zIndex:10,flexShrink:0 }}>
+
+      {/* Header */}
       <div style={{ textAlign:"center",marginBottom:28 }}>
-        <div style={{ fontSize:56,marginBottom:10,animation:"bounce 2s ease infinite" }}>🎉</div>
-        <div style={{ fontFamily:"'Syne',sans-serif",fontSize:36,color:"#1A1208",fontWeight:800,letterSpacing:-1,marginBottom:8 }}>
+        <div style={{ fontFamily:"'Syne',sans-serif",fontSize:48,color:"#1A1208",fontWeight:800,letterSpacing:-1.5,lineHeight:1,marginBottom:12 }}>
           {matchedCards.length > 0 ? "Eşleşme!" : "Ortak seçim yok"}
         </div>
-        <div style={{ display:"flex",justifyContent:"center",marginBottom:14 }}>
+        <div style={{ display:"flex",justifyContent:"center",marginBottom:12 }}>
           {members.map((m,i)=>(
             <div key={m.id} style={{ width:38,height:38,borderRadius:"50%",background:avatarColor(m.name),display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:"white",fontFamily:"'Syne',sans-serif",border:"3px solid #EDE8DF",marginLeft:i>0?-10:0,zIndex:members.length-i }}>{avatarLetter(m.name)}</div>
           ))}
@@ -283,30 +284,52 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
           {matchedCards.length > 0 ? `${members.map(m=>m.name).join(" ve ")} ${matchedCards.length} restoranı ortak beğendi` : "Hiç ortak beğeni olmadı, tekrar deneyin!"}
         </p>
       </div>
+
       {matchedCards.length > 0 ? (
-        <div style={{ display:"flex",flexDirection:"column",gap:12,marginBottom:24 }}>
-          {matchedCards.map((card, i) => (
-            <div key={card.id} style={{
-              background:"white",borderRadius:20,overflow:"hidden",
-              border:i===0?"2px solid #1A1208":"1.5px solid #EAE4DC",
-              boxShadow:i===0?"0 8px 32px rgba(0,0,0,0.12)":"0 2px 8px rgba(0,0,0,0.05)",
-              display:"flex",alignItems:"center",
-              transform:i===0?"scale(1.015)":"scale(1)"
-            }}>
-              <div style={{ width:86,height:86,background:`linear-gradient(135deg,${GRADIENTS[i%GRADIENTS.length][0]},${GRADIENTS[i%GRADIENTS.length][1]})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:36,flexShrink:0,position:"relative" }}>
-                {card.photo ? <img src={card.photo} alt={card.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}/> : card.emoji}
+        <div style={{ display:"flex",flexDirection:"column",gap:10,marginBottom:24 }}>
+          {matchedCards.map((card, i) => i === 0 ? (
+
+            /* ── EN İYİ kart ── */
+            <div key={card.id}>
+              <div style={{ background:"#FF3B55",borderRadius:"16px 16px 0 0",padding:"8px 16px",display:"flex",alignItems:"center",gap:6 }}>
+                <span style={{ fontSize:13 }}>🏆</span>
+                <span style={{ fontFamily:"'Syne',sans-serif",fontSize:10,fontWeight:800,color:"white",letterSpacing:2 }}>EN İYİ EŞLEŞME</span>
               </div>
-              <div style={{ padding:"12px 16px",flex:1 }}>
-                {i===0&&<span style={{ background:"#1A1208",color:"white",fontSize:9,fontWeight:800,fontFamily:"'Syne',sans-serif",padding:"3px 10px",borderRadius:50,display:"inline-block",marginBottom:6,letterSpacing:1.5 }}>🏆 EN İYİ</span>}
-                <div style={{ fontFamily:"'Syne',sans-serif",fontSize:16,color:"#1A1208",fontWeight:800,marginBottom:3 }}>{card.name}</div>
-                <div style={{ color:"#8C7B68",fontSize:12,marginBottom:5 }}>📍 {card.address}</div>
-                <div style={{ display:"flex",alignItems:"center",gap:8 }}>
-                  {card.rating>0&&<span style={{ color:getRatingColor(card.rating),fontWeight:700,fontSize:13 }}>★ {card.rating.toFixed(1)}</span>}
-                  {card.price&&<span style={{ color:"#FF6830",fontWeight:700,fontSize:13 }}>{card.price}</span>}
-                  <span style={{ color:card.isOpen?"#22C55E":"#EF4444",fontSize:11,fontWeight:700 }}>{card.isOpen?"● Açık":"● Kapalı"}</span>
+              <div style={{ background:"#1A1208",borderRadius:"0 0 16px 16px",height:140,display:"flex",alignItems:"center",overflow:"hidden",position:"relative",boxShadow:"0 8px 32px rgba(26,18,8,0.25)" }}>
+                {card.photo
+                  ? <img src={card.photo} alt={card.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",opacity:0.35 }}/>
+                  : <div style={{ position:"absolute",right:20,fontSize:72,opacity:0.2,lineHeight:1 }}>{card.emoji}</div>
+                }
+                <div style={{ position:"relative",padding:"0 20px",flex:1 }}>
+                  <div style={{ fontFamily:"'Syne',sans-serif",fontSize:20,color:"white",fontWeight:800,letterSpacing:-0.5,marginBottom:8 }}>{card.name}</div>
+                  <div style={{ color:"rgba(255,255,255,0.5)",fontSize:12,marginBottom:10 }}>📍 {card.address}</div>
+                  <div style={{ display:"flex",alignItems:"center",gap:10 }}>
+                    {card.rating>0&&<span style={{ color:"#FFD60A",fontWeight:700,fontSize:14 }}>★ {card.rating.toFixed(1)}</span>}
+                    {card.price&&<span style={{ color:"#FF6830",fontWeight:700,fontSize:14 }}>{card.price}</span>}
+                    <span style={{ color:card.isOpen?"#4ADE80":"#F87171",fontSize:11,fontWeight:700 }}>{card.isOpen?"● Açık":"● Kapalı"}</span>
+                  </div>
                 </div>
               </div>
             </div>
+
+          ) : (
+
+            /* ── Diğer kartlar ── */
+            <div key={card.id} style={{ background:"white",borderRadius:16,overflow:"hidden",border:"1.5px solid #EAE4DC",display:"flex",alignItems:"center",boxShadow:"0 2px 8px rgba(0,0,0,0.04)" }}>
+              <div style={{ width:72,height:72,background:`linear-gradient(135deg,${GRADIENTS[i%GRADIENTS.length][0]},${GRADIENTS[i%GRADIENTS.length][1]})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:30,flexShrink:0,position:"relative" }}>
+                {card.photo ? <img src={card.photo} alt={card.name} style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}/> : card.emoji}
+              </div>
+              <div style={{ padding:"12px 16px",flex:1 }}>
+                <div style={{ fontFamily:"'Syne',sans-serif",fontSize:15,color:"#1A1208",fontWeight:700,marginBottom:3 }}>{card.name}</div>
+                <div style={{ color:"#8C7B68",fontSize:12,marginBottom:5 }}>📍 {card.address}</div>
+                <div style={{ display:"flex",alignItems:"center",gap:8 }}>
+                  {card.rating>0&&<span style={{ color:getRatingColor(card.rating),fontWeight:700,fontSize:12 }}>★ {card.rating.toFixed(1)}</span>}
+                  {card.price&&<span style={{ color:"#FF6830",fontWeight:700,fontSize:12 }}>{card.price}</span>}
+                  <span style={{ color:card.isOpen?"#22C55E":"#EF4444",fontSize:11,fontWeight:600 }}>{card.isOpen?"● Açık":"● Kapalı"}</span>
+                </div>
+              </div>
+            </div>
+
           ))}
         </div>
       ) : (
@@ -315,6 +338,7 @@ function MatchListScreen({ matchedCards, members, onRestart, onHome, isHost }) {
           <p style={{ color:"#8C7B68",fontSize:14 }}>Farklı zevkler! Tekrar deneyin.</p>
         </div>
       )}
+
       <div style={{ display:"flex",gap:10 }}>
         {isHost
           ? <button className="cta" style={{ flex:1 }} onClick={onRestart}>🔄 Tekrar Oyna</button>
