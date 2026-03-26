@@ -539,12 +539,12 @@ export default function FoodSwipeApp() {
   };
 
   return (
-    <div style={{ minHeight:"100vh",background:"#FAFAF8",fontFamily:"'Plus Jakarta Sans',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start",paddingTop:"62px",paddingBottom:"40px" }}>
+    <div style={{ minHeight:"100vh",fontFamily:"'Plus Jakarta Sans',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"flex-start",paddingTop:"62px",paddingBottom:"40px",background:"#EDE8DF",backgroundImage:"repeating-linear-gradient(118deg,transparent 0,transparent 44px,rgba(180,162,140,0.07) 44px,rgba(180,162,140,0.07) 46px),repeating-linear-gradient(62deg,transparent 0,transparent 70px,rgba(170,152,130,0.05) 70px,rgba(170,152,130,0.05) 72px),linear-gradient(170deg,#F2ECE4 0%,#E8DFD3 40%,#EDE6DB 70%,#F0EAE0 100%)" }}>
       {showConfetti && <Confetti key={confettiKey} onDone={() => setShowConfetti(false)} />}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Roboto+Mono:wght@600;700&display=swap');
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-        html,body{margin:0;padding:0;background:#FAFAF8;}
+        html,body{margin:0;padding:0;background:#EDE8DF;}
         html{overflow-x:hidden;}
         @keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
         @keyframes spin{to{transform:rotate(360deg);}}
@@ -589,7 +589,7 @@ export default function FoodSwipeApp() {
       `}</style>
 
       {/* ── NAV ── */}
-      <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:300,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 22px",borderBottom:"1px solid rgba(0,0,0,0.07)",background:"rgba(250,250,248,0.95)",backdropFilter:"blur(24px)" }}>
+      <nav style={{ position:"fixed",top:0,left:0,right:0,zIndex:300,display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 22px",borderBottom:"1px solid rgba(180,162,140,0.2)",background:"rgba(237,232,223,0.92)",backdropFilter:"blur(24px)" }}>
         <div style={{ display:"flex",alignItems:"center",gap:8 }}>
           <span style={{ fontSize:18 }}>🍽️</span>
           <span style={{ fontFamily:"'Syne',sans-serif",fontSize:18,color:"#0D0D0D",fontWeight:800,letterSpacing:-0.5 }}>
@@ -620,59 +620,69 @@ export default function FoodSwipeApp() {
 
       {/* ── INTRO ── */}
       {phase==="intro"&&(
-        <div className="fade-up" style={{ textAlign:"center",padding:"0 20px",maxWidth:400,width:"100%",zIndex:10 }}>
-          {/* Floating food hero */}
-          <div style={{ position:"relative",height:150,marginBottom:4,display:"flex",alignItems:"center",justifyContent:"center" }}>
-            <div style={{ position:"absolute",width:180,height:180,borderRadius:"50%",background:"radial-gradient(circle,rgba(255,104,48,0.15) 0%,transparent 70%)",animation:"bounce 2.8s ease infinite" }}/>
+        <div className="fade-up" style={{ textAlign:"center",padding:"0 22px",maxWidth:400,width:"100%",zIndex:10 }}>
+
+          {/* Hero food photo — large, natural, floating */}
+          <div style={{ position:"relative",marginBottom:12,display:"flex",justifyContent:"center" }}>
+            <div style={{ position:"absolute",bottom:0,left:"50%",transform:"translateX(-50%)",width:"70%",height:24,background:"radial-gradient(ellipse,rgba(0,0,0,0.18) 0%,transparent 70%)",borderRadius:"50%",filter:"blur(6px)" }}/>
             <img
-              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=320&q=85"
-              alt="burger"
-              style={{ width:150,height:150,objectFit:"cover",borderRadius:"50%",animation:"bounce 2.8s ease infinite",boxShadow:"0 16px 48px rgba(0,0,0,0.25),0 4px 16px rgba(255,59,85,0.2)",position:"relative",zIndex:1,border:"4px solid white" }}
+              src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=90"
+              alt="yemek"
+              style={{
+                width:220,height:200,objectFit:"cover",
+                borderRadius:"50% 50% 46% 46% / 55% 55% 45% 45%",
+                boxShadow:"0 20px 50px rgba(0,0,0,0.22),0 6px 16px rgba(0,0,0,0.12)",
+                animation:"bounce 3s ease infinite",
+                position:"relative",zIndex:1
+              }}
             />
           </div>
 
-          {/* Staggered headline */}
-          <div style={{ textAlign:"left",paddingLeft:4,marginBottom:20 }}>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:22,color:"#9CA3AF",fontWeight:700,lineHeight:1,marginBottom:2,letterSpacing:-0.5 }}>Bugün</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:72,color:"#FF3B55",fontWeight:800,lineHeight:0.9,letterSpacing:-3,marginBottom:0 }}>nerede</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:72,color:"#0D0D0D",fontWeight:800,lineHeight:0.9,letterSpacing:-3 }}>yesek<span style={{ color:"#FF6830" }}>?</span></div>
+          {/* Label */}
+          <div style={{ fontSize:11,fontWeight:800,letterSpacing:4,color:"#A89880",textTransform:"uppercase",marginBottom:10 }}>İSTANBUL · YEMEK</div>
+
+          {/* Main heading — centered, dramatic 3-line */}
+          <div style={{ marginBottom:18,lineHeight:1 }}>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-2,lineHeight:0.95 }}>Bugün</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:96,fontWeight:800,color:"#FF3B55",letterSpacing:-4,lineHeight:0.85 }}>ne</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-2,lineHeight:0.95 }}>yesek<span style={{ color:"#FF6830" }}>?</span></div>
           </div>
 
-          {/* Slogan */}
-          <p style={{ color:"#9CA3AF",fontSize:13,lineHeight:1.7,marginBottom:28,fontWeight:500,textAlign:"left",paddingLeft:4 }}>
-            Tartışmayı bırak, kaydır.<br/>Arkadaşlarınla oyna, ortak yer bulun.
+          {/* Subtitle */}
+          <p style={{ color:"#8C7B68",fontSize:14,lineHeight:1.75,marginBottom:32,fontWeight:500 }}>
+            Kaydır, seç, eşleş.<br/>Arkadaşlarınla oyna, ortak yer bulun.
           </p>
 
           {/* Buttons */}
-          <div style={{ display:"flex",flexDirection:"column",gap:10,marginBottom:16,width:"100%" }}>
+          <div style={{ display:"flex",flexDirection:"column",gap:10,marginBottom:14,width:"100%" }}>
             <button
               onClick={()=>startSolo(false)}
-              style={{ width:"100%",padding:"20px 24px",background:"#0D0D0D",color:"white",border:"none",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)",boxShadow:"0 4px 20px rgba(13,13,13,0.18)",overflow:"hidden",position:"relative" }}
-              onMouseEnter={e=>{ e.currentTarget.style.transform="translateY(-3px) scale(1.01)"; e.currentTarget.style.boxShadow="0 14px 36px rgba(13,13,13,0.28)"; }}
-              onMouseLeave={e=>{ e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow="0 4px 20px rgba(13,13,13,0.18)"; }}
+              style={{ width:"100%",padding:"20px 24px",background:"#1A1208",color:"white",border:"none",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)",boxShadow:"0 6px 24px rgba(26,18,8,0.25)" }}
+              onMouseEnter={e=>{ e.currentTarget.style.transform="translateY(-3px) scale(1.01)"; e.currentTarget.style.boxShadow="0 16px 40px rgba(26,18,8,0.35)"; }}
+              onMouseLeave={e=>{ e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow="0 6px 24px rgba(26,18,8,0.25)"; }}
             >
               <div style={{ textAlign:"left" }}>
-                <div style={{ fontSize:17,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:3,letterSpacing:-0.3 }}>Tek Başına</div>
+                <div style={{ fontSize:18,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:3,letterSpacing:-0.3 }}>Tek Başına</div>
                 <div style={{ fontSize:12,opacity:0.45,fontWeight:500 }}>GPS ile yakın restoranları tara</div>
               </div>
-              <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=120&q=80" alt="" style={{ width:64,height:64,objectFit:"cover",borderRadius:14,flexShrink:0,opacity:0.85 }}/>
+              <span style={{ fontSize:28 }}>📍</span>
             </button>
+
             <button
               onClick={()=>requireName("friend")}
-              style={{ width:"100%",padding:"20px 24px",background:"white",color:"#0D0D0D",border:"2px solid #0D0D0D",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)" }}
-              onMouseEnter={e=>{ e.currentTarget.style.background="#FF3B55"; e.currentTarget.style.color="white"; e.currentTarget.style.borderColor="#FF3B55"; e.currentTarget.style.transform="translateY(-3px)"; e.currentTarget.style.boxShadow="0 10px 32px rgba(255,59,85,0.35)"; }}
-              onMouseLeave={e=>{ e.currentTarget.style.background="white"; e.currentTarget.style.color="#0D0D0D"; e.currentTarget.style.borderColor="#0D0D0D"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow=""; }}
+              style={{ width:"100%",padding:"20px 24px",background:"rgba(255,255,255,0.7)",color:"#1A1208",border:"2px solid rgba(26,18,8,0.15)",borderRadius:20,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"space-between",transition:"all .22s cubic-bezier(0.34,1.56,0.64,1)",backdropFilter:"blur(8px)" }}
+              onMouseEnter={e=>{ e.currentTarget.style.background="#FF3B55"; e.currentTarget.style.color="white"; e.currentTarget.style.borderColor="#FF3B55"; e.currentTarget.style.transform="translateY(-3px)"; e.currentTarget.style.boxShadow="0 12px 32px rgba(255,59,85,0.35)"; }}
+              onMouseLeave={e=>{ e.currentTarget.style.background="rgba(255,255,255,0.7)"; e.currentTarget.style.color="#1A1208"; e.currentTarget.style.borderColor="rgba(26,18,8,0.15)"; e.currentTarget.style.transform=""; e.currentTarget.style.boxShadow=""; }}
             >
               <div style={{ textAlign:"left" }}>
-                <div style={{ fontSize:17,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:3,letterSpacing:-0.3 }}>Arkadaş Modu</div>
-                <div style={{ fontSize:12,color:"#9CA3AF",fontWeight:500 }}>Hep beraber kaydırın, eşleşen kazanır</div>
+                <div style={{ fontSize:18,fontWeight:800,fontFamily:"'Syne',sans-serif",marginBottom:3,letterSpacing:-0.3 }}>Arkadaş Modu</div>
+                <div style={{ fontSize:12,color:"#8C7B68",fontWeight:500 }}>Hep beraber kaydırın, eşleşen kazanır</div>
               </div>
-              <img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?w=120&q=80" alt="" style={{ width:64,height:64,objectFit:"cover",borderRadius:14,flexShrink:0,opacity:0.85 }}/>
+              <span style={{ fontSize:28 }}>👥</span>
             </button>
           </div>
 
-          {/* Demo link */}
-          <button className="demo-btn" onClick={()=>startSolo(true)} style={{ width:"100%",borderRadius:16,padding:"13px" }}>
+          <button className="demo-btn" onClick={()=>startSolo(true)} style={{ width:"100%",borderRadius:14,padding:"13px",background:"rgba(255,255,255,0.5)",borderColor:"rgba(26,18,8,0.12)",color:"#8C7B68" }}>
             Nasıl Çalışır? 🤝 &nbsp; Hızlı Demo
           </button>
         </div>
