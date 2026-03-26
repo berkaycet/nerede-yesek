@@ -608,13 +608,13 @@ export default function FoodSwipeApp() {
 
       {/* ── INTRO ── */}
       {phase==="intro"&&(
-        <div className="fade-up" style={{ width:"100%",maxWidth:420,zIndex:10 }}>
+        <div className="fade-up" style={{ width:"100%",maxWidth:360,zIndex:10 }}>
 
           {/* Heading — no padding, full-width flex centering */}
-          <div style={{ marginBottom:28,lineHeight:1,display:"flex",flexDirection:"column",alignItems:"center" }}>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-1,lineHeight:0.95 }}>Bugün</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:88,fontWeight:800,color:"#FF3B55",letterSpacing:0,lineHeight:0.88 }}>nerede</div>
-            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:60,fontWeight:800,color:"#1A1208",letterSpacing:-1,lineHeight:0.95 }}>yesek?</div>
+          <div style={{ marginBottom:28,lineHeight:1,display:"flex",flexDirection:"column",alignItems:"center",padding:"0 16px" }}>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:"clamp(40px,12vw,60px)",fontWeight:800,color:"#1A1208",letterSpacing:-1,lineHeight:0.95 }}>Bugün</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:"clamp(52px,16vw,84px)",fontWeight:800,color:"#FF3B55",letterSpacing:0,lineHeight:0.88 }}>nerede</div>
+            <div style={{ fontFamily:"'Syne',sans-serif",fontSize:"clamp(40px,12vw,60px)",fontWeight:800,color:"#1A1208",letterSpacing:-1,lineHeight:0.95 }}>yesek?</div>
           </div>
 
           {/* Padded section */}
